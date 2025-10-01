@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200.0" height="800.0" viewBox="0.0 0.0 1200.0 800.0">
+  <rect x="0.0" y="0.0" width="1200.0" height="800.0" fill="white"/>
+  <g transform="translate(0,800.0) scale(1,-1)">
+    <path d="M 0.000 0.000 L 1200.000 0.000 L 1200.000 800.000 L 0.000 800.000 L 0.000 0.000 Z " fill="#f0f0f0" stroke="#333" stroke-width="1"/>
+    <path d="M 6.000 6.000 L 106.000 6.000 L 106.000 56.000 L 6.000 56.000 L 6.000 6.000 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 117.160 6.000 L 217.160 6.000 L 217.160 56.000 L 117.160 56.000 L 117.160 6.000 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 228.320 6.000 L 328.320 6.000 L 328.320 56.000 L 228.320 56.000 L 228.320 6.000 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 339.480 6.000 L 439.480 6.000 L 439.480 56.000 L 339.480 56.000 L 339.480 6.000 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 450.640 6.000 L 550.640 6.000 L 550.640 56.000 L 450.640 56.000 L 450.640 6.000 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 561.800 6.000 L 661.800 6.000 L 661.800 56.000 L 561.800 56.000 L 561.800 6.000 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 672.960 6.000 L 772.960 6.000 L 772.960 56.000 L 672.960 56.000 L 672.960 6.000 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 784.120 6.000 L 884.120 6.000 L 884.120 56.000 L 784.120 56.000 L 784.120 6.000 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 895.280 6.000 L 995.280 6.000 L 995.280 56.000 L 895.280 56.000 L 895.280 6.000 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 1006.440 6.000 L 1106.440 6.000 L 1106.440 56.000 L 1006.440 56.000 L 1006.440 6.000 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p1 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 1111.654 63.580 L 1191.654 63.580 L 1151.654 133.580 L 1111.654 63.580 L 1111.654 63.580 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p2 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 7.994 71.520 L 87.994 71.520 L 47.994 141.520 L 7.994 71.520 L 7.994 71.520 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p2 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 103.274 71.520 L 183.274 71.520 L 143.274 141.520 L 103.274 71.520 L 103.274 71.520 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p2 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 198.554 71.520 L 278.554 71.520 L 238.554 141.520 L 198.554 71.520 L 198.554 71.520 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p2 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 293.834 71.520 L 373.834 71.520 L 333.834 141.520 L 293.834 71.520 L 293.834 71.520 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p2 | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 389.114 71.520 L 469.114 71.520 L 429.114 141.520 L 389.114 71.520 L 389.114 71.520 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>p2 | θ=0.0° | mirror=false</title>
+    </path>
+  </g>
+</svg>

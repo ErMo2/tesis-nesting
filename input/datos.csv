@@ -1,0 +1,9 @@
+entity_type,entity_id,ring,point_idx,x,y,qty,rotation_step_deg,mirror_allowed,clearance,grain_angle_deg
+SHEET,sheet-rect-1000x500,0,0,0.0,0.0,,,,,
+SHEET,sheet-rect-1000x500,0,1,1000.0,0.0,,,,,
+SHEET,sheet-rect-1000x500,0,2,1000.0,500.0,,,,,
+SHEET,sheet-rect-1000x500,0,3,0.0,500.0,,,,,
+PART,rect_41x41,0,0,0.0,0.0,200,90,FALSE,4.0,0
+PART,rect_41x41,0,1,41.0,0.0,,,,,
+PART,rect_41x41,0,2,41.0,41.0,,,,,
+PART,rect_41x41,0,3,0.0,41.0,,,,,

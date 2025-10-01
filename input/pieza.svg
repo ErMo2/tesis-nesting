@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="600mm"
+   height="400mm"
+   viewBox="0 0 600 400"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="dibujo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.34876894"
+     inkscape:cx="1336.1282"
+     inkscape:cy="723.97502"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="base">
+    <path
+       style="fill:#dddddd;fill-opacity:0.87451;stroke:#333333;stroke-width:0.264583;stroke-opacity:1"
+       d="M 43.999998,182.06896 C 57.655171,91.7931 44.75862,100.13793 57.655171,69.793101 70.551724,39.448275 56.137931,38.689654 97.103447,28.068966 138.06897,17.448277 351.24138,36.413792 351.24138,36.413792 c 0,0 155.51724,-28.8275853 180.55172,-20.482758 25.03447,8.344829 25.03447,6.068965 35.65517,15.172415 10.62069,9.103447 6.8276,80.413791 6.8276,80.413791 l -15.93104,62.20689 8.34482,56.89656 c 0,0 -23.51725,75.10344 -29.58621,77.3793 -6.06896,2.27587 -17.44826,54.62069 -17.44826,54.62069 0,0 -87.24138,25.03448 -135.79311,15.93104 -48.55173,-9.10344 -94.06898,-21.24138 -129.72414,-15.93104 -35.65517,5.31035 -13.65517,16.68966 -80.41379,-6.82757 -66.75863,-23.51725 -105.44828,40.96552 -136.551728,22.75861 -31.1034465,-18.2069 -18.965516,-45.51725 -17.448274,-55.3793 1.517241,-9.86208 33.37931,-94.82759 28.827585,-108.48277 -4.551725,-13.65517 -4.551725,-32.62069 -4.551725,-32.62069 z"
+       id="skin"
+       inkscape:highlight-color="#f37f35" />
+  </g>
+</svg>

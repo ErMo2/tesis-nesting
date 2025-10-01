@@ -1,0 +1,69 @@
+21:53:38.636 | [21:53:38.636] Logger abierto
+21:53:38.636 | ==== GraspPlacer RUN (single) Sun Sep 28 21:53:38 PET 2025 ====
+21:53:38.637 | INI | PartSpec: 12 | seed=1051146210011503
+21:53:40.084 |   · placed=10 / 122 | anchors=144
+21:53:41.456 |   · placed=20 / 122 | anchors=224
+21:53:42.502 |   · placed=30 / 122 | anchors=304
+21:53:43.425 |   · placed=40 / 122 | anchors=384
+21:53:44.383 |   · placed=50 / 122 | anchors=464
+21:53:45.374 |   · placed=60 / 122 | anchors=544
+21:53:46.174 |   · placed=70 / 122 | anchors=624
+21:53:46.903 |   · placed=77 / 122 | anchors=680
+21:53:47.510 |   · placed=81 / 122 | anchors=712
+21:53:48.079 |   · placed=82 / 122 | anchors=720
+21:53:48.715 |   · placed=85 / 122 | anchors=744
+21:53:49.303 |   · placed=87 / 122 | anchors=760
+21:53:50.638 | IT 0 | colocadas=87 | area=714,962.5 | yMax=989.511 | dur=12001 ms
+21:53:51.991 |   · placed=10 / 122 | anchors=144
+21:53:53.186 |   · placed=20 / 122 | anchors=224
+21:53:54.351 |   · placed=30 / 122 | anchors=304
+21:53:55.955 |   · placed=40 / 122 | anchors=384
+21:53:56.915 |   · placed=50 / 122 | anchors=464
+21:53:57.835 |   · placed=60 / 122 | anchors=544
+21:53:58.624 |   · placed=70 / 122 | anchors=624
+21:53:59.232 |   · placed=78 / 122 | anchors=688
+21:53:59.832 |   · placed=80 / 122 | anchors=704
+21:54:00.466 |   · placed=81 / 122 | anchors=712
+21:54:01.084 |   · placed=83 / 122 | anchors=728
+21:54:01.631 |   · placed=83 / 122 | anchors=728
+21:54:02.775 | IT 1 | colocadas=83 | area=695,862.5 | yMax=990.925 | dur=12136 ms
+21:54:03.953 |   · placed=10 / 122 | anchors=144
+21:54:05.473 |   · placed=20 / 122 | anchors=224
+21:54:06.684 |   · placed=30 / 122 | anchors=304
+21:54:07.712 |   · placed=40 / 122 | anchors=384
+21:54:08.626 |   · placed=50 / 122 | anchors=464
+21:54:09.601 |   · placed=60 / 122 | anchors=544
+21:54:10.401 |   · placed=70 / 122 | anchors=624
+21:54:11.095 |   · placed=76 / 122 | anchors=672
+21:54:11.764 |   · placed=81 / 122 | anchors=712
+21:54:12.376 |   · placed=82 / 122 | anchors=720
+21:54:12.932 |   · placed=83 / 122 | anchors=728
+21:54:13.630 |   · placed=85 / 122 | anchors=744
+21:54:14.925 | IT 2 | colocadas=85 | area=704,357.5 | yMax=977.56 | dur=12149 ms
+21:54:16.447 |   · placed=10 / 122 | anchors=144
+21:54:17.688 |   · placed=20 / 122 | anchors=224
+21:54:18.810 |   · placed=30 / 122 | anchors=304
+21:54:19.781 |   · placed=40 / 122 | anchors=384
+21:54:20.785 |   · placed=50 / 122 | anchors=464
+21:54:21.848 |   · placed=60 / 122 | anchors=544
+21:54:22.743 |   · placed=70 / 122 | anchors=624
+21:54:23.573 |   · placed=80 / 122 | anchors=704
+21:54:24.414 |   · placed=82 / 122 | anchors=720
+21:54:25.165 |   · placed=83 / 122 | anchors=728
+21:54:25.863 |   · placed=86 / 122 | anchors=752
+21:54:26.520 |   · placed=89 / 122 | anchors=776
+21:54:26.970 | IT 3 | colocadas=89 | area=724,967.5 | yMax=987.482 | dur=12044 ms
+21:54:26.970 | Tiempo agotado en iter=4
+21:54:26.970 | ------------------------------
+21:54:26.970 | RESUMEN FINAL (GRASP - single run)
+21:54:26.970 | Seed               : 1051146210011503
+21:54:26.970 | Piezas a posicionar: 122
+21:54:26.970 | Piezas colocadas   : 89
+21:54:26.970 | % aprovechamiento  : 49.358 %
+21:54:26.970 | Área colocada      : 724,967.5
+21:54:26.970 | Área plancha       : 1,468,792.762
+21:54:26.970 | Área desperdiciada : 743,825.262
+21:54:26.970 | Ymax               : 987.482
+21:54:26.970 | Tiempo total       : 48334 ms (48.334 s)
+21:54:26.970 | ------------------------------
+21:54:26.970 | BEST | colocadas=89 | area=724,967.5 | yMax=987.482

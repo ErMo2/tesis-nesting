@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500.0" height="1000.0" viewBox="0.0 0.0 1500.0 1000.0">
+  <rect x="0.0" y="0.0" width="1500.0" height="1000.0" fill="white"/>
+  <g transform="translate(0,1000.0) scale(1,-1)">
+    <path d="M 0.000 0.000 L 1500.000 0.000 L 1500.000 220.000 L 1350.000 260.000 L 1500.000 300.000 L 1500.000 1000.000 L 900.000 1000.000 L 850.000 920.000 L 800.000 1000.000 L 0.000 1000.000 L 0.000 0.000 Z " fill="#f0f0f0" stroke="#333" stroke-width="1"/>
+    <path d="M 9.000 9.000 L 89.000 9.000 L 89.000 149.000 L 9.000 149.000 L 9.000 9.000 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 99.000 9.000 L 179.000 9.000 L 179.000 149.000 L 99.000 149.000 L 99.000 9.000 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 329.000 9.000 L 329.000 89.000 L 189.000 89.000 L 189.000 9.000 L 329.000 9.000 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=90.0° | mirror=false</title>
+    </path>
+    <path d="M 479.000 9.000 L 479.000 89.000 L 339.000 89.000 L 339.000 9.000 L 479.000 9.000 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=90.0° | mirror=false</title>
+    </path>
+    <path d="M 620.552 8.995 L 647.914 84.171 L 516.357 132.053 L 488.995 56.878 L 620.552 8.995 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=70.0° | mirror=false</title>
+    </path>
+    <path d="M 809.323 33.310 L 795.431 112.094 L 657.558 87.783 L 671.450 8.999 L 809.323 33.310 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=100.0° | mirror=false</title>
+    </path>
+    <path d="M 948.774 8.995 L 976.135 84.171 L 844.578 132.053 L 817.217 56.878 L 948.774 8.995 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=70.0° | mirror=false</title>
+    </path>
+    <path d="M 986.131 9.000 L 1066.131 9.000 L 1066.131 149.000 L 986.131 149.000 L 986.131 9.000 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 1207.683 8.995 L 1235.045 84.171 L 1103.488 132.053 L 1076.126 56.878 L 1207.683 8.995 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=70.0° | mirror=false</title>
+    </path>
+    <path d="M 1245.040 9.000 L 1325.040 9.000 L 1325.040 149.000 L 1245.040 149.000 L 1245.040 9.000 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 308.133 98.989 L 348.133 168.271 L 226.889 238.271 L 186.889 168.989 L 308.133 98.989 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=60.0° | mirror=false</title>
+    </path>
+    <path d="M 426.871 98.981 L 488.155 150.404 L 398.165 257.650 L 336.881 206.227 L 426.871 98.981 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_tall | θ=40.0° | mirror=false</title>
+    </path>
+    <path d="M 23.521 157.991 L 178.069 199.402 L 162.540 257.358 L 7.991 215.947 L 23.521 157.991 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 506.417 138.945 L 656.768 193.668 L 636.247 250.050 L 485.896 195.326 L 506.417 138.945 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 669.980 118.984 L 824.528 160.395 L 808.999 218.351 L 654.450 176.940 L 669.980 118.984 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 1088.551 138.940 L 1243.099 180.351 L 1227.570 238.307 L 1073.022 196.896 L 1088.551 138.940 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 183.800 247.261 L 343.800 247.261 L 343.800 307.261 L 183.800 307.261 L 183.800 247.261 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 8.000 265.349 L 168.000 265.349 L 168.000 325.349 L 8.000 325.349 L 8.000 265.349 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 1395.308 7.985 L 1466.015 92.250 L 1404.731 143.673 L 1334.025 59.408 L 1395.308 7.985 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=50.0° | mirror=false</title>
+    </path>
+    <path d="M 662.777 224.242 L 820.346 252.025 L 809.927 311.114 L 652.358 283.330 L 662.777 224.242 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 840.136 222.142 L 948.465 241.243 L 934.573 320.027 L 826.244 300.926 L 840.136 222.142 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 497.691 255.945 L 606.020 275.046 L 592.128 353.831 L 483.799 334.730 L 497.691 255.945 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 964.782 220.042 L 1122.351 247.825 L 1111.932 306.914 L 954.363 279.130 L 964.782 220.042 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_wide | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 181.700 315.261 L 291.700 315.261 L 291.700 395.261 L 181.700 395.261 L 181.700 315.261 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 313.591 315.260 L 421.920 334.361 L 408.028 413.146 L 299.699 394.044 L 313.591 315.260 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 1288.982 244.190 L 1384.245 299.190 L 1344.245 368.472 L 1248.982 313.472 L 1288.982 244.190 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 650.259 317.013 L 760.259 317.013 L 760.259 397.013 L 650.259 397.013 L 650.259 317.013 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 21.891 333.349 L 130.220 352.450 L 116.328 431.234 L 7.999 412.133 L 21.891 333.349 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 952.264 312.813 L 1062.264 312.813 L 1062.264 392.813 L 952.264 392.813 L 952.264 312.813 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 795.617 317.009 L 898.983 354.631 L 871.621 429.807 L 768.255 392.184 L 795.617 317.009 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 1149.410 254.889 L 1256.657 344.880 L 1125.899 391.810 L 1149.410 254.889 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_big | θ=40.0° | mirror=false</title>
+    </path>
+    <path d="M 481.700 361.830 L 591.700 361.830 L 591.700 441.830 L 481.700 441.830 L 481.700 361.830 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 229.700 419.233 L 339.700 419.233 L 339.700 499.233 L 229.700 499.233 L 229.700 419.233 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 348.700 418.127 L 469.944 488.127 L 349.322 557.050 L 348.700 418.127 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_big | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 662.050 405.012 L 770.379 424.113 L 756.487 502.898 L 648.158 483.796 L 662.050 405.012 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 8.000 439.233 L 118.000 439.233 L 118.000 519.233 L 8.000 519.233 L 8.000 439.233 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_medium | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 1250.798 374.348 L 1430.113 390.036 L 1426.191 434.865 L 1246.876 419.177 L 1250.798 374.348 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=5.0° | mirror=false</title>
+    </path>
+    <path d="M 951.162 401.812 L 1089.035 426.123 L 999.261 532.144 L 951.162 401.812 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_big | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 480.598 450.829 L 618.471 475.140 L 528.697 581.162 L 480.598 450.829 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_big | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 1096.924 399.712 L 1234.797 424.023 L 1145.023 530.044 L 1096.924 399.712 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_big | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 123.900 525.133 L 303.900 525.133 L 303.900 570.133 L 123.900 570.133 L 123.900 525.133 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 1245.789 441.749 L 1383.662 466.060 L 1293.888 572.081 L 1245.789 441.749 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_big | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 657.697 508.788 L 831.564 555.376 L 819.917 598.842 L 646.050 552.255 L 657.697 508.788 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 125.707 578.118 L 305.022 593.806 L 301.100 638.635 L 121.785 622.947 L 125.707 578.118 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=5.0° | mirror=false</title>
+    </path>
+    <path d="M 850.844 506.688 L 1024.710 553.276 L 1013.064 596.742 L 839.197 550.155 L 850.844 506.688 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 357.238 563.936 L 531.105 610.523 L 519.458 653.990 L 345.591 607.402 L 357.238 563.936 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 685.113 584.566 L 862.379 615.822 L 854.564 660.139 L 677.299 628.882 L 685.113 584.566 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=10.0° | mirror=false</title>
+    </path>
+    <path d="M 1047.039 504.593 L 1216.184 566.157 L 1200.793 608.443 L 1031.648 546.879 L 1047.039 504.593 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>bar_long | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 321.251 644.511 L 437.162 675.570 L 416.456 752.844 L 339.182 732.138 L 349.535 693.501 L 310.898 683.148 L 321.251 644.511 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 536.996 659.881 L 656.996 659.881 L 656.996 739.881 L 576.996 739.881 L 576.996 699.881 L 536.996 699.881 L 536.996 659.881 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 139.691 644.511 L 243.614 704.511 L 203.614 773.793 L 134.332 733.793 L 154.332 699.152 L 119.691 679.152 L 139.691 644.511 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 879.672 583.858 L 995.583 614.916 L 974.877 692.190 L 897.603 671.485 L 907.956 632.848 L 869.319 622.495 L 879.672 583.858 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 1051.448 583.858 L 1111.448 687.781 L 1042.166 727.781 L 1002.166 658.499 L 1036.807 638.499 L 1016.807 603.858 L 1051.448 583.858 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=60.0° | mirror=false</title>
+    </path>
+    <path d="M 675.341 657.773 L 791.252 688.831 L 770.546 766.105 L 693.272 745.399 L 703.625 706.762 L 664.988 696.410 L 675.341 657.773 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 1294.091 584.558 L 1398.014 644.558 L 1358.014 713.840 L 1288.732 673.840 L 1308.732 639.199 L 1274.091 619.199 L 1294.091 584.558 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 319.151 758.726 L 435.062 789.785 L 414.356 867.059 L 337.082 846.353 L 347.435 807.716 L 308.798 797.364 L 319.151 758.726 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 57.273 527.225 L 117.273 631.148 L 47.991 671.148 L 7.991 601.866 L 42.632 581.866 L 22.632 547.225 L 57.273 527.225 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=60.0° | mirror=false</title>
+    </path>
+    <path d="M 122.361 749.899 L 178.742 770.420 L 193.252 818.269 L 151.381 845.596 L 94.999 825.074 L 80.489 777.226 L 122.361 749.899 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>hex_stub | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 564.879 747.881 L 624.879 747.881 L 654.879 787.881 L 624.879 827.881 L 564.879 827.881 L 534.879 787.881 L 564.879 747.881 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>hex_stub | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 877.572 698.073 L 993.483 729.132 L 972.777 806.406 L 895.503 785.700 L 905.856 747.063 L 867.219 736.710 L 877.572 698.073 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>l_small | θ=15.0° | mirror=false</title>
+    </path>
+    <path d="M 802.597 771.979 L 874.272 779.905 L 894.523 849.114 L 797.137 871.830 L 802.597 771.979 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=40.0° | mirror=false</title>
+    </path>
+    <path d="M 1046.047 735.070 L 1098.009 765.070 L 1103.989 814.711 L 1058.009 834.352 L 1006.047 804.352 L 1000.066 754.711 L 1046.047 735.070 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>hex_stub | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 1159.200 733.672 L 1215.582 754.193 L 1230.092 802.041 L 1188.220 829.368 L 1131.839 808.847 L 1117.329 760.999 L 1159.200 733.672 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>hex_stub | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 1337.394 149.540 L 1409.068 157.466 L 1429.319 226.675 L 1331.934 249.391 L 1337.394 149.540 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=40.0° | mirror=false</title>
+    </path>
+    <path d="M 1317.973 719.729 L 1369.934 749.729 L 1375.915 799.370 L 1329.934 819.011 L 1277.973 789.011 L 1271.992 739.370 L 1317.973 719.729 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>hex_stub | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 692.879 771.996 L 752.879 771.996 L 782.879 811.996 L 752.879 851.996 L 692.879 851.996 L 662.879 811.996 L 692.879 771.996 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>hex_stub | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 7.983 694.102 L 78.046 677.036 L 120.747 735.145 L 37.003 789.799 L 7.983 694.102 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 78.383 870.308 L 148.446 853.241 L 191.147 911.350 L 107.403 966.004 L 78.383 870.308 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 199.128 856.127 L 271.089 851.486 L 303.051 916.127 L 211.089 955.409 L 199.128 856.127 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 463.669 872.937 L 532.878 893.188 L 540.803 964.862 L 440.952 970.323 L 463.669 872.937 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=50.0° | mirror=false</title>
+    </path>
+    <path d="M 1109.864 857.313 L 1179.927 840.247 L 1222.628 898.356 L 1138.884 953.010 L 1109.864 857.313 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 1388.311 719.364 L 1459.985 727.290 L 1480.236 796.499 L 1382.851 819.215 L 1388.311 719.364 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>kite | θ=40.0° | mirror=false</title>
+    </path>
+    <path d="M 700.664 860.996 L 778.446 938.778 L 739.555 954.334 L 661.774 977.669 L 685.108 899.887 L 700.664 860.996 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=45.0° | mirror=false</title>
+    </path>
+    <path d="M 958.142 813.283 L 986.612 919.535 L 945.153 913.562 L 866.125 894.879 L 925.224 839.186 L 958.142 813.283 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=75.0° | mirror=false</title>
+    </path>
+    <path d="M 1066.734 841.242 L 1121.734 936.504 L 1080.142 941.465 L 998.971 943.873 L 1041.642 874.781 L 1066.734 841.242 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=60.0° | mirror=false</title>
+    </path>
+    <path d="M 307.706 876.050 L 417.706 876.050 L 401.206 914.550 L 362.706 986.050 L 324.206 914.550 L 307.706 876.050 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 533.796 836.881 L 643.796 836.881 L 627.296 875.381 L 588.796 946.881 L 550.296 875.381 L 533.796 836.881 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 1304.741 836.258 L 1359.741 931.521 L 1318.149 936.482 L 1236.978 938.890 L 1279.649 869.798 L 1304.741 836.258 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=60.0° | mirror=false</title>
+    </path>
+    <path d="M 1389.123 827.152 L 1484.386 882.152 L 1450.846 907.244 L 1381.754 949.915 L 1384.163 868.744 L 1389.123 827.152 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 443.403 758.735 L 513.403 758.735 L 513.403 848.735 L 443.403 848.735 L 443.403 758.735 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_small | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 923.433 117.879 L 951.904 224.131 L 910.445 218.158 L 831.417 199.475 L 890.516 143.782 L 923.433 117.879 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_small | θ=75.0° | mirror=false</title>
+    </path>
+    <path d="M 1406.006 582.467 L 1476.006 582.467 L 1476.006 672.467 L 1406.006 672.467 L 1406.006 582.467 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>r_small | θ=0.0° | mirror=false</title>
+    </path>
+    <path d="M 776.277 403.961 L 889.040 445.003 L 827.511 497.101 L 789.923 483.420 L 776.277 403.961 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>trap_small | θ=20.0° | mirror=false</title>
+    </path>
+    <path d="M 445.832 642.766 L 523.774 687.766 L 444.803 734.548 L 445.832 642.766 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_small | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 1437.331 438.634 L 1482.331 516.576 L 1390.549 517.605 L 1437.331 438.634 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_small | θ=60.0° | mirror=false</title>
+    </path>
+    <path d="M 583.775 561.828 L 628.775 639.771 L 536.993 640.800 L 583.775 561.828 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_small | θ=60.0° | mirror=false</title>
+    </path>
+    <path d="M 9.029 795.692 L 86.971 840.692 L 8.000 887.474 L 9.029 795.692 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_small | θ=30.0° | mirror=false</title>
+    </path>
+    <path d="M 459.231 253.894 L 459.231 343.894 L 379.231 298.894 L 459.231 253.894 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_small | θ=90.0° | mirror=false</title>
+    </path>
+    <path d="M 245.920 747.784 L 290.920 825.726 L 199.138 826.755 L 245.920 747.784 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_small | θ=60.0° | mirror=false</title>
+    </path>
+  </g>
+</svg>

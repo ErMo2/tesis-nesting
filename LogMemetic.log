@@ -1,0 +1,17 @@
+20:59:43.029 | [20:59:43.028] Logger abierto
+21:00:28.831 | INI | seed=4592322526987046652 | N=122 | pop=36 | area=685,567.5 | yMax=986.984
+21:01:18.888 | GEN 0 | best area=685,567.5 yMax=986.984 | placed=93
+21:01:18.888 | Tiempo total agotado en gen=1
+21:01:18.888 | ------------------------------
+21:01:18.888 | RESUMEN FINAL (MEMETIC - single run)
+21:01:18.888 | Seed               : 4592322526987046652
+21:01:18.888 | Piezas a posicionar: 122
+21:01:18.889 | Piezas colocadas   : 93
+21:01:18.889 | % aprovechamiento  : 46.676 %
+21:01:18.889 | Área colocada      : 685,567.5
+21:01:18.889 | Área plancha       : 1,468,792.762
+21:01:18.889 | Área desperdiciada : 783,225.262
+21:01:18.889 | Ymax               : 986.984
+21:01:18.890 | Tiempo total       : 95859 ms (95.859 s)
+21:01:18.890 | ------------------------------
+21:01:18.890 | BEST | colocadas=93 | area=685,567.5 | yMax=986.984
