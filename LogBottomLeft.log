@@ -1,0 +1,50 @@
+[19:32:32.177] ==== Bottom-Left | START ====
+[19:32:32.196] Seed=1388478382305400  gridStep=9.9200  (minDim=992.00)
+[19:32:32.196] Piezas a posicionar: 122
+[19:32:32.285] Progreso: colocadas=5/122  util=2.723%  yMax=112.324
+[19:32:32.375] Progreso: colocadas=10/122  util=5.447%  yMax=112.324
+[19:32:32.808] Progreso: colocadas=15/122  util=7.591%  yMax=183.120
+[19:32:33.123] Progreso: colocadas=20/122  util=9.736%  yMax=183.120
+[19:32:33.430] Progreso: colocadas=25/122  util=11.881%  yMax=262.480
+[19:32:33.865] Progreso: colocadas=30/122  util=14.311%  yMax=323.812
+[19:32:34.430] Progreso: colocadas=35/122  util=17.361%  yMax=412.111
+[19:32:34.923] Progreso: colocadas=40/122  util=21.174%  yMax=451.791
+[19:32:35.477] Progreso: colocadas=45/122  util=24.987%  yMax=491.471
+[19:32:36.106] Progreso: colocadas=50/122  util=28.363%  yMax=566.283
+[19:32:36.810] Progreso: colocadas=55/122  util=31.359%  yMax=605.963
+[19:32:37.624] Progreso: colocadas=60/122  util=33.265%  yMax=620.441
+[19:32:38.496] Progreso: colocadas=65/122  util=35.172%  yMax=660.121
+[19:32:39.484] Progreso: colocadas=70/122  util=37.950%  yMax=724.953
+[19:32:40.531] Progreso: colocadas=75/122  util=40.945%  yMax=774.553
+[19:32:41.669] Progreso: colocadas=80/122  util=43.941%  yMax=814.233
+[19:32:42.814] Progreso: colocadas=85/122  util=46.392%  yMax=833.776
+[19:32:43.964] Progreso: colocadas=90/122  util=47.862%  yMax=876.055
+[19:32:45.195] Progreso: colocadas=95/122  util=49.088%  yMax=905.815
+[19:32:46.539] Progreso: colocadas=100/122  util=51.063%  yMax=958.200
+[19:32:49.733] Progreso: colocadas=105/122  util=53.226%  yMax=968.120
+[19:33:00.788] Aviso: no se pudo colocar una copia de kite (1/8)
+[19:33:11.150] Aviso: no se pudo colocar una copia de kite (2/8)
+[19:33:21.055] Aviso: no se pudo colocar una copia de kite (3/8)
+[19:33:30.477] Aviso: no se pudo colocar una copia de kite (4/8)
+[19:33:39.801] Aviso: no se pudo colocar una copia de kite (5/8)
+[19:33:49.026] Aviso: no se pudo colocar una copia de kite (6/8)
+[19:33:58.201] Aviso: no se pudo colocar una copia de kite (7/8)
+[19:34:07.480] Aviso: no se pudo colocar una copia de kite (8/8)
+[19:34:33.762] Aviso: no se pudo colocar una copia de bar_long (3/8)
+[19:34:51.785] Aviso: no se pudo colocar una copia de bar_long (4/8)
+[19:35:15.346] Aviso: no se pudo colocar una copia de bar_long (5/8)
+[19:35:38.017] Aviso: no se pudo colocar una copia de bar_long (6/8)
+[19:35:57.023] Aviso: no se pudo colocar una copia de bar_long (7/8)
+[19:36:14.747] Aviso: no se pudo colocar una copia de bar_long (8/8)
+[19:36:14.750] [19:36:14.749] ------------------------------
+[19:36:14.749] [19:36:14.749] RESUMEN FINAL (HYBRID)
+[19:36:14.749] [19:36:14.749] Seed               : 1388478382305400
+[19:36:14.749] [19:36:14.749] Piezas a posicionar: 122
+[19:36:14.749] [19:36:14.749] Piezas colocadas   : 108
+[19:36:14.749] [19:36:14.749] % aprovechamiento  : 54.761 %
+[19:36:14.749] [19:36:14.749] Área colocada      : 804,325.000
+[19:36:14.749] [19:36:14.749] Área plancha       : 1,468,792.762
+[19:36:14.749] [19:36:14.749] Área desperdiciada : 664,467.762
+[19:36:14.749] [19:36:14.749] Ymax               : 986.459
+[19:36:14.749] [19:36:14.749] Tiempo total       : 222,598 ms (222.598 s)
+[19:36:14.749] ------------------------------

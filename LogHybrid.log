@@ -1,0 +1,22 @@
+10:48:32.841 | ==== HYB GRASP+MEMETIC | START ====
+10:48:32.856 | CFG | GRASP_SEEDS=5  FUSION_MAX_FRAC=0.12  FUSION_MAX_TRIES=1
+[10:55:13.026] GRASP seed 00 (seed=1443440815588600) -> placed=102 (400.167s)
+[11:01:55.014] GRASP seed 01 (seed=1443440815588601) -> placed=101 (401.987s)
+[11:08:35.273] GRASP seed 02 (seed=1443440815588602) -> placed=101 (400.259s)
+[11:15:15.383] GRASP seed 03 (seed=1443440815588603) -> placed=103 (400.110s)
+[11:21:55.619] GRASP seed 04 (seed=1443440815588604) -> placed=99 (400.236s)
+11:21:55.620 | GRASP | best-seed idx=3 seed=1443440815588603 placed=103  (2002.763s)
+11:21:55.622 | SKIP MEMETIC | GRASP colocó todas las piezas (103/12).
+11:21:55.630 | ------------------------------
+11:21:55.630 | RESUMEN FINAL (MEMETIC - single run)
+11:21:55.630 | Seed               : 1443440815588603
+11:21:55.630 | Piezas a posicionar: 12
+11:21:55.631 | Piezas colocadas   : 103
+11:21:55.631 | % aprovechamiento  : 0.000 %
+11:21:55.631 | Área colocada      : 0
+11:21:55.631 | Área plancha       : 1,468,792.762
+11:21:55.631 | Área desperdiciada : 1,468,792.762
+11:21:55.631 | Ymax               : 0
+11:21:55.631 | Tiempo total       : 2002788 ms (2002.788 s)
+11:21:55.631 | ------------------------------
+11:21:55.631 | BEST | colocadas=103 | area=0 | yMax=0

@@ -6,14 +6,14 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-/** Orquesta: lee CSV, construye geometrías, coloca piezas y genera SVG. */
+
 public class TesisNesting {
 
     public static void main(String[] args) throws Exception {
         //Acá se puede cambiar el nombre de el svg resultante.
         String inputCsv  = "input/datosVariados.csv";
         String outputDir = "out";
-        String outputSvg = outputDir + "/salidaGeneticPlacer.svg";
+        String outputSvg = outputDir + "/salidaHybridPlacer.svg";
 
         if (args.length >= 1) inputCsv = args[0];
         if (args.length >= 2) outputSvg = args[1];
@@ -39,10 +39,10 @@ public class TesisNesting {
         //Cuidado, el genético demora casi una hora.
         
         //List<PlacedPart> placed = BottomLeftPlacer.place(sheetInset, parts);
-        //List<PlacedPart> placed = GraspPlacer.place(sheetInset, parts, 10);
-        List<PlacedPart> placed = GeneticPlacer.place(sheetInset, parts);
+        //List<PlacedPart> placed = GraspPlacer.place(sheetInset, parts, System.nanoTime());
+        //List<PlacedPart> placed = GeneticPlacer.place(sheetInset, parts);
         //List<PlacedPart> placed = MemeticPlacer.place(sheetInset, parts);
-        //List<PlacedPart> placed = HybridGraspMemeticPlacer.place(sheetInset, parts);
+        List<PlacedPart> placed = HybridGraspMemeticPlacer.place(sheetInset, parts);
         
 
 // 5) Exportar SVG

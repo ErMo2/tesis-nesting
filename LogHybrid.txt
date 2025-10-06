@@ -1,21 +1,46 @@
-[21:50:24.217] ==== HYB GRASP+MEMETIC | START ====
-[21:50:24.231] CFG | GRASP_SEEDS=5  FUSION_MAX_FRAC=0.12  FUSION_MAX_TRIES=1
-[21:51:12.614] GRASP seed 00 (seed=1051146210011499) -> placed=86 (48.380s)
-[21:52:01.303] GRASP seed 01 (seed=1051146210011500) -> placed=88 (48.688s)
-[21:52:49.962] GRASP seed 02 (seed=1051146210011501) -> placed=87 (48.659s)
-[21:53:38.636] GRASP seed 03 (seed=1051146210011502) -> placed=89 (48.674s)
-[21:54:26.971] GRASP seed 04 (seed=1051146210011503) -> placed=89 (48.335s)
-[21:54:26.971] GRASP | best-seed idx=3 seed=1051146210011502 placed=89  (242.738s)
-[21:54:26.971] SKIP MEMETIC | GRASP colocó todas las piezas (89/12).
-[21:54:26.975] ------------------------------
-[21:54:26.975] [21:54:26.974] RESUMEN FINAL (HYBRID)
-[21:54:26.975] [21:54:26.974] Seed               : 1051146210011502
-[21:54:26.975] [21:54:26.974] Piezas a posicionar: 12
-[21:54:26.979] [21:54:26.974] Piezas colocadas   : 89
-[21:54:26.979] [21:54:26.974] % aprovechamiento  : 0 %
-[21:54:26.979] [21:54:26.974] Área colocada      : 0
-[21:54:26.980] [21:54:26.974] Área plancha       : 1,468,792.762
-[21:54:26.980] [21:54:26.974] Área desperdiciada : 1,468,792.762
-[21:54:26.980] [21:54:26.974] Ymax               : 0
-[21:54:26.980] [21:54:26.974] Tiempo total       : 242,757 ms (242.757 s)
-[21:54:26.980] ------------------------------
+[16:24:20.163] ==== HYB GRASP+MEMETIC | START ====
+[16:24:20.173] CFG | GRASP_SEEDS=5  FUSION_MAX_FRAC=0.12  FUSION_MAX_TRIES=1
+[16:24:20.180] == Hybrid.multiStart ==
+[16:24:20.184] GRASP_SEEDS=5  BASE_SEED=1377186306184600
+[16:24:20.193] seed 00 | placed=0 (0.001s) [seed=-2234603620379742865]
+[16:24:20.194] seed 01 | placed=0 (0.000s) [seed=-4964784089559870087]
+[16:24:20.195] seed 02 | placed=0 (0.000s) [seed=7651887103042350577]
+[16:24:20.195] seed 03 | placed=0 (0.000s) [seed=-3061992586898507924]
+[16:24:20.195] seed 04 | placed=0 (0.000s) [seed=6668783226770237008]
+[16:24:20.196] GRASP | best-seed idx=0 seed=1377186306184600 placed=0  (0.021s)
+[16:24:20.197] MEM  | run with seed (si MemeticPlacer soporta seed, la usará)
+HYB_MEMETIC | seedLayout vacío, salto sobrecargas con seed.
+HYB_MEMETIC | fallback -> MemeticPlacer.place(sheet, specs)
+16:24:20.206 | [16:24:20.206] Logger abierto
+16:25:18.896 | INI | seed=4599092629193088988 | N=122 | pop=36 | area=665,752.5 | yMax=984.281
+16:26:08.303 | GEN 0 | best area=686,615 yMax=986.943 | placed=93
+16:26:08.305 | Tiempo total agotado en gen=1
+16:26:08.305 | ------------------------------
+16:26:08.305 | RESUMEN FINAL (MEMETIC - single run)
+16:26:08.307 | Seed               : 4599092629193088988
+16:26:08.307 | Piezas a posicionar: 122
+16:26:08.307 | Piezas colocadas   : 93
+16:26:08.307 | % aprovechamiento  : 46.747 %
+16:26:08.308 | Área colocada      : 686,615
+16:26:08.308 | Área plancha       : 1,468,792.762
+16:26:08.308 | Área desperdiciada : 782,177.762
+16:26:08.308 | Ymax               : 986.943
+16:26:08.311 | Tiempo total       : 108099 ms (108.099 s)
+16:26:08.311 | ------------------------------
+16:26:08.317 | BEST | colocadas=93 | area=686,615 | yMax=986.943
+[16:26:08.317] MEM  | end placed=93  (108.121s)
+[16:26:08.317] BASE | chosen=MEMETIC placed=93
+[16:26:08.318] FUSE | skip (other vacío)
+[16:26:08.318] FUSE | no improvement (kept MEMETIC)
+[16:26:08.321] ------------------------------
+[16:26:08.321] [16:26:08.321] RESUMEN FINAL (HYBRID)
+[16:26:08.321] [16:26:08.321] Seed               : 1377186306184600
+[16:26:08.321] [16:26:08.321] Piezas a posicionar: 12
+[16:26:08.322] [16:26:08.321] Piezas colocadas   : 93
+[16:26:08.322] [16:26:08.321] % aprovechamiento  : 0 %
+[16:26:08.322] [16:26:08.321] Área colocada      : 0
+[16:26:08.322] [16:26:08.321] Área plancha       : 1,468,792.762
+[16:26:08.323] [16:26:08.321] Área desperdiciada : 1,468,792.762
+[16:26:08.323] [16:26:08.321] Ymax               : 0
+[16:26:08.323] [16:26:08.321] Tiempo total       : 108,158 ms (108.158 s)
+[16:26:08.323] ------------------------------

@@ -11,31 +11,32 @@ import java.util.*;
 public class GraspPlacer {
 
     // ===================== Parámetros GRASP =====================
-    static final int    ITER_MAX            = 120;   // número máximo de iteraciones GRASP
-    static final int    RCL_SIZE            = 10;    // tamaño de la lista restringida de candidatos
-    static final long   MAX_MILLIS_TOTAL    = 45_000; // tiempo total permitido por corrida
-    static final long   MAX_MILLIS_LOCAL    = 12_000; // tiempo para búsqueda local
-    static final long   DEFAULT_SEED        = 42L;   // semilla default
+    static final int    ITER_MAX            = 120;      // iteraciones por seed
+    static final int    RCL_SIZE            = 20;       // diversidad suficiente
+    static final long   MAX_MILLIS_TOTAL    = 400_000;   //seg por corrida
+    static final long   MAX_MILLIS_LOCAL    = 50_000;   // seg para LS
+    static final long   DEFAULT_SEED        = 42L;
 
-    // parámetros de anclas / chequeos
-    static final int    GRID_ANCHORS_X      = 10;
-    static final int    GRID_ANCHORS_Y      = 6;
-    static final int    MAX_ANCHORS_PER_TRY = 220;
-    static final int    MAX_CHECKS_PER_PART = 1200;
-    static final double NUDGE_STEP          = 0.35;
-    static final int    NUDGE_STEPS_MAX     = 6;
+    // anclas / chequeos
+    static final int    GRID_ANCHORS_X      = 20;
+    static final int    GRID_ANCHORS_Y      = 12;
+    static final int    MAX_ANCHORS_PER_TRY = 400;
+    static final int    MAX_CHECKS_PER_PART = 3_000;
+    static final double NUDGE_STEP          = 0.30;
+    static final int    NUDGE_STEPS_MAX     = 20;
 
-    // scoring local
+    // scoring local 
     static final double W_BEST_Y            = 1.0;
-    static final double W_BEST_X            = 0.15;
-    static final double W_BBOX_INFLATE      = 0.001;
+    static final double W_BEST_X            = 0.05;
+    static final double W_BBOX_INFLATE      = 0.02;
+    static final double W_NEARNESS          = 0.5;
 
     // búsqueda local
-    static final int    REINSERT_TRIES      = 2;
-    static final int    TWEAK_ANGLE_STEP    = 3;
+    static final int    REINSERT_TRIES      = 6;
+    static final int    TWEAK_ANGLE_STEP    = 1;
 
     // lattice mode
-    static final double GRID_CV_MAX         = 0.02;
+    static final double GRID_CV_MAX         = 0.02;     
     static final double EPS_EDGE            = 1e-9;
 
     // logging
@@ -45,59 +46,34 @@ public class GraspPlacer {
     private static PrintStream tee;
 
     // ======= Tipos =======
-
-    // representa una copia de una pieza
     static class PartInstance {
         final PartSpec spec; final int copyIdx;
         PartInstance(PartSpec s, int k) { spec = s; copyIdx = k; }
         String key() { return spec.id + "#" + copyIdx; }
     }
-
-    // representa un punto de anclaje
     static class Anchor { final double x, y; Anchor(double x, double y){ this.x=x; this.y=y; } }
-
-    // candidato durante la construcción (geom orientada + datos de colocación)
     static class Candidate {
-        Geometry clearGeom;   // con clearance
-        Geometry placedGeom;  // pieza real
-        double   dx, dy;
-        int      angleDeg;
-        double   scoreVal;
+        Geometry clearGeom; Geometry placedGeom;
+        double dx, dy; int angleDeg; double scoreVal;
     }
-
-    // resultado de una corrida GRASP
     static class RunResult {
         List<PlacedPart> placed = Collections.emptyList();
-        double bestArea;
-        double bestY;
-        int totalPieces;
-        long millis;
-        double areaSheet;
-        double wasted;
-        double utilizationPct;
-        long seedUsed;
+        double bestArea, bestY; int totalPieces; long millis;
+        double areaSheet, wasted, utilizationPct; long seedUsed;
     }
 
     // ======= API =======
-
-    // API principal: corre GRASP con semilla por defecto
     public static List<PlacedPart> place(Polygon sheetInset, List<PartSpec> specs) {
         RunResult rr = runOnce(sheetInset, specs, DEFAULT_SEED, true);
         return rr.placed;
     }
-
-    // API con semilla personalizada
     public static List<PlacedPart> place(Polygon sheetInset, List<PartSpec> specs, long seed) {
         RunResult rr = runOnce(sheetInset, specs, seed, true);
         return rr.placed;
     }
-
-    // API multi-start con seeds distintos
     public static List<PlacedPart> placeMulti(Polygon sheetInset, List<PartSpec> specs, int numRuns) {
         return placeMulti(sheetInset, specs, numRuns, System.nanoTime());
     }
-
-    // API multi-start reproducible (baseSeed+i)
     public static List<PlacedPart> placeMulti(Polygon sheetInset, List<PartSpec> specs, int numRuns, long baseSeed) {
         if (numRuns <= 0) numRuns = 1;
 
@@ -144,8 +120,8 @@ public class GraspPlacer {
         closeLogger();
         return best.placed;
     }
+
     // ======= Núcleo de una corrida GRASP =======
-    // se encarga de expandir copias, construir soluciones y aplicar búsqueda local
     private static RunResult runOnce(Polygon sheetInset, List<PartSpec> specs, long seed, boolean handleLogger) {
         if (handleLogger) initLogger();
         final long t0 = System.currentTimeMillis();
@@ -154,61 +130,58 @@ public class GraspPlacer {
             log("INI | PartSpec: " + specs.size() + " | seed=" + seed);
         }
 
-        // expandir las copias de cada pieza
         List<PartInstance> instances = expandInstances(specs);
         if (instances.isEmpty()) {
             if (handleLogger) { log("No hay copias a colocar. Fin."); closeLogger(); }
             RunResult empty = new RunResult();
             empty.placed = Collections.emptyList();
-            empty.bestArea = 0;
-            empty.bestY = 0;
-            empty.totalPieces = 0;
+            empty.bestArea = 0; empty.bestY = 0; empty.totalPieces = 0;
             empty.millis = System.currentTimeMillis() - t0;
             empty.areaSheet = sheetInset.getArea();
-            empty.wasted = empty.areaSheet;
-            empty.utilizationPct = 0;
-            empty.seedUsed = seed;
+            empty.wasted = empty.areaSheet; empty.utilizationPct = 0; empty.seedUsed = seed;
             return empty;
         }
 
-        // calcular opciones de ángulo por pieza
         Map<PartSpec,int[]> angleOptions = computeAngleOptions(specs);
 
-        // loop GRASP: varias iteraciones buscando la mejor solución
         Random rng = new Random(seed);
         List<PlacedPart> bestSolution = Collections.emptyList();
         double bestArea = -1, bestY = Double.POSITIVE_INFINITY;
 
+        final long deadline = t0 + MAX_MILLIS_TOTAL;
+
         for (int it = 0; it < ITER_MAX; it++) {
-            if (System.currentTimeMillis() - t0 > MAX_MILLIS_TOTAL) { 
-                if (handleLogger) log("Tiempo agotado en iter=" + it); 
-                break; 
+            if (System.currentTimeMillis() >= deadline) {
+                if (handleLogger) log("Tiempo agotado en iter=" + it);
+                break;
             }
             long tIt = System.currentTimeMillis();
 
-            // ordenar piezas: grandes primero, pero con mezcla aleatoria por bloques
             List<PartInstance> order = new ArrayList<>(instances);
             order.sort((a,b) -> Double.compare(b.spec.poly.getArea(), a.spec.poly.getArea()));
             blockShuffle(order, rng, 6);
 
-            // construcción codiciosa aleatorizada
-            DecodeResult dr = greedyRandomDecode(sheetInset, order, angleOptions, rng);
+            DecodeResult dr = greedyRandomDecode(sheetInset, order, angleOptions, rng, deadline);
+            if (System.currentTimeMillis() >= deadline) {
+                // aun así evaluar lo que se armó
+                double itArea = totalArea(dr.placed);
+                double itYmax = usedYmax(dr.placed);
+                if (itArea > bestArea || (Math.abs(itArea-bestArea) < 1e-6 && itYmax < bestY)) {
+                    bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+                }
+                break;
+            }
 
-            // búsqueda local si se colocó algo y queda tiempo
-            long tLocalBudget = Math.max(0, MAX_MILLIS_LOCAL - (System.currentTimeMillis()-tIt));
+            long tLocalBudget = Math.max(0, Math.min(MAX_MILLIS_LOCAL, deadline - System.currentTimeMillis()));
             if (!dr.placed.isEmpty() && tLocalBudget > 0) {
                 localSearch(sheetInset, dr, angleOptions, rng, tLocalBudget);
             }
 
-            // métricas de la solución actual
             double itArea = totalArea(dr.placed);
             double itYmax = usedYmax(dr.placed);
 
-            // si mejora al mejor hasta ahora, lo guardo
             if (itArea > bestArea || (Math.abs(itArea-bestArea) < 1e-6 && itYmax < bestY)) {
-                bestArea = itArea; 
-                bestY = itYmax; 
-                bestSolution = dr.placed;
+                bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
             }
 
             if (handleLogger) {
@@ -218,7 +191,6 @@ public class GraspPlacer {
             }
         }
 
-        // ====== RESUMEN DE LA CORRIDA ======
         int totalPiezas        = instances.size();
         int colocadas          = bestSolution.size();
         double areaPlancha     = sheetInset.getArea();
@@ -244,33 +216,27 @@ public class GraspPlacer {
             closeLogger();
         }
 
-        // armar objeto con los resultados
         RunResult rr = new RunResult();
-        rr.placed = bestSolution;
-        rr.bestArea = areaColocada;
-        rr.bestY = bestY;
-        rr.totalPieces = totalPiezas;
-        rr.millis = durTotalMs;
-        rr.areaSheet = areaPlancha;
-        rr.wasted = areaDesperdiciada;
-        rr.utilizationPct = aprovechamiento;
+        rr.placed = bestSolution; rr.bestArea = areaColocada; rr.bestY = bestY;
+        rr.totalPieces = totalPiezas; rr.millis = durTotalMs;
+        rr.areaSheet = areaPlancha; rr.wasted = areaDesperdiciada; rr.utilizationPct = aprovechamiento;
         rr.seedUsed = seed;
         return rr;
     }
+
     // ======= Estructura para guardar la decodificación =======
-    // contiene la lista de piezas colocadas, geometrías con clearance y la bbox global
     static class DecodeResult {
         final List<PlacedPart> placed = new ArrayList<>();
         final List<Geometry>   placedClear = new ArrayList<>();
         double globMinX, globMinY, globMaxX, globMaxY;
     }
 
-    // ======= Construcción codiciosa aleatorizada (GRASP) =======
-    // genera una solución parcial/total probando ángulos y anclas con RCL
+    // ======= Construcción (con deadline no agresivo) =======
     static DecodeResult greedyRandomDecode(Polygon sheetInset,
                                            List<PartInstance> order,
                                            Map<PartSpec,int[]> angleOptions,
-                                           Random rng)
+                                           Random rng,
+                                           long deadlineMillis)
     {
         DecodeResult res = new DecodeResult();
         Envelope env = sheetInset.getEnvelopeInternal();
@@ -297,51 +263,48 @@ public class GraspPlacer {
                     ws[i] = e.getWidth(); hs[i] = e.getHeight();
                 }
                 if (cv(ws) <= GRID_CV_MAX && cv(hs) <= GRID_CV_MAX) {
-                    GRID_MODE = true; 
-                    cellW = median(ws); 
-                    cellH = median(hs);
+                    GRID_MODE = true; cellW = median(ws); cellH = median(hs);
                 }
             }
         }
 
-        // si se detecta modo rejilla, usar fast-path
         if (GRID_MODE) {
             log("  GRID fast-path activo (GRASP) | cellW="+DF.format(cellW)+" | cellH="+DF.format(cellH));
             gridFillRaster(sheetInset, res.placed, res.placedClear, order, angleOptions,
                            minX, minY, maxX, maxY, cellW, cellH);
-
-            // actualizar bbox global según lo colocado
-            res.globMinX = maxX; res.globMinY = maxY; res.globMaxX = minX; res.globMaxY = minY;
-            for (Geometry cc : res.placedClear) {
-                Envelope ce = cc.getEnvelopeInternal();
-                res.globMinX = Math.min(res.globMinX, ce.getMinX());
-                res.globMinY = Math.min(res.globMinY, ce.getMinY());
-                res.globMaxX = Math.max(res.globMaxX, ce.getMaxX());
-                res.globMaxY = Math.max(res.globMaxY, ce.getMaxY());
-            }
-            return res; // <<< en GRID_MODE no seguimos con heurística normal
+            // compactación global
+            globalCompaction(sheetInset, res);
+            return res;
         }
 
         // -------- Flujo normal (NO rejilla) ----------
         ArrayList<Anchor> anchors = initialAnchors(minX, minY, maxX, maxY);
 
         int pos = 0;
+        boolean timeUp = false;
+
+        outerParts:
         for (PartInstance inst : order) {
+            if (System.currentTimeMillis() >= deadlineMillis) { timeUp = true; break outerParts; }
+
             PartSpec sp = inst.spec;
             int[] angles = angleOptions.getOrDefault(sp, new int[]{0});
             List<Candidate> rcl = new ArrayList<>(RCL_SIZE);
             int checks = 0;
 
-            // muestreo de anclas para esta pieza
             List<Anchor> sampleAnchors = sampleAnchors(anchors, rng, MAX_ANCHORS_PER_TRY);
 
-            // probar cada ángulo permitido
             for (int angDeg : angles) {
                 Geometry gBase = GeomUtils.orient(sp.poly, angDeg, false);
                 Geometry gClr  = sp.clearance > 0 ? gBase.buffer(sp.clearance, 8) : gBase;
 
                 Envelope pe = gClr.getEnvelopeInternal();
                 for (Anchor a : sampleAnchors) {
+                    // chequeo “ligero” de tiempo cada cierto número de pruebas
+                    if ((checks % 250) == 0 && System.currentTimeMillis() >= deadlineMillis) {
+                        // terminamos esta pieza con lo que haya
+                        break;
+                    }
                     if (++checks > MAX_CHECKS_PER_PART) break;
 
                     double dxa = a.x - pe.getMinX();
@@ -349,60 +312,52 @@ public class GraspPlacer {
 
                     double txMin = pe.getMinX() + dxa, txMax = pe.getMaxX() + dxa;
                     double tyMin = pe.getMinY() + dya, tyMax = pe.getMaxY() + dya;
-                    if (txMin < minX-EPS_EDGE || txMax > maxX+EPS_EDGE || 
+                    if (txMin < minX-EPS_EDGE || txMax > maxX+EPS_EDGE ||
                         tyMin < minY-EPS_EDGE || tyMax > maxY+EPS_EDGE) continue;
 
                     Geometry cc = GeomUtils.translate(gClr, dxa, dya);
-                    if (!sheetInset.covers(cc)) continue; // se permite contacto borde-borde
+                    if (!sheetInset.covers(cc)) continue;
 
                     boolean inter = false;
-                    for (Geometry pg : res.placedClear) { 
-                        if (collideStrict(pg, cc)) { inter = true; break; } 
+                    for (Geometry pg : res.placedClear) {
+                        if (collideStrict(pg, cc)) { inter = true; break; }
                     }
                     if (inter) continue;
 
-                    // mini compactación hacia la izquierda
-                    double[] nudged = tryNudge(sheetInset, cc, res.placedClear, -NUDGE_STEP, 0, NUDGE_STEPS_MAX);
+                    // mini compactación real (x, y y diagonal)
+                    double[] nudged = tryNudge(sheetInset, cc, res.placedClear,
+                                               -NUDGE_STEP, -NUDGE_STEP, NUDGE_STEPS_MAX);
                     cc = GeomUtils.translate(cc, nudged[0], nudged[1]);
                     Geometry placed = GeomUtils.translate(gBase, dxa+nudged[0], dya+nudged[1]);
 
-                    // calcular score local
                     double val = localScore(res, cc);
 
                     Candidate cand = new Candidate();
-                    cand.clearGeom  = cc;
-                    cand.placedGeom = placed;
-                    cand.dx = dxa + nudged[0];
-                    cand.dy = dya + nudged[1];
-                    cand.angleDeg = angDeg;
-                    cand.scoreVal = val;
+                    cand.clearGeom  = cc; cand.placedGeom = placed;
+                    cand.dx = dxa + nudged[0]; cand.dy = dya + nudged[1];
+                    cand.angleDeg = angDeg; cand.scoreVal = val;
 
                     insertIntoRCL(rcl, cand, RCL_SIZE);
                 }
             }
 
-            // si hay candidatos, elegir uno aleatorio de la RCL
+            // selección ε-greedy (70% mejor, 30% aleatorio)
             if (!rcl.isEmpty()) {
-                Candidate pick = rcl.get(rng.nextInt(rcl.size()));
+                Candidate pick = (rng.nextDouble() < 0.7) ? rcl.get(0) : rcl.get(rng.nextInt(rcl.size()));
 
                 PlacedPart pp = new PlacedPart();
-                pp.id = sp.id;
-                pp.polyPlaced = pick.placedGeom;
-                pp.angleDeg = pick.angleDeg;
-                pp.mirrored = false;
-                pp.dx = pick.dx; pp.dy = pick.dy;
+                pp.id = sp.id; pp.polyPlaced = pick.placedGeom; pp.angleDeg = pick.angleDeg;
+                pp.mirrored = false; pp.dx = pick.dx; pp.dy = pick.dy;
 
                 res.placed.add(pp);
                 res.placedClear.add(pick.clearGeom);
 
-                // actualizar bbox global
                 Envelope ce = pick.clearGeom.getEnvelopeInternal();
                 res.globMinX = Math.min(res.globMinX, ce.getMinX());
                 res.globMinY = Math.min(res.globMinY, ce.getMinY());
                 res.globMaxX = Math.max(res.globMaxX, ce.getMaxX());
                 res.globMaxY = Math.max(res.globMaxY, ce.getMaxY());
 
-                // generar nuevas anclas locales a partir de la pieza
                 addLocalAnchors(anchors, ce, minX, minY, maxX, maxY);
             }
 
@@ -411,10 +366,12 @@ public class GraspPlacer {
             }
         }
 
+        // post-compactación global (aunque se haya agotado el tiempo)
+        globalCompaction(sheetInset, res);
         return res;
     }
+
     // ======= Búsqueda local =======
-    // intenta mejorar la solución reinsertando piezas con tweaks de ángulo
     static void localSearch(Polygon sheetInset,
                             DecodeResult dr,
                             Map<PartSpec,int[]> angleOptions,
@@ -424,24 +381,19 @@ public class GraspPlacer {
         long t0 = System.currentTimeMillis();
         if (dr.placed.size() <= 1) return;
 
-        // se hacen varios intentos de reinserción
         for (int pass=0; pass<REINSERT_TRIES; pass++) {
-            // recorremos las piezas al revés para ir quitando y probando
             for (int i = dr.placed.size()-1; i >= 0; i--) {
                 if (System.currentTimeMillis()-t0 > millisBudget) return;
 
-                // quitar pieza candidata (victim)
                 PlacedPart victim = dr.placed.remove(i);
                 Geometry victimClear = dr.placedClear.remove(i);
 
-                // construir anclas: plancha + piezas ya colocadas
                 Envelope env = sheetInset.getEnvelopeInternal();
                 ArrayList<Anchor> anchors = initialAnchors(env.getMinX(), env.getMinY(), env.getMaxX(), env.getMaxY());
                 for (Geometry gc : dr.placedClear) {
                     addLocalAnchors(anchors, gc.getEnvelopeInternal(), env.getMinX(), env.getMinY(), env.getMaxX(), env.getMaxY());
                 }
 
-                // buscar la spec original de la pieza
                 PartSpec sp = findSpec(angleOptions, victim.id);
                 int[] baseAngles = angleOptions.getOrDefault(sp, new int[]{0});
                 int[] angles = maybeAugmentAngles(baseAngles, sp);
@@ -449,7 +401,6 @@ public class GraspPlacer {
                 Candidate best = null;
                 List<Anchor> sample = sampleAnchors(anchors, rng, MAX_ANCHORS_PER_TRY);
 
-                // probar posibles ángulos de reinserción
                 for (int angDeg : angles) {
                     Geometry gBase = GeomUtils.orient(sp.poly, angDeg, false);
                     Geometry gClr  = sp.clearance > 0 ? gBase.buffer(sp.clearance, 8) : gBase;
@@ -468,109 +419,77 @@ public class GraspPlacer {
                             tyMin < env.getMinY()-EPS_EDGE || tyMax > env.getMaxY()+EPS_EDGE) continue;
 
                         Geometry cc = GeomUtils.translate(gClr, dxa, dya);
-                        if (!sheetInset.covers(cc)) continue; // contacto permitido en borde
+                        if (!sheetInset.covers(cc)) continue;
 
                         boolean inter = false;
-                        for (Geometry pg : dr.placedClear) { 
-                            if (collideStrict(pg, cc)) { inter = true; break; } 
+                        for (Geometry pg : dr.placedClear) {
+                            if (collideStrict(pg, cc)) { inter = true; break; }
                         }
                         if (inter) continue;
 
-                        // mini compactación hacia abajo/izquierda
-                        double[] nudged = tryNudge(sheetInset, cc, dr.placedClear, -NUDGE_STEP, 0, NUDGE_STEPS_MAX);
+                        // *** FIX: usar -NUDGE_STEP (antes se pasaba -NUDGE_STEPS_MAX) ***
+                        double[] nudged = tryNudge(sheetInset, cc, dr.placedClear,
+                                                   -NUDGE_STEP, -NUDGE_STEP, NUDGE_STEPS_MAX);
                         cc = GeomUtils.translate(cc, nudged[0], nudged[1]);
                         Geometry placed = GeomUtils.translate(gBase, dxa+nudged[0], dya+nudged[1]);
 
-                        // score local enfocado en la bbox
                         double val = localScoreBBoxOnly(sheetInset, dr, cc);
 
-                        // actualizar mejor candidato
                         if (best == null || val < best.scoreVal) {
                             best = new Candidate();
-                            best.clearGeom = cc; 
-                            best.placedGeom = placed;
-                            best.dx = dxa+nudged[0]; 
-                            best.dy = dya+nudged[1];
-                            best.angleDeg = angDeg; 
-                            best.scoreVal = val;
+                            best.clearGeom = cc; best.placedGeom = placed;
+                            best.dx = dxa+nudged[0]; best.dy = dya+nudged[1];
+                            best.angleDeg = angDeg; best.scoreVal = val;
                         }
                     }
                 }
 
-                // decidir si se acepta la reinserción
                 if (best != null) {
-                    double oldY = usedYmax(dr.placed); 
+                    double oldY = usedYmax(dr.placed);
                     double oldArea = totalArea(dr.placed);
                     double newY, newArea;
                     {
-                        // simular insertar el nuevo
                         PlacedPart pp = new PlacedPart();
-                        pp.id = sp.id; 
-                        pp.polyPlaced = best.placedGeom; 
-                        pp.angleDeg = best.angleDeg; 
-                        pp.mirrored = false; 
-                        pp.dx = best.dx; 
-                        pp.dy = best.dy;
+                        pp.id = sp.id; pp.polyPlaced = best.placedGeom; pp.angleDeg = best.angleDeg;
+                        pp.mirrored = false; pp.dx = best.dx; pp.dy = best.dy;
 
-                        dr.placed.add(pp); 
-                        dr.placedClear.add(best.clearGeom);
-                        newY = usedYmax(dr.placed); 
-                        newArea = totalArea(dr.placed);
-
-                        // revertir simulación
-                        dr.placed.remove(dr.placed.size()-1); 
-                        dr.placedClear.remove(dr.placedClear.size()-1);
+                        dr.placed.add(pp); dr.placedClear.add(best.clearGeom);
+                        newY = usedYmax(dr.placed); newArea = totalArea(dr.placed);
+                        dr.placed.remove(dr.placed.size()-1); dr.placedClear.remove(dr.placedClear.size()-1);
                     }
 
-                    // aceptar si no empeora
                     if (newY <= oldY + 1e-6 || newArea >= oldArea - 1e-6) {
                         PlacedPart pp = new PlacedPart();
-                        pp.id = sp.id; 
-                        pp.polyPlaced = best.placedGeom; 
-                        pp.angleDeg = best.angleDeg; 
-                        pp.mirrored = false; 
-                        pp.dx = best.dx; 
-                        pp.dy = best.dy;
-                        dr.placed.add(i, pp); 
-                        dr.placedClear.add(i, best.clearGeom);
+                        pp.id = sp.id; pp.polyPlaced = best.placedGeom; pp.angleDeg = best.angleDeg;
+                        pp.mirrored = false; pp.dx = best.dx; pp.dy = best.dy;
+                        dr.placed.add(i, pp); dr.placedClear.add(i, best.clearGeom);
                     } else {
-                        // si no mejora, se devuelve la pieza original
-                        dr.placed.add(i, victim); 
-                        dr.placedClear.add(i, victimClear);
+                        dr.placed.add(i, victim); dr.placedClear.add(i, victimClear);
                     }
                 } else {
-                    // si no hubo mejor candidato, devolver la pieza original
-                    dr.placed.add(i, victim); 
-                    dr.placedClear.add(i, victimClear);
+                    dr.placed.add(i, victim); dr.placedClear.add(i, victimClear);
                 }
             }
         }
-    }
-    // ======= Helpers / utilidades =======
 
-    // inicializa el logger para escribir en archivo y consola
+        // post-compactación global tras LS
+        globalCompaction(sheetInset, dr);
+    }
+
+    // ======= Helpers / utilidades =======
     static void initLogger() {
         try {
             tee = new PrintStream(new FileOutputStream(LOG_FILE, false), true, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            tee = null;
-        }
+        } catch (Exception e) { tee = null; }
         log("[" + TS.format(new Date()) + "] Logger abierto");
     }
-
-    // cierra el logger si estaba abierto
-    static void closeLogger() {
-        if (tee != null) tee.close();
-    }
-
-    // escribe en consola y log file
+    static void closeLogger() { if (tee != null) tee.close(); }
     static void log(String s) {
         String msg = TS.format(new Date()) + " | " + s;
         System.out.println(msg);
         if (tee != null) tee.println(msg);
     }
 
-    // expande las piezas según la cantidad (qty)
     static List<PartInstance> expandInstances(List<PartSpec> specs) {
         List<PartInstance> out = new ArrayList<>();
         for (PartSpec s : specs) {
@@ -579,8 +498,6 @@ public class GraspPlacer {
         }
         return out;
     }
-
-    // calcula los ángulos permitidos por pieza
     static Map<PartSpec,int[]> computeAngleOptions(List<PartSpec> specs) {
         Map<PartSpec,int[]> m = new HashMap<>();
         for (PartSpec s : specs) {
@@ -593,46 +510,64 @@ public class GraspPlacer {
         }
         return m;
     }
-
-    // colisión estricta: permite tocar bordes pero no solaparse
     static boolean collideStrict(Geometry a, Geometry b) {
         return a.intersects(b) && !a.touches(b);
     }
 
-    // intenta mover una geometría paso a paso en dirección (stepx, stepy)
+    // Compactación local (x, y y diagonal + pulido)
     static double[] tryNudge(Polygon sheetInset, Geometry gClear, List<Geometry> placedClear,
                              double stepx, double stepy, int steps)
     {
         double dx=0, dy=0;
         for (int i=0;i<steps;i++) {
+            Geometry t = GeomUtils.translate(gClear, stepx, 0);
+            if (!sheetInset.covers(t)) break;
+            boolean inter=false; for (Geometry pg : placedClear){ if (collideStrict(pg, t)){ inter=true; break; } }
+            if (inter) break;
+            gClear = t; dx += stepx;
+        }
+        for (int i=0;i<steps;i++) {
+            Geometry t = GeomUtils.translate(gClear, 0, stepy);
+            if (!sheetInset.covers(t)) break;
+            boolean inter=false; for (Geometry pg : placedClear){ if (collideStrict(pg, t)){ inter=true; break; } }
+            if (inter) break;
+            gClear = t; dy += stepy;
+        }
+        for (int i=0;i<steps;i++) {
             Geometry t = GeomUtils.translate(gClear, stepx, stepy);
-            if (!sheetInset.covers(t)) break; // covers: se permite borde
-            boolean inter=false;
-            for (Geometry pg : placedClear) { 
-                if (collideStrict(pg, t)) { inter=true; break; } 
-            }
+            if (!sheetInset.covers(t)) break;
+            boolean inter=false; for (Geometry pg : placedClear){ if (collideStrict(pg, t)){ inter=true; break; } }
             if (inter) break;
             gClear = t; dx += stepx; dy += stepy;
         }
-        // luego prueba en eje vertical (usa stepx como magnitud vertical según diseño original)
-        for (int i=0;i<steps;i++) {
-            Geometry t = GeomUtils.translate(gClear, 0, stepx);
-            if (!sheetInset.covers(t)) break;
-            boolean inter=false;
-            for (Geometry pg : placedClear) { 
-                if (collideStrict(pg, t)) { inter=true; break; } 
+        double tiny = stepx/3.0;
+        for (int k=0;k<2;k++){
+            Geometry tx = GeomUtils.translate(gClear, tiny, 0);
+            if (sheetInset.covers(tx)) {
+                boolean inter=false; for (Geometry pg: placedClear){ if (collideStrict(pg,tx)){ inter=true; break; } }
+                if (!inter){ gClear=tx; dx+=tiny; }
             }
-            if (inter) break;
-            gClear = t; dy += stepx;
+            Geometry ty = GeomUtils.translate(gClear, 0, tiny);
+            if (sheetInset.covers(ty)) {
+                boolean inter=false; for (Geometry pg: placedClear){ if (collideStrict(pg,ty)){ inter=true; break; } }
+                if (!inter){ gClear=ty; dy+=tiny; }
+            }
         }
         return new double[]{dx, dy};
     }
 
-    // calcula el score local de una pieza candidata
+    // Distancia mínima a vecinos
+    static double minClearDistance(Geometry g, List<Geometry> placedClear){
+        if (placedClear.isEmpty()) return 0.0;
+        double d = Double.POSITIVE_INFINITY;
+        for (Geometry pg : placedClear){ d = Math.min(d, g.distance(pg)); }
+        return d;
+    }
+
+    // Score con bbox + cercanía
     static double localScore(DecodeResult dr, Geometry cc) {
         Envelope ce = cc.getEnvelopeInternal();
-        double cy = ce.getMinY();
-        double cx = ce.getMinX();
+        double cy = ce.getMinY(), cx = ce.getMinX();
 
         double nGlobMinX = Math.min(dr.globMinX, ce.getMinX());
         double nGlobMinY = Math.min(dr.globMinY, ce.getMinY());
@@ -641,10 +576,10 @@ public class GraspPlacer {
         double bboxGrow = (nGlobMaxX - nGlobMinX)*(nGlobMaxY - nGlobMinY)
                         - Math.max(0, (dr.globMaxX - dr.globMinX)*(dr.globMaxY - dr.globMinY));
 
-        return W_BEST_Y*cy + W_BEST_X*cx + W_BBOX_INFLATE*bboxGrow;
+        double near = minClearDistance(cc, dr.placedClear); // minimizar
+        return W_BEST_Y*cy + W_BEST_X*cx + W_BBOX_INFLATE*bboxGrow + W_NEARNESS*near;
     }
 
-    // score usado en búsqueda local (solo bbox)
     static double localScoreBBoxOnly(Polygon sheet, DecodeResult dr, Geometry cc) {
         Envelope ce = cc.getEnvelopeInternal();
         double nGlobMinX = Math.min(dr.globMinX, ce.getMinX());
@@ -654,22 +589,16 @@ public class GraspPlacer {
         return (nGlobMaxY - nGlobMinY) * (nGlobMaxX - nGlobMinX);
     }
 
-    // inserta un candidato en la RCL manteniendo orden por score
+    // RCL ordenada por score (menor es mejor)
     static void insertIntoRCL(List<Candidate> rcl, Candidate c, int k) {
-        int i=0; 
-        while (i<rcl.size() && rcl.get(i).scoreVal <= c.scoreVal) i++;
-        rcl.add(i, c);
-        if (rcl.size() > k) rcl.remove(rcl.size()-1);
+        int i=0; while (i<rcl.size() && rcl.get(i).scoreVal <= c.scoreVal) i++;
+        rcl.add(i, c); if (rcl.size() > k) rcl.remove(rcl.size()-1);
     }
-    // genera las anclas iniciales (esquinas + malla sobre la plancha)
+
     static ArrayList<Anchor> initialAnchors(double minX, double minY, double maxX, double maxY){
         ArrayList<Anchor> a = new ArrayList<>();
-        // esquinas
-        a.add(new Anchor(minX, minY));
-        a.add(new Anchor(maxX, minY));
-        a.add(new Anchor(minX, maxY));
-        a.add(new Anchor(maxX, maxY));
-        // malla repartida en toda la plancha
+        a.add(new Anchor(minX, minY)); a.add(new Anchor(maxX, minY));
+        a.add(new Anchor(minX, maxY)); a.add(new Anchor(maxX, maxY));
         for (int i=0; i<GRID_ANCHORS_X; i++) {
             for (int j=0; j<GRID_ANCHORS_Y; j++) {
                 double x = minX + (i+0.5)*(maxX-minX)/GRID_ANCHORS_X;
@@ -680,23 +609,22 @@ public class GraspPlacer {
         return a;
     }
 
-    // añade anclas locales alrededor de una geometría ya colocada
     static void addLocalAnchors(List<Anchor> anchors, Envelope ce, double minX, double minY, double maxX, double maxY){
         double rx = ce.getMaxX(), lx = ce.getMinX(), by = ce.getMinY(), ty = ce.getMaxY();
-        double[] xs = {rx, lx};
-        double[] ys = {by, ty};
-        for (double x : xs) {
-            anchors.add(new Anchor(x, by));
-            anchors.add(new Anchor(x, ty));
-        }
-        for (double y : ys) {
-            anchors.add(new Anchor(lx, y));
-            anchors.add(new Anchor(rx, y));
-        }
-        anchors.removeIf(an -> an.x < minX-EPS_EDGE || an.x > maxX+EPS_EDGE || an.y < minY-EPS_EDGE || an.y > maxY+EPS_EDGE);
+        double cx = 0.5*(lx+rx), cy = 0.5*(by+ty);
+        double eps = 1e-6;
+
+        anchors.add(new Anchor(lx, by)); anchors.add(new Anchor(lx, ty));
+        anchors.add(new Anchor(rx, by)); anchors.add(new Anchor(rx, ty));
+        anchors.add(new Anchor(cx, by)); anchors.add(new Anchor(cx, ty));
+        anchors.add(new Anchor(lx, cy)); anchors.add(new Anchor(rx, cy));
+        anchors.add(new Anchor(lx+eps, by+eps)); anchors.add(new Anchor(rx-eps, by+eps));
+        anchors.add(new Anchor(lx+eps, ty-eps)); anchors.add(new Anchor(rx-eps, ty-eps));
+
+        anchors.removeIf(an -> an.x < minX-EPS_EDGE || an.x > maxX+EPS_EDGE ||
+                               an.y < minY-EPS_EDGE || an.y > maxY+EPS_EDGE);
     }
 
-    // selecciona aleatoriamente un subconjunto de anclas
     static List<Anchor> sampleAnchors(List<Anchor> anchors, Random rng, int max){
         if (anchors.size() <= max) return new ArrayList<>(anchors);
         ArrayList<Anchor> out = new ArrayList<>(max);
@@ -707,80 +635,100 @@ public class GraspPlacer {
         return out;
     }
 
-    // busca el PartSpec correspondiente a un id
     static PartSpec findSpec(Map<PartSpec,int[]> angleOptions, String id){
         for (PartSpec s : angleOptions.keySet()) if (s.id.equals(id)) return s;
         return null;
     }
 
-    // amplía los ángulos con tweaks si el paso de rotación es pequeño
     static int[] maybeAugmentAngles(int[] base, PartSpec sp){
         if (sp.rotationStepDeg <= 5) {
             HashSet<Integer> set = new HashSet<>();
-            for (int b : base) {
-                set.add(norm(b));
-                set.add(norm(b + TWEAK_ANGLE_STEP));
-                set.add(norm(b - TWEAK_ANGLE_STEP));
-            }
+            for (int b : base) { set.add(norm(b)); set.add(norm(b + TWEAK_ANGLE_STEP)); set.add(norm(b - TWEAK_ANGLE_STEP)); }
             int[] arr = new int[set.size()];
             int i=0; for (int v : set) arr[i++] = v;
-            Arrays.sort(arr);
-            return arr;
+            Arrays.sort(arr); return arr;
         }
         return base;
     }
 
-    // normaliza ángulo a [0,360)
-    static int norm(int ang) { 
-        int a = ang % 360; 
-        if (a < 0) a += 360; 
-        return a; 
-    }
-
-    // calcula el área total ocupada por las piezas colocadas
-    static double totalArea(List<PlacedPart> placed){
-        double s=0; 
-        for (PlacedPart p : placed) s += p.polyPlaced.getArea(); 
-        return s;
-    }
-
-    // devuelve la coordenada Y máxima alcanzada por las piezas
-    static double usedYmax(List<PlacedPart> placed){
-        double y=0; 
-        for (PlacedPart p : placed) 
-            y = Math.max(y, p.polyPlaced.getEnvelopeInternal().getMaxY()); 
-        return y;
-    }
-
-    // shuffle por bloques para variar el orden de piezas
+    static int norm(int ang) { int a = ang % 360; if (a < 0) a += 360; return a; }
+    static double totalArea(List<PlacedPart> placed){ double s=0; for (PlacedPart p : placed) s += p.polyPlaced.getArea(); return s; }
+    static double usedYmax(List<PlacedPart> placed){ double y=0; for (PlacedPart p : placed) y = Math.max(y, p.polyPlaced.getEnvelopeInternal().getMaxY()); return y; }
     static <T> void blockShuffle(List<T> list, Random rng, int blockSize){
         for (int i=0; i<list.size(); i+=blockSize) {
             int end = Math.min(list.size(), i+blockSize);
             Collections.shuffle(list.subList(i, end), rng);
         }
     }
+    static double cv(double[] a){ if (a==null||a.length==0) return 1.0; double s=0; for(double x:a) s+=x; double m=s/a.length; if (m==0) return 1.0; double v=0; for(double x:a) v+=(x-m)*(x-m); v/=a.length; return Math.sqrt(v)/m; }
+    static double median(double[] a){ if (a==null||a.length==0) return 0.0; double[] cp=a.clone(); Arrays.sort(cp); return cp[cp.length/2]; }
 
-    // calcula coeficiente de variación de un array
-    static double cv(double[] a){
-        if (a==null || a.length==0) return 1.0;
-        double s=0; 
-        for(double x:a) s+=x;
-        double m=s/a.length; 
-        if (m==0) return 1.0;
-        double v=0; 
-        for(double x:a) v+=(x-m)*(x-m);
-        v/=a.length; 
-        return Math.sqrt(v)/m;
+    // ======= Compactación global (en cascada) =======
+    static boolean slideUntilBlocked(Polygon sheetInset, List<Geometry> placedClear, int idx, double step){
+        Geometry g = placedClear.get(idx);
+        boolean moved = false;
+        while (true){
+            Geometry t = GeomUtils.translate(g, -step, 0);
+            if (!sheetInset.covers(t)) break;
+            boolean clash=false; for (int j=0;j<placedClear.size();j++){ if (j==idx) continue; if (collideStrict(placedClear.get(j), t)){ clash=true; break; } }
+            if (clash) break; g = t; moved = true;
+        }
+        while (true){
+            Geometry t = GeomUtils.translate(g, 0, -step);
+            if (!sheetInset.covers(t)) break;
+            boolean clash=false; for (int j=0;j<placedClear.size();j++){ if (j==idx) continue; if (collideStrict(placedClear.get(j), t)){ clash=true; break; } }
+            if (clash) break; g = t; moved = true;
+        }
+        placedClear.set(idx, g);
+        return moved;
     }
 
-    // calcula mediana de un array
-    static double median(double[] a){
-        if (a==null || a.length==0) return 0.0;
-        double[] cp=a.clone(); 
-        Arrays.sort(cp); 
-        return cp[cp.length/2];
+    static void globalCompaction(Polygon sheetInset, DecodeResult dr){
+        List<Integer> order = new ArrayList<>();
+        for (int i=0;i<dr.placedClear.size();i++) order.add(i);
+        order.sort((i,j)->{
+            Envelope ei = dr.placedClear.get(i).getEnvelopeInternal();
+            Envelope ej = dr.placedClear.get(j).getEnvelopeInternal();
+            double si = ei.getMinX()+ei.getMinY(), sj = ej.getMinX()+ej.getMinY();
+            return Double.compare(si, sj);
+        });
+        boolean movedAny; int rounds=0;
+        do{
+            movedAny = false;
+            for (int idx: order){
+                boolean moved = slideUntilBlocked(sheetInset, dr.placedClear, idx, Math.max(NUDGE_STEP/2.0, 0.05));
+                movedAny |= moved;
+            }
+            rounds++;
+        } while (movedAny && rounds < 5);
+
+        // sincronizar polyPlaced con clear
+        for (int i=0;i<dr.placed.size();i++){
+            Geometry clear = dr.placedClear.get(i);
+            Envelope eC = clear.getEnvelopeInternal();
+            Envelope eP = dr.placed.get(i).polyPlaced.getEnvelopeInternal();
+            double dxa = eC.getMinX() - eP.getMinX();
+            double dya = eC.getMinY() - eP.getMinY();
+            dr.placed.get(i).polyPlaced = GeomUtils.translate(dr.placed.get(i).polyPlaced, dxa, dya);
+            dr.placed.get(i).dx += dxa; dr.placed.get(i).dy += dya;
+        }
+
+        // actualizar bbox global
+        double minX=Double.POSITIVE_INFINITY, minY=Double.POSITIVE_INFINITY, maxX=Double.NEGATIVE_INFINITY, maxY=Double.NEGATIVE_INFINITY;
+        for (Geometry cc : dr.placedClear) {
+            Envelope ce = cc.getEnvelopeInternal();
+            minX = Math.min(minX, ce.getMinX());
+            minY = Math.min(minY, ce.getMinY());
+            maxX = Math.max(maxX, ce.getMaxX());
+            maxY = Math.max(maxY, ce.getMaxY());
+        }
+        dr.globMinX = (dr.placedClear.isEmpty()?0:minX);
+        dr.globMinY = (dr.placedClear.isEmpty()?0:minY);
+        dr.globMaxX = (dr.placedClear.isEmpty()?0:maxX);
+        dr.globMaxY = (dr.placedClear.isEmpty()?0:maxY);
     }
-    // llena la plancha con piezas usando rejilla (sin huecos, modo GRID fast-path)
+
+    // ======= GRID fast-path =======
     static void gridFillRaster(Polygon sheetInset,
                                List<PlacedPart> placed, List<Geometry> placedClear,
                                List<PartInstance> instances, Map<PartSpec,int[]> angleOptions,
@@ -814,7 +762,7 @@ public class GraspPlacer {
                         double dya = anchorY - pe0.getMinY();
 
                         Geometry ccTry = GeomUtils.translate(gc0, dxa, dya);
-                        if (!sheetInset.covers(ccTry)) continue;   // permite apoyo en borde
+                        if (!sheetInset.covers(ccTry)) continue;
 
                         boolean clash = false;
                         for (Geometry pg : placedClear) {
@@ -825,12 +773,8 @@ public class GraspPlacer {
                         Geometry cand = GeomUtils.translate(g0, dxa, dya);
 
                         PlacedPart pp = new PlacedPart();
-                        pp.id = pi.spec.id; 
-                        pp.polyPlaced = cand; 
-                        pp.angleDeg = angDeg;
-                        pp.mirrored = false; 
-                        pp.dx = dxa; 
-                        pp.dy = dya;
+                        pp.id = pi.spec.id; pp.polyPlaced = cand; pp.angleDeg = angDeg;
+                        pp.mirrored = false; pp.dx = dxa; pp.dy = dya;
 
                         placed.add(pp);
                         placedClear.add(ccTry);
