@@ -11,9 +11,10 @@ public class TesisNesting {
 
     public static void main(String[] args) throws Exception {
         //Acá se puede cambiar el nombre de el svg resultante.
-        String inputCsv  = "input/datosVariados.csv";
+        //String inputCsv  = "input/datosVariados.csv";
+        String inputCsv  = "input/dataset_L.csv";
         String outputDir = "out";
-        String outputSvg = outputDir + "/salidaHybridPlacer.svg";
+        String outputSvg = outputDir + "/salidaHybrid.svg";
 
         if (args.length >= 1) inputCsv = args[0];
         if (args.length >= 2) outputSvg = args[1];

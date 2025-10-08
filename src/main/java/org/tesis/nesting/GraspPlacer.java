@@ -166,8 +166,22 @@ public class GraspPlacer {
                 // aun así evaluar lo que se armó
                 double itArea = totalArea(dr.placed);
                 double itYmax = usedYmax(dr.placed);
-                if (itArea > bestArea || (Math.abs(itArea-bestArea) < 1e-6 && itYmax < bestY)) {
-                    bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+                if (itArea > bestArea) {
+                    bestArea = itArea; 
+                    bestY = itYmax; 
+                    bestSolution = dr.placed;
+                } else if (Math.abs(itArea - bestArea) < 1e-6) { // Si las áreas son iguales
+                    if (dr.placed.size() > bestSolution.size()) { // Compara cantidad
+                        bestArea = itArea; 
+                        bestY = itYmax; 
+                        bestSolution = dr.placed;
+                    } else if (dr.placed.size() == bestSolution.size()) { // Si la cantidad también es igual
+                        if (itYmax < bestY) { // Compara altura
+                            bestArea = itArea; 
+                            bestY = itYmax; 
+                            bestSolution = dr.placed;
+                        }
+                    }
                 }
                 break;
             }
@@ -180,8 +194,16 @@ public class GraspPlacer {
             double itArea = totalArea(dr.placed);
             double itYmax = usedYmax(dr.placed);
 
-            if (itArea > bestArea || (Math.abs(itArea-bestArea) < 1e-6 && itYmax < bestY)) {
+            if (itArea > bestArea) {
                 bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+            } else if (Math.abs(itArea - bestArea) < 1e-6) { // Si las áreas son iguales
+                if (dr.placed.size() > bestSolution.size()) { // Compara cantidad
+                    bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+                } else if (dr.placed.size() == bestSolution.size()) { // Si la cantidad también es igual
+                    if (itYmax < bestY) { // Compara altura
+                        bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+                    }
+                }
             }
 
             if (handleLogger) {

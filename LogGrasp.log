@@ -1,15 +1,62 @@
-12:41:28.502 | [12:41:28.498] Logger abierto
-12:41:28.526 | ==== GraspPlacer RUN (single) Sat Oct 04 12:41:28 PET 2025 ====
-12:41:28.526 | INI | PartSpec: 12 | seed=1536621540336300
-12:41:40.920 |   · placed=10 / 122 | anchors=364
-12:41:49.956 |   · placed=20 / 122 | anchors=484
-12:41:56.737 |   · placed=30 / 122 | anchors=604
-12:42:02.581 |   · placed=40 / 122 | anchors=724
-12:42:07.697 |   · placed=50 / 122 | anchors=844
-12:42:11.963 |   · placed=60 / 122 | anchors=964
-12:42:16.659 |   · placed=70 / 122 | anchors=1084
-12:42:19.783 |   · placed=80 / 122 | anchors=1204
-12:42:22.270 |   · placed=90 / 122 | anchors=1324
-12:42:23.722 |   · placed=100 / 122 | anchors=1444
-12:42:24.697 |   · placed=103 / 122 | anchors=1480
-12:42:25.692 |   · placed=103 / 122 | anchors=1480
+20:14:37.945 | [20:14:37.938] Logger abierto
+20:14:37.976 | ==== GraspPlacer RUN (single) Tue Oct 07 20:14:37 PET 2025 ====
+20:14:37.983 | INI | PartSpec: 7 | seed=69448528829799
+20:14:44.841 |   · placed=10 / 46 | anchors=364
+20:14:46.335 |   · placed=18 / 46 | anchors=460
+20:14:47.119 |   · placed=18 / 46 | anchors=460
+20:14:47.863 |   · placed=18 / 46 | anchors=460
+20:15:23.471 | IT 0 | colocadas=18 | area=333,900 | yMax=521.117 | dur=45484 ms
+20:15:29.311 |   · placed=10 / 46 | anchors=364
+20:15:30.952 |   · placed=17 / 46 | anchors=448
+20:15:31.839 |   · placed=17 / 46 | anchors=448
+20:15:32.672 |   · placed=18 / 46 | anchors=460
+20:16:10.133 | IT 1 | colocadas=18 | area=329,150 | yMax=527.033 | dur=46662 ms
+20:16:15.955 |   · placed=10 / 46 | anchors=364
+20:16:17.658 |   · placed=17 / 46 | anchors=448
+20:16:18.374 |   · placed=17 / 46 | anchors=448
+20:16:19.051 |   · placed=17 / 46 | anchors=448
+20:16:53.677 | IT 2 | colocadas=17 | area=317,900 | yMax=527.083 | dur=43544 ms
+20:16:59.809 |   · placed=10 / 46 | anchors=364
+20:17:01.100 |   · placed=16 / 46 | anchors=436
+20:17:01.767 |   · placed=16 / 46 | anchors=436
+20:17:02.454 |   · placed=17 / 46 | anchors=448
+20:17:35.771 | IT 3 | colocadas=17 | area=316,800 | yMax=494.683 | dur=42094 ms
+20:17:41.586 |   · placed=10 / 46 | anchors=364
+20:17:43.177 |   · placed=19 / 46 | anchors=472
+20:17:43.833 |   · placed=19 / 46 | anchors=472
+20:17:44.487 |   · placed=19 / 46 | anchors=472
+20:18:19.054 | IT 4 | colocadas=19 | area=349,150 | yMax=530.387 | dur=43283 ms
+20:18:23.881 |   · placed=10 / 46 | anchors=364
+20:18:25.242 |   · placed=16 / 46 | anchors=436
+20:18:25.895 |   · placed=16 / 46 | anchors=436
+20:18:26.528 |   · placed=17 / 46 | anchors=448
+20:19:09.904 | IT 5 | colocadas=17 | area=312,400 | yMax=509.183 | dur=50850 ms
+20:19:17.236 |   · placed=10 / 46 | anchors=364
+20:19:19.332 |   · placed=18 / 46 | anchors=460
+20:19:20.242 |   · placed=18 / 46 | anchors=460
+20:19:21.102 |   · placed=19 / 46 | anchors=472
+20:20:07.124 | IT 6 | colocadas=19 | area=343,400 | yMax=522.033 | dur=57220 ms
+20:20:14.381 |   · placed=10 / 46 | anchors=364
+20:20:16.379 |   · placed=17 / 46 | anchors=448
+20:20:17.216 |   · placed=17 / 46 | anchors=448
+20:20:18.128 |   · placed=17 / 46 | anchors=448
+20:21:04.066 | IT 7 | colocadas=17 | area=317,900 | yMax=509.075 | dur=56941 ms
+20:21:12.133 |   · placed=10 / 46 | anchors=364
+20:21:13.988 |   · placed=18 / 46 | anchors=460
+20:21:14.880 |   · placed=18 / 46 | anchors=460
+20:21:15.712 |   · placed=18 / 46 | anchors=460
+20:21:18.134 | IT 8 | colocadas=18 | area=332,900 | yMax=568.666 | dur=14067 ms
+20:21:18.136 | Tiempo agotado en iter=9
+20:21:18.136 | ------------------------------
+20:21:18.136 | RESUMEN FINAL (GRASP - single run)
+20:21:18.138 | Seed               : 69448528829799
+20:21:18.138 | Piezas a posicionar: 46
+20:21:18.138 | Piezas colocadas   : 19
+20:21:18.138 | % aprovechamiento  : 53.178 %
+20:21:18.139 | Área colocada      : 349,150
+20:21:18.139 | Área plancha       : 656,572.095
+20:21:18.139 | Área desperdiciada : 307,422.095
+20:21:18.139 | Ymax               : 530.387
+20:21:18.143 | Tiempo total       : 400185 ms (400.185 s)
+20:21:18.143 | ------------------------------
+20:21:18.149 | BEST | colocadas=19 | area=349,150 | yMax=530.387

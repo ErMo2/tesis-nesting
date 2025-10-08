@@ -193,8 +193,8 @@ public class HybridGraspMemeticPlacer {
         if (a == null) return 1;
         if (b == null) return -1;
 
-        if (a.placedCount != b.placedCount) return (a.placedCount > b.placedCount) ? -1 : 1;
         if (Double.compare(a.areaPlaced, b.areaPlaced) != 0) return (a.areaPlaced > b.areaPlaced) ? -1 : 1;
+        if (a.placedCount != b.placedCount) return (a.placedCount > b.placedCount) ? -1 : 1;  
         if (Double.compare(a.yMax, b.yMax) != 0) return (a.yMax < b.yMax) ? -1 : 1;
         return 0;
     }
