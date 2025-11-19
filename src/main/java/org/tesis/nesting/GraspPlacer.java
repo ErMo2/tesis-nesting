@@ -16,6 +16,14 @@ public class GraspPlacer {
     static final long   MAX_MILLIS_TOTAL    = 400_000;   //seg por corrida
     static final long   MAX_MILLIS_LOCAL    = 50_000;   // seg para LS
     static final long   DEFAULT_SEED        = 42L;
+    /**
+     * Parámetro α de aleatoriedad de GRASP.
+     * - α < 0: Modo de compatibilidad (ε-greedy: 70% mejor, 30% aleatorio)
+     * - 0 ≤ α ≤ 1: Modo clásico de GRASP (filtrado por umbral, selección aleatoria pura)
+     *   - α = 0: Completamente greedy (solo mejores candidatos)
+     *   - α = 1: Completamente aleatorio (todos los candidatos válidos)
+     */
+    static final double DEFAULT_ALPHA        = -1.0;
 
     // anclas / chequeos
     static final int    GRID_ANCHORS_X      = 20;
@@ -63,12 +71,40 @@ public class GraspPlacer {
     }
 
     // ======= API =======
+    /**
+     * Coloca piezas usando GRASP con parámetros por defecto.
+     * @param sheetInset Plancha donde colocar las piezas
+     * @param specs Especificaciones de las piezas
+     * @return Lista de piezas colocadas
+     */
     public static List<PlacedPart> place(Polygon sheetInset, List<PartSpec> specs) {
         RunResult rr = runOnce(sheetInset, specs, DEFAULT_SEED, true);
         return rr.placed;
     }
+    
+    /**
+     * Coloca piezas usando GRASP con semilla específica.
+     * @param sheetInset Plancha donde colocar las piezas
+     * @param specs Especificaciones de las piezas
+     * @param seed Semilla para el generador aleatorio
+     * @return Lista de piezas colocadas
+     */
     public static List<PlacedPart> place(Polygon sheetInset, List<PartSpec> specs, long seed) {
         RunResult rr = runOnce(sheetInset, specs, seed, true);
+        return rr.placed;
+    }
+    
+    /**
+     * Coloca piezas usando GRASP con semilla y parámetro α específicos.
+     * 
+     * @param sheetInset Plancha donde colocar las piezas
+     * @param specs Especificaciones de las piezas
+     * @param seed Semilla para el generador aleatorio
+     * @param alpha Parámetro de aleatoriedad (0 ≤ α ≤ 1 para modo clásico, α < 0 para modo compatibilidad)
+     * @return Lista de piezas colocadas
+     */
+    public static List<PlacedPart> place(Polygon sheetInset, List<PartSpec> specs, long seed, double alpha) {
+        RunResult rr = runOnce(sheetInset, specs, seed, true, alpha);
         return rr.placed;
     }
     public static List<PlacedPart> placeMulti(Polygon sheetInset, List<PartSpec> specs, int numRuns) {
@@ -123,6 +159,10 @@ public class GraspPlacer {
 
     // ======= Núcleo de una corrida GRASP =======
     private static RunResult runOnce(Polygon sheetInset, List<PartSpec> specs, long seed, boolean handleLogger) {
+        return runOnce(sheetInset, specs, seed, handleLogger, DEFAULT_ALPHA);
+    }
+    
+    private static RunResult runOnce(Polygon sheetInset, List<PartSpec> specs, long seed, boolean handleLogger, double alpha) {
         if (handleLogger) initLogger();
         final long t0 = System.currentTimeMillis();
         if (handleLogger) {
@@ -161,7 +201,7 @@ public class GraspPlacer {
             order.sort((a,b) -> Double.compare(b.spec.poly.getArea(), a.spec.poly.getArea()));
             blockShuffle(order, rng, 6);
 
-            DecodeResult dr = greedyRandomDecode(sheetInset, order, angleOptions, rng, deadline);
+            DecodeResult dr = greedyRandomDecode(sheetInset, order, angleOptions, rng, deadline, alpha);
             if (System.currentTimeMillis() >= deadline) {
                 // aun así evaluar lo que se armó
                 double itArea = totalArea(dr.placed);
@@ -258,7 +298,16 @@ public class GraspPlacer {
                                            List<PartInstance> order,
                                            Map<PartSpec,int[]> angleOptions,
                                            Random rng,
-                                           long deadlineMillis)
+                                           long deadlineMillis) {
+        return greedyRandomDecode(sheetInset, order, angleOptions, rng, deadlineMillis, DEFAULT_ALPHA);
+    }
+    
+    static DecodeResult greedyRandomDecode(Polygon sheetInset,
+                                           List<PartInstance> order,
+                                           Map<PartSpec,int[]> angleOptions,
+                                           Random rng,
+                                           long deadlineMillis,
+                                           double alpha)
     {
         DecodeResult res = new DecodeResult();
         Envelope env = sheetInset.getEnvelopeInternal();
@@ -311,7 +360,7 @@ public class GraspPlacer {
 
             PartSpec sp = inst.spec;
             int[] angles = angleOptions.getOrDefault(sp, new int[]{0});
-            List<Candidate> rcl = new ArrayList<>(RCL_SIZE);
+            List<Candidate> allCandidates = new ArrayList<>();  // Cambio: acumular todos primero
             int checks = 0;
 
             List<Anchor> sampleAnchors = sampleAnchors(anchors, rng, MAX_ANCHORS_PER_TRY);
@@ -359,13 +408,26 @@ public class GraspPlacer {
                     cand.dx = dxa + nudged[0]; cand.dy = dya + nudged[1];
                     cand.angleDeg = angDeg; cand.scoreVal = val;
 
-                    insertIntoRCL(rcl, cand, RCL_SIZE);
+                    allCandidates.add(cand);  // Cambio: agregar a lista completa
                 }
             }
 
-            // selección ε-greedy (70% mejor, 30% aleatorio)
+            // Construir RCL usando α (filtrado por umbral o truncamiento según el modo)
+            List<Candidate> rcl = buildRCLWithAlpha(allCandidates, alpha, RCL_SIZE);
+            
+            // Selección del candidato de la RCL según el modo configurado
             if (!rcl.isEmpty()) {
-                Candidate pick = (rng.nextDouble() < 0.7) ? rcl.get(0) : rcl.get(rng.nextInt(rcl.size()));
+                Candidate pick;
+                if (alpha < 0) {
+                    // Modo de compatibilidad: estrategia ε-greedy
+                    // 70% de probabilidad de elegir el mejor candidato, 30% aleatorio
+                    pick = (rng.nextDouble() < 0.7) ? rcl.get(0) : rcl.get(rng.nextInt(rcl.size()));
+                } else {
+                    // Modo clásico de GRASP: selección aleatoria pura del RCL filtrado por umbral
+                    // Esto implementa el comportamiento estándar de GRASP donde se elige
+                    // uniformemente de todos los candidatos dentro del rango de calidad definido por α
+                    pick = rcl.get(rng.nextInt(rcl.size()));
+                }
 
                 PlacedPart pp = new PlacedPart();
                 pp.id = sp.id; pp.polyPlaced = pick.placedGeom; pp.angleDeg = pick.angleDeg;
@@ -615,6 +677,57 @@ public class GraspPlacer {
     static void insertIntoRCL(List<Candidate> rcl, Candidate c, int k) {
         int i=0; while (i<rcl.size() && rcl.get(i).scoreVal <= c.scoreVal) i++;
         rcl.add(i, c); if (rcl.size() > k) rcl.remove(rcl.size()-1);
+    }
+    
+    /**
+     * Construye la Lista Restringida de Candidatos (RCL) usando el parámetro α.
+     * 
+     * <p>El parámetro α controla el balance entre exploración greedy y aleatoriedad:
+     * <ul>
+     *   <li><b>α < 0</b> (modo compatibilidad): Truncamiento simple, mantiene los RCL_SIZE mejores candidatos</li>
+     *   <li><b>α ≥ 0</b> (modo clásico GRASP): Filtrado por umbral de calidad calculado como:
+     *       umbral = mejor_score + α × (peor_score - mejor_score)
+     *       Se mantienen todos los candidatos con score ≤ umbral, hasta un límite RCL_SIZE</li>
+     * </ul>
+     * 
+     * @param allCandidates Lista completa de candidatos evaluados y ordenados
+     * @param alpha Parámetro de aleatoriedad (0 ≤ α ≤ 1 para modo clásico, α < 0 para modo compatibilidad)
+     * @param maxSize Tamaño máximo de seguridad para la RCL (RCL_SIZE)
+     * @return Lista restringida de candidatos según el modo seleccionado
+     */
+    static List<Candidate> buildRCLWithAlpha(List<Candidate> allCandidates, double alpha, int maxSize) {
+        if (allCandidates.isEmpty()) return new ArrayList<>();
+        
+        // Ordenar por score (menor es mejor) - asegurar que esté ordenado
+        allCandidates.sort(Comparator.comparingDouble(c -> c.scoreVal));
+        
+        if (alpha < 0) {
+            // Modo de compatibilidad: truncamiento simple (comportamiento original)
+            // Mantiene solo los mejores candidatos, limitado por maxSize
+            List<Candidate> rcl = new ArrayList<>(Math.min(maxSize, allCandidates.size()));
+            for (int i = 0; i < Math.min(maxSize, allCandidates.size()); i++) {
+                rcl.add(allCandidates.get(i));
+            }
+            return rcl;
+        }
+        
+        // Modo clásico de GRASP: filtrado por umbral de calidad
+        // Fórmula: umbral = mejor_score + α × (peor_score - mejor_score)
+        // Esto permite balancear entre greedy (α → 0) y aleatorio (α → 1)
+        double bestScore = allCandidates.get(0).scoreVal;
+        double worstScore = allCandidates.get(allCandidates.size() - 1).scoreVal;
+        double threshold = bestScore + alpha * (worstScore - bestScore);
+        
+        List<Candidate> rcl = new ArrayList<>();
+        for (Candidate c : allCandidates) {
+            if (c.scoreVal <= threshold) {
+                rcl.add(c);
+                if (rcl.size() >= maxSize) break; // Límite de seguridad para controlar tamaño
+            }
+        }
+        
+        // Si el filtro fue muy restrictivo (raro pero posible), devolver al menos el mejor candidato
+        return rcl.isEmpty() ? allCandidates.subList(0, Math.min(1, allCandidates.size())) : rcl;
     }
 
     static ArrayList<Anchor> initialAnchors(double minX, double minY, double maxX, double maxY){

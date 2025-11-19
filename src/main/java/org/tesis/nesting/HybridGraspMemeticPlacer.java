@@ -22,17 +22,18 @@ import java.util.*;
 public class HybridGraspMemeticPlacer {
 
     // ===================== Config Híbrido =====================
-    private static final int    GRASP_SEEDS       = 5;          // # de corridas GRASP
-    private static final long   MEMETIC_TIME_MS   = 120_000L;   // tiempo máx. memético (ms)
-    private static final String LOG_DIR           = "";
-    private static final String LOG_FILE          = File.separator + "LogHybrid.log";
+    private static final int    GRASP_SEEDS       = 8;          // # de corridas GRASP (PRUEBA RÁPIDA: reducido de 5 a 3)
+    private static final long   MEMETIC_TIME_MS   = 120_000L;    // tiempo máx. memético (ms) (PRUEBA RÁPIDA: 30 seg)
+    private static final double GRASP_ALPHA        = -1;       // Parámetro α de GRASP (-1 = modo compatibilidad, 0-1 = modo clásico)
+    private static final String LOG_DIR           = "out";
+    private static final String LOG_FILE          = LOG_DIR + File.separator + "LogHybrid.log";
 
     // Formatos
     private static final DecimalFormat DF3  = new DecimalFormat("#,##0.000");
     private static final SimpleDateFormat TS = new SimpleDateFormat("HH:mm:ss.SSS");
 
     public static List<PlacedPart> place(Polygon sheet, List<PartSpec> parts) throws Exception {
-        return place(sheet, parts, GRASP_SEEDS, MEMETIC_TIME_MS, LOG_FILE);
+        return place(sheet, parts, GRASP_SEEDS, MEMETIC_TIME_MS, GRASP_ALPHA, LOG_FILE);
     }
 
     // Overload con parámetros (por si quieres tunear desde tu main)
@@ -40,6 +41,26 @@ public class HybridGraspMemeticPlacer {
                                          List<PartSpec> parts,
                                          int graspSeeds,
                                          long memeticTimeMs,
+                                         String logFile) throws Exception {
+        return place(sheet, parts, graspSeeds, memeticTimeMs, GRASP_ALPHA, logFile);
+    }
+    
+    /**
+     * Método principal con todos los parámetros configurables.
+     * 
+     * @param sheet Plancha donde colocar las piezas
+     * @param parts Lista de especificaciones de piezas a colocar
+     * @param graspSeeds Número de corridas GRASP para generar población inicial
+     * @param memeticTimeMs Tiempo máximo para el algoritmo memético (ms)
+     * @param graspAlpha Parámetro α de GRASP (0 ≤ α ≤ 1 para modo clásico, α < 0 para modo compatibilidad ε-greedy)
+     * @param logFile Archivo de log
+     * @return Lista de piezas colocadas
+     */
+    public static List<PlacedPart> place(Polygon sheet,
+                                         List<PartSpec> parts,
+                                         int graspSeeds,
+                                         long memeticTimeMs,
+                                         double graspAlpha,
                                          String logFile) throws Exception {
         
         Objects.requireNonNull(sheet, "sheet no puede ser null");
@@ -54,7 +75,7 @@ public class HybridGraspMemeticPlacer {
         try (PrintStream log = openLog(logFile)) {
 
             head(log, "==== HYB GRASP→MEMETIC | START ====");
-            line(log, "CFG | GRASP_SEEDS=" + graspSeeds + "  MEMETIC_TIME_MS=" + memeticTimeMs);
+            line(log, "CFG | GRASP_SEEDS=" + graspSeeds + "  MEMETIC_TIME_MS=" + memeticTimeMs + "  GRASP_ALPHA=" + graspAlpha);
             line(log, "CFG | seed0=" + seed0 + "  parts=" + parts.size());
             
             
@@ -66,8 +87,8 @@ public class HybridGraspMemeticPlacer {
             for (int i = 0; i < graspSeeds; i++) {
                 long seed = seed0 + i;
                 long tg0 = System.currentTimeMillis();
-                line(log, "GRASP seed " + String.format("%02d", i) + " (seed=" + seed + ") | start");
-                List<PlacedPart> sol = GraspPlacer.place(sheet, new ArrayList<>(parts), seed);
+                line(log, "GRASP seed " + String.format("%02d", i) + " (seed=" + seed + ", alpha=" + graspAlpha + ") | start");
+                List<PlacedPart> sol = HybridGrasp.place(sheet, new ArrayList<>(parts), seed, graspAlpha);
                 long tg1 = System.currentTimeMillis();
 
                 Stats s = evalSolution("GRASP seed " + String.format("%02d", i),
@@ -127,7 +148,7 @@ public class HybridGraspMemeticPlacer {
             // ============= 4) Resumen final en el formato solicitado ============
             long totalMs = System.currentTimeMillis() - t0;
             summary(log, "RESUMEN FINAL (HYBRID)");
-            renderSummary(log, parts.size(), finalStats, totalMs);
+            renderSummary(log, TOTAL_PARTS, finalStats, totalMs);
             dash(log);
             line(log, "BEST | " + finalStats.algo +
                        " | colocadas=" + finalStats.placedCount +
@@ -293,7 +314,9 @@ public class HybridGraspMemeticPlacer {
     }
 
     private static void line(PrintStream log, String msg) {
-        log.println(TS.format(new Date()) + " | " + msg);
+        String fullMsg = TS.format(new Date()) + " | " + msg;
+        log.println(fullMsg);
+        System.out.println(fullMsg);  // También mostrar en consola en tiempo real
     }
 
     // ===================== POJO de métricas =====================

@@ -194177,3 +194177,443 @@ SVG generado en: out/salida.svg
 [23:36:58.402] Tiempo total       : 3357586 ms (3,357.586 s)
 [23:36:58.402] ------------------------------
 [23:36:58.405] BEST | colocadas=101 | area=758,910 | yMax=986.48 | score=758,890.27
+[15:50:19.415] ==== Logger inicializado (LogGenetic.log) ====
+[15:50:19.535] ==== GeneticPlacer RUN Wed Oct 22 15:50:19 PET 2025 ====
+[15:50:19.542] INI | PartSpec: 7 | seed=42
+[15:50:19.546] Copias expandidas: 46
+[15:50:19.551] Población inicial: 60
+[15:50:19.556] Eval 1/60
+[15:50:19.654]     · pieza 0/46 | angle=130 | areaAcum=23,900 | anchors=89
+[15:50:19.840]     · pieza 10/46 | angle=30 | areaAcum=223,400 | anchors=169
+[15:50:19.974]     · pieza 20/46 | angle=50 | areaAcum=271,400 | anchors=193
+[15:50:20.097]     · pieza 30/46 | angle=190 | areaAcum=271,400 | anchors=193
+[15:50:20.195]     · pieza 40/46 | angle=180 | areaAcum=271,400 | anchors=193
+[15:50:30.810]   decode() end | colocadas=17 | área=308,400 | yMax=561.242 | dur=11248 ms
+[15:50:30.811] Eval 2/60
+[15:50:30.816]     · pieza 0/46 | angle=120 | areaAcum=14,792 | anchors=89
+[15:50:30.884]     · pieza 10/46 | angle=240 | areaAcum=183,368 | anchors=169
+[15:50:30.947]     · pieza 20/46 | angle=20 | areaAcum=265,410 | anchors=217
+[15:50:31.004]     · pieza 30/46 | angle=290 | areaAcum=280,202 | anchors=225
+[15:50:31.066]     · pieza 40/46 | angle=140 | areaAcum=290,702 | anchors=233
+[15:50:39.838]   decode() end | colocadas=22 | área=322,202 | yMax=571.029 | dur=9026 ms
+[15:50:39.838] Eval 3/60
+[15:50:39.842]     · pieza 0/46 | angle=250 | areaAcum=14,400 | anchors=89
+[15:50:39.920]     · pieza 10/46 | angle=30 | areaAcum=171,034 | anchors=169
+[15:50:39.985]     · pieza 20/46 | angle=280 | areaAcum=274,576 | anchors=225
+[15:50:40.048]     · pieza 30/46 | angle=100 | areaAcum=301,076 | anchors=241
+[15:50:40.123]     · pieza 40/46 | angle=140 | areaAcum=301,076 | anchors=241
+[15:50:49.915]   decode() end | colocadas=22 | área=326,368 | yMax=566.201 | dur=10077 ms
+[15:50:49.915] Eval 4/60
+[15:50:49.917]     · pieza 0/46 | angle=80 | areaAcum=14,400 | anchors=89
+[15:50:49.962]     · pieza 10/46 | angle=190 | areaAcum=189,392 | anchors=169
+[15:50:50.011]     · pieza 20/46 | angle=10 | areaAcum=245,934 | anchors=201
+[15:50:50.057]     · pieza 30/46 | angle=350 | areaAcum=260,934 | anchors=209
+[15:50:50.104]     · pieza 40/46 | angle=250 | areaAcum=260,934 | anchors=209
+[15:50:59.883]   decode() end | colocadas=18 | área=292,934 | yMax=576.588 | dur=9968 ms
+[15:50:59.883] Eval 5/60
+[15:50:59.887]     · pieza 0/46 | angle=30 | areaAcum=14,400 | anchors=89
+[15:50:59.934]     · pieza 10/46 | angle=250 | areaAcum=184,184 | anchors=169
+[15:50:59.987]     · pieza 20/46 | angle=260 | areaAcum=260,126 | anchors=217
+[15:51:00.035]     · pieza 30/46 | angle=290 | areaAcum=289,318 | anchors=233
+[15:51:00.085]     · pieza 40/46 | angle=300 | areaAcum=289,318 | anchors=233
+[15:51:08.511]   decode() end | colocadas=20 | área=305,318 | yMax=543.445 | dur=8627 ms
+[15:51:08.511] Eval 6/60
+[15:51:08.513]     · pieza 0/46 | angle=220 | areaAcum=16,000 | anchors=89
+[15:51:08.566]     · pieza 10/46 | angle=230 | areaAcum=170,826 | anchors=169
+[15:51:08.629]     · pieza 20/46 | angle=220 | areaAcum=271,918 | anchors=225
+[15:51:08.682]     · pieza 30/46 | angle=30 | areaAcum=282,418 | anchors=233
+[15:51:08.738]     · pieza 40/46 | angle=320 | areaAcum=282,418 | anchors=233
+[15:51:17.418]   decode() end | colocadas=21 | área=307,918 | yMax=569.201 | dur=8907 ms
+[15:51:17.419] Eval 7/60
+[15:51:17.422]     · pieza 0/46 | angle=170 | areaAcum=23,900 | anchors=89
+[15:51:17.475]     · pieza 10/46 | angle=60 | areaAcum=175,784 | anchors=169
+[15:51:17.532]     · pieza 20/46 | angle=130 | areaAcum=252,584 | anchors=209
+[15:51:17.585]     · pieza 30/46 | angle=170 | areaAcum=252,584 | anchors=209
+[15:51:17.635]     · pieza 40/46 | angle=110 | areaAcum=252,584 | anchors=209
+[15:51:26.676]   decode() end | colocadas=21 | área=315,084 | yMax=560.604 | dur=9257 ms
+[15:51:26.676] Eval 8/60
+[15:51:26.678]     · pieza 0/46 | angle=130 | areaAcum=15,000 | anchors=89
+[15:51:26.732]     · pieza 10/46 | angle=190 | areaAcum=184,492 | anchors=169
+[15:51:26.794]     · pieza 20/46 | angle=270 | areaAcum=285,584 | anchors=225
+[15:51:26.852]     · pieza 30/46 | angle=100 | areaAcum=285,584 | anchors=225
+[15:51:26.907]     · pieza 40/46 | angle=280 | areaAcum=285,584 | anchors=225
+[15:51:36.255]   decode() end | colocadas=20 | área=311,084 | yMax=567.899 | dur=9579 ms
+[15:51:36.255] Eval 9/60
+[15:51:36.259]     · pieza 0/46 | angle=90 | areaAcum=14,792 | anchors=89
+[15:51:36.316]     · pieza 10/46 | angle=250 | areaAcum=174,184 | anchors=169
+[15:51:36.370]     · pieza 20/46 | angle=330 | areaAcum=256,584 | anchors=217
+[15:51:36.428]     · pieza 30/46 | angle=30 | areaAcum=271,376 | anchors=225
+[15:51:36.484]     · pieza 40/46 | angle=180 | areaAcum=271,376 | anchors=225
+[15:51:45.768]   decode() end | colocadas=20 | área=302,376 | yMax=583.714 | dur=9513 ms
+[15:51:45.768] Eval 10/60
+[15:51:45.771]     · pieza 0/46 | angle=0 | areaAcum=23,900 | anchors=89
+[15:51:45.821]     · pieza 10/46 | angle=90 | areaAcum=175,784 | anchors=169
+[15:51:45.873]     · pieza 20/46 | angle=70 | areaAcum=283,634 | anchors=217
+[15:51:45.928]     · pieza 30/46 | angle=50 | areaAcum=298,426 | anchors=225
+[15:51:45.982]     · pieza 40/46 | angle=220 | areaAcum=298,426 | anchors=225
+[15:51:56.214]   decode() end | colocadas=20 | área=323,926 | yMax=568.813 | dur=10445 ms
+[15:51:56.214] Eval 11/60
+[15:51:56.217]     · pieza 0/46 | angle=200 | areaAcum=14,400 | anchors=89
+[15:51:56.273]     · pieza 10/46 | angle=180 | areaAcum=164,534 | anchors=169
+[15:51:56.327]     · pieza 20/46 | angle=60 | areaAcum=271,226 | anchors=225
+[15:51:56.386]     · pieza 30/46 | angle=80 | areaAcum=271,226 | anchors=225
+[15:51:56.440]     · pieza 40/46 | angle=120 | areaAcum=285,626 | anchors=233
+[15:52:05.199]   decode() end | colocadas=21 | área=315,876 | yMax=551.244 | dur=8985 ms
+[15:52:05.199] Eval 12/60
+[15:52:05.201]     · pieza 0/46 | angle=10 | areaAcum=14,400 | anchors=89
+[15:52:05.250]     · pieza 10/46 | angle=140 | areaAcum=183,792 | anchors=169
+[15:52:05.299]     · pieza 20/46 | angle=80 | areaAcum=261,692 | anchors=217
+[15:52:05.353]     · pieza 30/46 | angle=170 | areaAcum=286,984 | anchors=233
+[15:52:05.400]     · pieza 40/46 | angle=250 | areaAcum=286,984 | anchors=233
+[15:52:14.374]   decode() end | colocadas=20 | área=297,484 | yMax=575.621 | dur=9175 ms
+[15:52:14.374] Eval 13/60
+[15:52:14.377]     · pieza 0/46 | angle=350 | areaAcum=15,000 | anchors=89
+[15:52:14.426]     · pieza 10/46 | angle=270 | areaAcum=155,634 | anchors=169
+[15:52:14.479]     · pieza 20/46 | angle=70 | areaAcum=270,376 | anchors=225
+[15:52:14.526]     · pieza 30/46 | angle=250 | areaAcum=270,376 | anchors=225
+[15:52:14.578]     · pieza 40/46 | angle=150 | areaAcum=270,376 | anchors=225
+[15:52:23.018]   decode() end | colocadas=21 | área=312,876 | yMax=564.95 | dur=8644 ms
+[15:52:23.018] Eval 14/60
+[15:52:23.021]     · pieza 0/46 | angle=200 | areaAcum=16,000 | anchors=89
+[15:52:23.075]     · pieza 10/46 | angle=120 | areaAcum=163,984 | anchors=169
+[15:52:23.131]     · pieza 20/46 | angle=100 | areaAcum=260,184 | anchors=225
+[15:52:23.185]     · pieza 30/46 | angle=300 | areaAcum=304,376 | anchors=249
+[15:52:23.242]     · pieza 40/46 | angle=300 | areaAcum=304,376 | anchors=249
+[15:52:31.794]   decode() end | colocadas=23 | área=330,876 | yMax=569.64 | dur=8776 ms
+[15:52:31.794] Eval 15/60
+[15:52:31.797]     · pieza 0/46 | angle=150 | areaAcum=10,500 | anchors=89
+[15:52:31.847]     · pieza 10/46 | angle=130 | areaAcum=176,700 | anchors=169
+[15:52:31.897]     · pieza 20/46 | angle=70 | areaAcum=238,284 | anchors=201
+[15:52:31.947]     · pieza 30/46 | angle=310 | areaAcum=268,076 | anchors=217
+[15:52:31.998]     · pieza 40/46 | angle=50 | areaAcum=282,476 | anchors=225
+[15:52:41.539]   decode() end | colocadas=20 | área=308,976 | yMax=569.862 | dur=9745 ms
+[15:52:41.539] Eval 16/60
+[15:52:41.542]     · pieza 0/46 | angle=70 | areaAcum=16,000 | anchors=89
+[15:52:41.593]     · pieza 10/46 | angle=340 | areaAcum=177,600 | anchors=169
+[15:52:41.651]     · pieza 20/46 | angle=70 | areaAcum=259,434 | anchors=217
+[15:52:41.698]     · pieza 30/46 | angle=280 | areaAcum=259,434 | anchors=217
+[15:52:41.749]     · pieza 40/46 | angle=260 | areaAcum=269,934 | anchors=225
+[15:52:51.085]   decode() end | colocadas=19 | área=285,934 | yMax=576.588 | dur=9546 ms
+[15:52:51.086] Eval 17/60
+[15:52:51.089]     · pieza 0/46 | angle=300 | areaAcum=14,792 | anchors=89
+[15:52:51.135]     · pieza 10/46 | angle=90 | areaAcum=193,576 | anchors=169
+[15:52:51.193]     · pieza 20/46 | angle=260 | areaAcum=297,068 | anchors=225
+[15:52:51.247]     · pieza 30/46 | angle=60 | areaAcum=307,568 | anchors=233
+[15:52:51.301]     · pieza 40/46 | angle=20 | areaAcum=307,568 | anchors=233
+[15:53:00.650]   decode() end | colocadas=21 | área=328,568 | yMax=563.26 | dur=9564 ms
+[15:53:00.650] Eval 18/60
+[15:53:00.653]     · pieza 0/46 | angle=150 | areaAcum=15,000 | anchors=89
+[15:53:00.703]     · pieza 10/46 | angle=210 | areaAcum=170,100 | anchors=169
+[15:53:00.756]     · pieza 20/46 | angle=150 | areaAcum=260,876 | anchors=217
+[15:53:00.806]     · pieza 30/46 | angle=140 | areaAcum=260,876 | anchors=217
+[15:53:00.855]     · pieza 40/46 | angle=300 | areaAcum=276,876 | anchors=225
+[15:53:09.140]   decode() end | colocadas=23 | área=339,376 | yMax=578.297 | dur=8490 ms
+[15:53:09.140] Eval 19/60
+[15:53:09.143]     · pieza 0/46 | angle=40 | areaAcum=23,900 | anchors=89
+[15:53:09.200]     · pieza 10/46 | angle=90 | areaAcum=168,750 | anchors=169
+[15:53:09.266]     · pieza 20/46 | angle=230 | areaAcum=286,026 | anchors=233
+[15:53:09.322]     · pieza 30/46 | angle=90 | areaAcum=286,026 | anchors=233
+[15:53:09.376]     · pieza 40/46 | angle=220 | areaAcum=286,026 | anchors=233
+[15:53:18.690]   decode() end | colocadas=20 | área=296,526 | yMax=521.681 | dur=9550 ms
+[15:53:18.690] Eval 20/60
+[15:53:18.693]     · pieza 0/46 | angle=150 | areaAcum=10,500 | anchors=89
+[15:53:18.735]     · pieza 10/46 | angle=350 | areaAcum=182,400 | anchors=169
+[15:53:18.778]     · pieza 20/46 | angle=50 | areaAcum=243,192 | anchors=201
+[15:53:18.822]     · pieza 30/46 | angle=130 | areaAcum=273,192 | anchors=217
+[15:53:18.871]     · pieza 40/46 | angle=320 | areaAcum=294,192 | anchors=233
+[15:53:27.474]   decode() end | colocadas=21 | área=315,192 | yMax=579.461 | dur=8784 ms
+[15:53:27.474] Eval 21/60
+[15:53:27.477]     · pieza 0/46 | angle=50 | areaAcum=10,500 | anchors=89
+[15:53:27.522]     · pieza 10/46 | angle=150 | areaAcum=175,392 | anchors=169
+[15:53:27.584]     · pieza 20/46 | angle=250 | areaAcum=278,176 | anchors=225
+[15:53:27.641]     · pieza 30/46 | angle=340 | areaAcum=293,426 | anchors=233
+[15:53:27.698]     · pieza 40/46 | angle=250 | areaAcum=293,426 | anchors=233
+[15:53:36.525]   decode() end | colocadas=20 | área=308,426 | yMax=568.803 | dur=9051 ms
+[15:53:36.525] Eval 22/60
+[15:53:36.528]     · pieza 0/46 | angle=250 | areaAcum=15,250 | anchors=89
+[15:53:36.578]     · pieza 10/46 | angle=250 | areaAcum=201,400 | anchors=169
+[15:53:36.624]     · pieza 20/46 | angle=340 | areaAcum=257,550 | anchors=201
+[15:53:36.673]     · pieza 30/46 | angle=310 | areaAcum=257,550 | anchors=201
+[15:53:36.717]     · pieza 40/46 | angle=130 | areaAcum=257,550 | anchors=201
+[15:53:45.469]   decode() end | colocadas=21 | área=343,350 | yMax=572.88 | dur=8944 ms
+[15:53:45.469] Eval 23/60
+[15:53:45.472]     · pieza 0/46 | angle=80 | areaAcum=14,400 | anchors=89
+[15:53:45.515]     · pieza 10/46 | angle=80 | areaAcum=164,734 | anchors=169
+[15:53:45.569]     · pieza 20/46 | angle=10 | areaAcum=265,634 | anchors=217
+[15:53:45.617]     · pieza 30/46 | angle=220 | areaAcum=280,634 | anchors=225
+[15:53:45.664]     · pieza 40/46 | angle=30 | areaAcum=291,134 | anchors=233
+[15:53:54.173]   decode() end | colocadas=20 | área=307,134 | yMax=576.588 | dur=8704 ms
+[15:53:54.174] Eval 24/60
+[15:53:54.176]     · pieza 0/46 | angle=220 | areaAcum=14,400 | anchors=89
+[15:53:54.221]     · pieza 10/46 | angle=140 | areaAcum=177,334 | anchors=169
+[15:53:54.270]     · pieza 20/46 | angle=90 | areaAcum=259,168 | anchors=217
+[15:53:54.316]     · pieza 30/46 | angle=320 | areaAcum=259,168 | anchors=217
+[15:53:54.361]     · pieza 40/46 | angle=30 | areaAcum=259,168 | anchors=217
+[15:54:02.775]   decode() end | colocadas=22 | área=327,168 | yMax=572.975 | dur=8601 ms
+[15:54:02.775] Eval 25/60
+[15:54:02.778]     · pieza 0/46 | angle=120 | areaAcum=10,500 | anchors=89
+[15:54:02.824]     · pieza 10/46 | angle=60 | areaAcum=174,850 | anchors=169
+[15:54:02.885]     · pieza 20/46 | angle=240 | areaAcum=248,900 | anchors=209
+[15:54:02.957]     · pieza 30/46 | angle=250 | areaAcum=259,400 | anchors=217
+[15:54:03.028]     · pieza 40/46 | angle=250 | areaAcum=259,400 | anchors=217
+[15:54:12.057]   decode() end | colocadas=21 | área=312,400 | yMax=563.836 | dur=9282 ms
+[15:54:12.057] Eval 26/60
+[15:54:12.060]     · pieza 0/46 | angle=240 | areaAcum=16,000 | anchors=89
+[15:54:12.113]     · pieza 10/46 | angle=100 | areaAcum=181,742 | anchors=169
+[15:54:12.170]     · pieza 20/46 | angle=290 | areaAcum=259,242 | anchors=217
+[15:54:12.224]     · pieza 30/46 | angle=330 | areaAcum=259,242 | anchors=217
+[15:54:12.281]     · pieza 40/46 | angle=330 | areaAcum=259,242 | anchors=217
+[15:54:21.217]   decode() end | colocadas=20 | área=299,142 | yMax=557.772 | dur=9160 ms
+[15:54:21.217] Eval 27/60
+[15:54:21.220]     · pieza 0/46 | angle=250 | areaAcum=15,250 | anchors=89
+[15:54:21.264]     · pieza 10/46 | angle=180 | areaAcum=178,184 | anchors=169
+[15:54:21.323]     · pieza 20/46 | angle=320 | areaAcum=269,876 | anchors=225
+[15:54:21.378]     · pieza 30/46 | angle=60 | areaAcum=284,668 | anchors=233
+[15:54:21.433]     · pieza 40/46 | angle=40 | areaAcum=284,668 | anchors=233
+[15:54:29.569]   decode() end | colocadas=21 | área=311,168 | yMax=563.9 | dur=8352 ms
+[15:54:29.569] Eval 28/60
+[15:54:29.572]     · pieza 0/46 | angle=20 | areaAcum=10,500 | anchors=89
+[15:54:29.623]     · pieza 10/46 | angle=110 | areaAcum=157,984 | anchors=169
+[15:54:29.677]     · pieza 20/46 | angle=310 | areaAcum=265,584 | anchors=217
+[15:54:29.730]     · pieza 30/46 | angle=90 | areaAcum=265,584 | anchors=217
+[15:54:29.787]     · pieza 40/46 | angle=320 | areaAcum=265,584 | anchors=217
+[15:54:39.300]   decode() end | colocadas=20 | área=307,334 | yMax=578.643 | dur=9731 ms
+[15:54:39.300] Eval 29/60
+[15:54:39.303]     · pieza 0/46 | angle=170 | areaAcum=10,500 | anchors=89
+[15:54:39.353]     · pieza 10/46 | angle=30 | areaAcum=169,226 | anchors=169
+[15:54:39.404]     · pieza 20/46 | angle=20 | areaAcum=270,168 | anchors=217
+[15:54:39.455]     · pieza 30/46 | angle=10 | areaAcum=295,668 | anchors=233
+[15:54:39.508]     · pieza 40/46 | angle=290 | areaAcum=295,668 | anchors=233
+[15:54:48.640]   decode() end | colocadas=21 | área=316,668 | yMax=568.604 | dur=9340 ms
+[15:54:48.640] Eval 30/60
+[15:54:48.643]     · pieza 0/46 | angle=170 | areaAcum=23,900 | anchors=89
+[15:54:48.696]     · pieza 10/46 | angle=330 | areaAcum=172,884 | anchors=169
+[15:54:48.756]     · pieza 20/46 | angle=340 | areaAcum=287,684 | anchors=225
+[15:54:48.808]     · pieza 30/46 | angle=180 | areaAcum=298,184 | anchors=233
+[15:54:48.861]     · pieza 40/46 | angle=260 | areaAcum=298,184 | anchors=233
+[15:54:58.348]   decode() end | colocadas=20 | área=308,684 | yMax=576.188 | dur=9708 ms
+[15:54:58.348] Eval 31/60
+[15:54:58.351]     · pieza 0/46 | angle=130 | areaAcum=14,400 | anchors=89
+[15:54:58.399]     · pieza 10/46 | angle=100 | areaAcum=162,742 | anchors=169
+[15:54:58.449]     · pieza 20/46 | angle=280 | areaAcum=266,834 | anchors=217
+[15:54:58.499]     · pieza 30/46 | angle=300 | areaAcum=266,834 | anchors=217
+[15:54:58.546]     · pieza 40/46 | angle=300 | areaAcum=266,834 | anchors=217
+[15:55:07.594]   decode() end | colocadas=21 | área=313,334 | yMax=564.129 | dur=9246 ms
+[15:55:07.594] Eval 32/60
+[15:55:07.602]     · pieza 0/46 | angle=80 | areaAcum=15,000 | anchors=89
+[15:55:07.671]     · pieza 10/46 | angle=330 | areaAcum=173,442 | anchors=169
+[15:55:07.751]     · pieza 20/46 | angle=250 | areaAcum=290,176 | anchors=233
+[15:55:07.822]     · pieza 30/46 | angle=320 | areaAcum=290,176 | anchors=233
+[15:55:07.893]     · pieza 40/46 | angle=80 | areaAcum=290,176 | anchors=233
+[15:55:17.046]   decode() end | colocadas=21 | área=316,676 | yMax=557.795 | dur=9451 ms
+[15:55:17.046] Eval 33/60
+[15:55:17.049]     · pieza 0/46 | angle=260 | areaAcum=14,792 | anchors=89
+[15:55:17.095]     · pieza 10/46 | angle=100 | areaAcum=171,284 | anchors=169
+[15:55:17.159]     · pieza 20/46 | angle=300 | areaAcum=272,834 | anchors=225
+[15:55:17.215]     · pieza 30/46 | angle=70 | areaAcum=272,834 | anchors=225
+[15:55:17.270]     · pieza 40/46 | angle=200 | areaAcum=272,834 | anchors=225
+[15:55:26.269]   decode() end | colocadas=19 | área=283,334 | yMax=552.162 | dur=9223 ms
+[15:55:26.269] Eval 34/60
+[15:55:26.272]     · pieza 0/46 | angle=110 | areaAcum=16,000 | anchors=89
+[15:55:26.317]     · pieza 10/46 | angle=320 | areaAcum=181,834 | anchors=169
+[15:55:26.363]     · pieza 20/46 | angle=0 | areaAcum=243,334 | anchors=209
+[15:55:26.405]     · pieza 30/46 | angle=150 | areaAcum=243,334 | anchors=209
+[15:55:26.445]     · pieza 40/46 | angle=240 | areaAcum=243,334 | anchors=209
+[15:55:35.154]   decode() end | colocadas=20 | área=304,918 | yMax=563.9 | dur=8885 ms
+[15:55:35.154] Eval 35/60
+[15:55:35.157]     · pieza 0/46 | angle=90 | areaAcum=14,792 | anchors=89
+[15:55:35.207]     · pieza 10/46 | angle=110 | areaAcum=179,684 | anchors=169
+[15:55:35.266]     · pieza 20/46 | angle=60 | areaAcum=249,026 | anchors=209
+[15:55:35.316]     · pieza 30/46 | angle=260 | areaAcum=249,026 | anchors=209
+[15:55:35.369]     · pieza 40/46 | angle=210 | areaAcum=249,026 | anchors=209
+[15:55:43.672]   decode() end | colocadas=23 | área=336,818 | yMax=576.188 | dur=8518 ms
+[15:55:43.673] Eval 36/60
+[15:55:43.676]     · pieza 0/46 | angle=190 | areaAcum=14,400 | anchors=89
+[15:55:43.722]     · pieza 10/46 | angle=320 | areaAcum=174,042 | anchors=169
+[15:55:43.776]     · pieza 20/46 | angle=350 | areaAcum=281,434 | anchors=217
+[15:55:43.826]     · pieza 30/46 | angle=30 | areaAcum=291,934 | anchors=225
+[15:55:43.874]     · pieza 40/46 | angle=30 | areaAcum=291,934 | anchors=225
+[15:55:53.656]   decode() end | colocadas=18 | área=291,934 | yMax=550.319 | dur=9983 ms
+[15:55:53.656] Eval 37/60
+[15:55:53.659]     · pieza 0/46 | angle=220 | areaAcum=14,400 | anchors=89
+[15:55:53.703]     · pieza 10/46 | angle=150 | areaAcum=179,542 | anchors=169
+[15:55:53.763]     · pieza 20/46 | angle=300 | areaAcum=263,426 | anchors=209
+[15:55:53.822]     · pieza 30/46 | angle=120 | areaAcum=288,326 | anchors=225
+[15:55:53.879]     · pieza 40/46 | angle=210 | areaAcum=288,326 | anchors=225
+[15:56:02.630]   decode() end | colocadas=21 | área=323,726 | yMax=557.695 | dur=8974 ms
+[15:56:02.630] Eval 38/60
+[15:56:02.633]     · pieza 0/46 | angle=110 | areaAcum=14,400 | anchors=89
+[15:56:02.677]     · pieza 10/46 | angle=310 | areaAcum=166,200 | anchors=169
+[15:56:02.732]     · pieza 20/46 | angle=220 | areaAcum=279,876 | anchors=225
+[15:56:02.783]     · pieza 30/46 | angle=210 | areaAcum=279,876 | anchors=225
+[15:56:02.833]     · pieza 40/46 | angle=60 | areaAcum=290,376 | anchors=233
+[15:56:11.954]   decode() end | colocadas=21 | área=316,126 | yMax=586.179 | dur=9324 ms
+[15:56:11.954] Eval 39/60
+[15:56:11.957]     · pieza 0/46 | angle=320 | areaAcum=16,000 | anchors=89
+[15:56:12.017]     · pieza 10/46 | angle=260 | areaAcum=184,992 | anchors=169
+[15:56:12.082]     · pieza 20/46 | angle=200 | areaAcum=277,142 | anchors=217
+[15:56:12.143]     · pieza 30/46 | angle=40 | areaAcum=277,142 | anchors=217
+[15:56:12.204]     · pieza 40/46 | angle=180 | areaAcum=277,142 | anchors=217
+[15:56:21.940]   decode() end | colocadas=19 | área=317,042 | yMax=573.095 | dur=9986 ms
+[15:56:21.940] Eval 40/60
+[15:56:21.943]     · pieza 0/46 | angle=190 | areaAcum=15,250 | anchors=89
+[15:56:21.989]     · pieza 10/46 | angle=170 | areaAcum=190,034 | anchors=169
+[15:56:22.044]     · pieza 20/46 | angle=330 | areaAcum=281,268 | anchors=217
+[15:56:22.093]     · pieza 30/46 | angle=40 | areaAcum=281,268 | anchors=217
+[15:56:22.142]     · pieza 40/46 | angle=350 | areaAcum=281,268 | anchors=217
+[15:56:30.419]   decode() end | colocadas=20 | área=323,768 | yMax=573.692 | dur=8478 ms
+[15:56:30.419] Eval 41/60
+[15:56:30.421]     · pieza 0/46 | angle=210 | areaAcum=16,000 | anchors=89
+[15:56:30.467]     · pieza 10/46 | angle=200 | areaAcum=195,534 | anchors=169
+[15:56:30.513]     · pieza 20/46 | angle=130 | areaAcum=255,726 | anchors=201
+[15:56:30.560]     · pieza 30/46 | angle=210 | areaAcum=266,226 | anchors=209
+[15:56:30.604]     · pieza 40/46 | angle=70 | areaAcum=266,226 | anchors=209
+[15:56:38.801]   decode() end | colocadas=20 | área=313,726 | yMax=558.497 | dur=8382 ms
+[15:56:38.801] Eval 42/60
+[15:56:38.804]     · pieza 0/46 | angle=90 | areaAcum=15,250 | anchors=89
+[15:56:38.851]     · pieza 10/46 | angle=80 | areaAcum=193,850 | anchors=169
+[15:56:39.016]     · pieza 20/46 | angle=30 | areaAcum=274,650 | anchors=217
+[15:56:39.078]     · pieza 30/46 | angle=150 | areaAcum=274,650 | anchors=217
+[15:56:39.141]     · pieza 40/46 | angle=50 | areaAcum=274,650 | anchors=217
+[15:56:48.016]   decode() end | colocadas=20 | área=306,150 | yMax=573.692 | dur=9215 ms
+[15:56:48.016] Eval 43/60
+[15:56:48.019]     · pieza 0/46 | angle=300 | areaAcum=16,000 | anchors=89
+[15:56:48.062]     · pieza 10/46 | angle=330 | areaAcum=174,892 | anchors=169
+[15:56:48.121]     · pieza 20/46 | angle=340 | areaAcum=289,176 | anchors=225
+[15:56:48.174]     · pieza 30/46 | angle=310 | areaAcum=289,176 | anchors=225
+[15:56:48.226]     · pieza 40/46 | angle=350 | areaAcum=289,176 | anchors=225
+[15:56:57.175]   decode() end | colocadas=20 | área=319,576 | yMax=568.941 | dur=9159 ms
+[15:56:57.175] Eval 44/60
+[15:56:57.178]     · pieza 0/46 | angle=260 | areaAcum=15,250 | anchors=89
+[15:56:57.225]     · pieza 10/46 | angle=10 | areaAcum=187,900 | anchors=169
+[15:56:57.279]     · pieza 20/46 | angle=90 | areaAcum=280,342 | anchors=217
+[15:56:57.330]     · pieza 30/46 | angle=80 | areaAcum=280,342 | anchors=217
+[15:56:57.379]     · pieza 40/46 | angle=90 | areaAcum=290,842 | anchors=225
+[15:57:06.809]   decode() end | colocadas=19 | área=306,842 | yMax=564.717 | dur=9634 ms
+[15:57:06.809] Eval 45/60
+[15:57:06.812]     · pieza 0/46 | angle=180 | areaAcum=16,000 | anchors=89
+[15:57:06.862]     · pieza 10/46 | angle=80 | areaAcum=154,300 | anchors=169
+[15:57:06.922]     · pieza 20/46 | angle=310 | areaAcum=281,418 | anchors=233
+[15:57:06.974]     · pieza 30/46 | angle=330 | areaAcum=281,418 | anchors=233
+[15:57:07.031]     · pieza 40/46 | angle=260 | areaAcum=281,418 | anchors=233
+[15:57:15.684]   decode() end | colocadas=21 | área=313,418 | yMax=574.727 | dur=8875 ms
+[15:57:15.685] Eval 46/60
+[15:57:15.688]     · pieza 0/46 | angle=80 | areaAcum=23,900 | anchors=89
+[15:57:15.740]     · pieza 10/46 | angle=290 | areaAcum=187,976 | anchors=169
+[15:57:15.798]     · pieza 20/46 | angle=170 | areaAcum=268,776 | anchors=217
+[15:57:15.859]     · pieza 30/46 | angle=50 | areaAcum=283,176 | anchors=225
+[15:57:15.915]     · pieza 40/46 | angle=60 | areaAcum=283,176 | anchors=225
+[15:57:24.616]   decode() end | colocadas=20 | área=309,676 | yMax=544.915 | dur=8931 ms
+[15:57:24.616] Eval 47/60
+[15:57:24.619]     · pieza 0/46 | angle=170 | areaAcum=16,000 | anchors=89
+[15:57:24.670]     · pieza 10/46 | angle=160 | areaAcum=159,434 | anchors=169
+[15:57:24.727]     · pieza 20/46 | angle=340 | areaAcum=241,234 | anchors=217
+[15:57:24.779]     · pieza 30/46 | angle=240 | areaAcum=241,234 | anchors=217
+[15:57:24.833]     · pieza 40/46 | angle=350 | areaAcum=241,234 | anchors=217
+[15:57:33.556]   decode() end | colocadas=21 | área=312,384 | yMax=560.87 | dur=8940 ms
+[15:57:33.556] Eval 48/60
+[15:57:33.559]     · pieza 0/46 | angle=10 | areaAcum=14,792 | anchors=89
+[15:57:33.606]     · pieza 10/46 | angle=280 | areaAcum=156,842 | anchors=169
+[15:57:33.663]     · pieza 20/46 | angle=340 | areaAcum=274,976 | anchors=225
+[15:57:33.736]     · pieza 30/46 | angle=120 | areaAcum=289,376 | anchors=233
+[15:57:33.833]     · pieza 40/46 | angle=150 | areaAcum=289,376 | anchors=233
+[15:57:42.408]   decode() end | colocadas=21 | área=315,876 | yMax=532.076 | dur=8852 ms
+[15:57:42.408] Eval 49/60
+[15:57:42.412]     · pieza 0/46 | angle=10 | areaAcum=23,900 | anchors=89
+[15:57:42.473]     · pieza 10/46 | angle=320 | areaAcum=168,784 | anchors=169
+[15:57:42.534]     · pieza 20/46 | angle=40 | areaAcum=261,226 | anchors=217
+[15:57:42.587]     · pieza 30/46 | angle=210 | areaAcum=275,626 | anchors=225
+[15:57:42.646]     · pieza 40/46 | angle=200 | areaAcum=275,626 | anchors=225
+[15:57:52.089]   decode() end | colocadas=20 | área=306,026 | yMax=537.331 | dur=9681 ms
+[15:57:52.089] Eval 50/60
+[15:57:52.091]     · pieza 0/46 | angle=30 | areaAcum=15,000 | anchors=89
+[15:57:52.138]     · pieza 10/46 | angle=60 | areaAcum=193,750 | anchors=169
+[15:57:52.188]     · pieza 20/46 | angle=100 | areaAcum=273,342 | anchors=209
+[15:57:52.236]     · pieza 30/46 | angle=80 | areaAcum=273,342 | anchors=209
+[15:57:52.284]     · pieza 40/46 | angle=150 | areaAcum=273,342 | anchors=209
+[15:58:01.008]   decode() end | colocadas=21 | área=325,842 | yMax=568.851 | dur=8919 ms
+[15:58:01.008] Eval 51/60
+[15:58:01.011]     · pieza 0/46 | angle=160 | areaAcum=15,000 | anchors=89
+[15:58:01.063]     · pieza 10/46 | angle=320 | areaAcum=178,992 | anchors=169
+[15:58:01.118]     · pieza 20/46 | angle=330 | areaAcum=267,418 | anchors=217
+[15:58:01.168]     · pieza 30/46 | angle=0 | areaAcum=267,418 | anchors=217
+[15:58:01.220]     · pieza 40/46 | angle=140 | areaAcum=267,418 | anchors=217
+[15:58:10.296]   decode() end | colocadas=20 | área=298,918 | yMax=573.692 | dur=9288 ms
+[15:58:10.297] Eval 52/60
+[15:58:10.299]     · pieza 0/46 | angle=260 | areaAcum=15,000 | anchors=89
+[15:58:10.355]     · pieza 10/46 | angle=80 | areaAcum=157,092 | anchors=169
+[15:58:10.419]     · pieza 20/46 | angle=190 | areaAcum=270,834 | anchors=225
+[15:58:10.474]     · pieza 30/46 | angle=170 | areaAcum=285,626 | anchors=233
+[15:58:10.527]     · pieza 40/46 | angle=70 | areaAcum=285,626 | anchors=233
+[15:58:18.836]   decode() end | colocadas=24 | área=349,126 | yMax=579.919 | dur=8539 ms
+[15:58:18.836] Eval 53/60
+[15:58:18.840]     · pieza 0/46 | angle=290 | areaAcum=10,500 | anchors=89
+[15:58:18.886]     · pieza 10/46 | angle=250 | areaAcum=178,334 | anchors=169
+[15:58:18.932]     · pieza 20/46 | angle=310 | areaAcum=239,126 | anchors=201
+[15:58:18.978]     · pieza 30/46 | angle=90 | areaAcum=264,626 | anchors=217
+[15:58:19.024]     · pieza 40/46 | angle=220 | areaAcum=264,626 | anchors=217
+[15:58:28.419]   decode() end | colocadas=20 | área=300,026 | yMax=561.231 | dur=9583 ms
+[15:58:28.419] Eval 54/60
+[15:58:28.422]     · pieza 0/46 | angle=100 | areaAcum=23,900 | anchors=89
+[15:58:28.473]     · pieza 10/46 | angle=30 | areaAcum=167,892 | anchors=169
+[15:58:28.532]     · pieza 20/46 | angle=60 | areaAcum=298,242 | anchors=233
+[15:58:28.586]     · pieza 30/46 | angle=150 | areaAcum=298,242 | anchors=233
+[15:58:28.639]     · pieza 40/46 | angle=330 | areaAcum=298,242 | anchors=233
+[15:58:38.258]   decode() end | colocadas=19 | área=298,242 | yMax=542.697 | dur=9839 ms
+[15:58:38.258] Eval 55/60
+[15:58:38.261]     · pieza 0/46 | angle=170 | areaAcum=15,000 | anchors=89
+[15:58:38.308]     · pieza 10/46 | angle=0 | areaAcum=175,992 | anchors=169
+[15:58:38.359]     · pieza 20/46 | angle=150 | areaAcum=267,992 | anchors=217
+[15:58:38.408]     · pieza 30/46 | angle=330 | areaAcum=278,492 | anchors=225
+[15:58:38.457]     · pieza 40/46 | angle=90 | areaAcum=278,492 | anchors=225
+[15:58:47.757]   decode() end | colocadas=19 | área=288,992 | yMax=573.692 | dur=9499 ms
+[15:58:47.757] Eval 56/60
+[15:58:47.760]     · pieza 0/46 | angle=130 | areaAcum=16,000 | anchors=89
+[15:58:47.810]     · pieza 10/46 | angle=330 | areaAcum=177,384 | anchors=169
+[15:58:47.865]     · pieza 20/46 | angle=340 | areaAcum=272,826 | anchors=225
+[15:58:47.913]     · pieza 30/46 | angle=280 | areaAcum=272,826 | anchors=225
+[15:58:47.965]     · pieza 40/46 | angle=50 | areaAcum=283,326 | anchors=233
+[15:58:56.247]   decode() end | colocadas=21 | área=309,826 | yMax=567.865 | dur=8490 ms
+[15:58:56.495] Eval 57/60
+[15:58:56.497]     · pieza 0/46 | angle=150 | areaAcum=14,400 | anchors=89
+[15:58:56.548]     · pieza 10/46 | angle=290 | areaAcum=161,450 | anchors=169
+[15:58:56.598]     · pieza 20/46 | angle=330 | areaAcum=245,250 | anchors=209
+[15:58:56.647]     · pieza 30/46 | angle=180 | areaAcum=259,650 | anchors=217
+[15:58:56.696]     · pieza 40/46 | angle=340 | areaAcum=259,650 | anchors=217
+[15:59:05.813]   decode() end | colocadas=21 | área=318,150 | yMax=568.851 | dur=9318 ms
+[15:59:05.813] Eval 58/60
+[15:59:05.816]     · pieza 0/46 | angle=200 | areaAcum=16,000 | anchors=89
+[15:59:05.862]     · pieza 10/46 | angle=10 | areaAcum=148,650 | anchors=169
+[15:59:05.915]     · pieza 20/46 | angle=180 | areaAcum=243,092 | anchors=217
+[15:59:05.964]     · pieza 30/46 | angle=160 | areaAcum=253,592 | anchors=225
+[15:59:06.014]     · pieza 40/46 | angle=70 | areaAcum=253,592 | anchors=225
+[15:59:14.893]   decode() end | colocadas=20 | área=285,592 | yMax=563.9 | dur=9080 ms
+[15:59:14.893] Eval 59/60
+[15:59:14.894]     · pieza 0/46 | angle=40 | areaAcum=16,000 | anchors=89
+[15:59:14.942]     · pieza 10/46 | angle=260 | areaAcum=164,342 | anchors=169
+[15:59:14.996]     · pieza 20/46 | angle=220 | areaAcum=249,534 | anchors=217
+[15:59:15.042]     · pieza 30/46 | angle=260 | areaAcum=260,034 | anchors=225
+[15:59:15.092]     · pieza 40/46 | angle=140 | areaAcum=270,534 | anchors=233
+[15:59:23.137]   decode() end | colocadas=22 | área=307,534 | yMax=562.993 | dur=8244 ms
+[15:59:23.137] Eval 60/60
+[15:59:23.140]     · pieza 0/46 | angle=230 | areaAcum=14,792 | anchors=89
+[15:59:23.186]     · pieza 10/46 | angle=80 | areaAcum=180,534 | anchors=169
+[15:59:23.232]     · pieza 20/46 | angle=30 | areaAcum=269,918 | anchors=217
+[15:59:23.280]     · pieza 30/46 | angle=20 | areaAcum=280,418 | anchors=225
+[15:59:23.329]     · pieza 40/46 | angle=230 | areaAcum=280,418 | anchors=225
+[15:59:32.510]   decode() end | colocadas=19 | área=290,918 | yMax=555.769 | dur=9373 ms
+[15:59:32.515] Pre-loop | area=349,126 | yMax=579.919 | score=349,114.402 | colocadas=24
+[15:59:32.515] Tiempo agotado. Gen 0
+[15:59:32.515] ------------------------------
+[15:59:32.515] RESUMEN FINAL (GENETIC)
+[15:59:32.516] Seed               : 42
+[15:59:32.516] Piezas a posicionar: 46
+[15:59:32.516] Piezas colocadas   : 24
+[15:59:32.516] % aprovechamiento  : 53.174 %
+[15:59:32.517] Área colocada      : 349,126
+[15:59:32.517] Área plancha       : 656,572.095
+[15:59:32.517] Área desperdiciada : 307,446.095
+[15:59:32.517] Ymax               : 579.919
+[15:59:32.520] Tiempo total       : 553008 ms (553.008 s)
+[15:59:32.520] ------------------------------
+[15:59:32.523] BEST | colocadas=24 | area=349,126 | yMax=579.919 | score=349,114.402

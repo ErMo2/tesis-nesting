@@ -1,0 +1,744 @@
+package org.tesis.nesting;
+
+import org.locationtech.jts.geom.*;
+import java.util.*;
+
+/**
+ * =====================  HybridGrasp  =====================
+ * Implementación de GRASP específica para uso en el algoritmo híbrido.
+ * Este componente genera soluciones iniciales de alta calidad que serán
+ * refinadas por HybridMemetic.
+ * 
+ * Diferencias con GraspPlacer:
+ * - No tiene sistema de logging propio (el híbrido maneja el logging)
+ * - API simplificada: solo el método place() con parámetro alpha
+ * - Diseñado para ser llamado múltiples veces desde HybridGraspMemeticPlacer
+ */
+public class HybridGrasp {
+
+    // ===================== Parámetros GRASP =====================
+    // Para pruebas rápidas: ITER_MAX=30, MAX_MILLIS_TOTAL=120_000 (2 min)
+    // Para resultados mejores: ITER_MAX=60, MAX_MILLIS_TOTAL=240_000 (4 min)
+    // Para producción: ITER_MAX=120, MAX_MILLIS_TOTAL=400_000 (6.7 min)
+    static final int    ITER_MAX            = 10;       // iteraciones por seed (PRUEBA RÁPIDA)
+    static final int    RCL_SIZE            = 20;       // diversidad suficiente
+    static final long   MAX_MILLIS_TOTAL    = 60_000;   // 1 minuto por corrida (PRUEBA RÁPIDA)
+    static final long   MAX_MILLIS_LOCAL    = 10_000;   // 10 seg para LS (PRUEBA RÁPIDA)
+    static final double DEFAULT_ALPHA       = -1.0;     // Parámetro α por defecto
+
+    // anclas / chequeos
+    static final int    GRID_ANCHORS_X      = 20;
+    static final int    GRID_ANCHORS_Y      = 12;
+    static final int    MAX_ANCHORS_PER_TRY = 400;
+    static final int    MAX_CHECKS_PER_PART = 3_000;
+    static final double NUDGE_STEP          = 0.30;
+    static final int    NUDGE_STEPS_MAX     = 20;
+
+    // scoring local 
+    static final double W_BEST_Y            = 1.0;
+    static final double W_BEST_X            = 0.05;
+    static final double W_BBOX_INFLATE      = 0.02;
+    static final double W_NEARNESS          = 0.5;
+
+    // búsqueda local
+    static final int    REINSERT_TRIES      = 6;
+    static final int    TWEAK_ANGLE_STEP    = 1;
+
+    // lattice mode
+    static final double GRID_CV_MAX         = 0.02;     
+    static final double EPS_EDGE            = 1e-9;
+
+    // ======= Tipos =======
+    static class PartInstance {
+        final PartSpec spec; final int copyIdx;
+        PartInstance(PartSpec s, int k) { spec = s; copyIdx = k; }
+        String key() { return spec.id + "#" + copyIdx; }
+    }
+    static class Anchor { final double x, y; Anchor(double x, double y){ this.x=x; this.y=y; } }
+    static class Candidate {
+        Geometry clearGeom; Geometry placedGeom;
+        double dx, dy; int angleDeg; double scoreVal;
+    }
+
+    // ======= API =======
+    /**
+     * Coloca piezas usando GRASP con semilla y parámetro α específicos.
+     * Este método está diseñado para ser llamado desde HybridGraspMemeticPlacer.
+     * 
+     * @param sheetInset Plancha donde colocar las piezas
+     * @param specs Especificaciones de las piezas
+     * @param seed Semilla para el generador aleatorio
+     * @param alpha Parámetro de aleatoriedad (0 ≤ α ≤ 1 para modo clásico, α < 0 para modo compatibilidad)
+     * @return Lista de piezas colocadas
+     */
+    public static List<PlacedPart> place(Polygon sheetInset, List<PartSpec> specs, long seed, double alpha) {
+        RunResult rr = runOnce(sheetInset, specs, seed, alpha);
+        return rr.placed;
+    }
+
+    // ======= Núcleo de una corrida GRASP =======
+    private static RunResult runOnce(Polygon sheetInset, List<PartSpec> specs, long seed, double alpha) {
+        final long t0 = System.currentTimeMillis();
+
+        List<PartInstance> instances = expandInstances(specs);
+        if (instances.isEmpty()) {
+            RunResult empty = new RunResult();
+            empty.placed = Collections.emptyList();
+            empty.bestArea = 0; empty.bestY = 0; empty.totalPieces = 0;
+            empty.millis = System.currentTimeMillis() - t0;
+            empty.areaSheet = sheetInset.getArea();
+            empty.wasted = empty.areaSheet; empty.utilizationPct = 0; empty.seedUsed = seed;
+            return empty;
+        }
+
+        Map<PartSpec,int[]> angleOptions = computeAngleOptions(specs);
+        Random rng = new Random(seed);
+        List<PlacedPart> bestSolution = Collections.emptyList();
+        double bestArea = -1, bestY = Double.POSITIVE_INFINITY;
+        final long deadline = t0 + MAX_MILLIS_TOTAL;
+
+        for (int it = 0; it < ITER_MAX; it++) {
+            if (System.currentTimeMillis() >= deadline) break;
+
+            List<PartInstance> order = new ArrayList<>(instances);
+            order.sort((a,b) -> Double.compare(b.spec.poly.getArea(), a.spec.poly.getArea()));
+            blockShuffle(order, rng, 6);
+
+            DecodeResult dr = greedyRandomDecode(sheetInset, order, angleOptions, rng, deadline, alpha);
+            if (System.currentTimeMillis() >= deadline) {
+                // aun así evaluar lo que se armó
+                double itArea = totalArea(dr.placed);
+                double itYmax = usedYmax(dr.placed);
+                if (itArea > bestArea) {
+                    bestArea = itArea; 
+                    bestY = itYmax; 
+                    bestSolution = dr.placed;
+                } else if (Math.abs(itArea - bestArea) < 1e-6) {
+                    if (dr.placed.size() > bestSolution.size()) {
+                        bestArea = itArea; 
+                        bestY = itYmax; 
+                        bestSolution = dr.placed;
+                    } else if (dr.placed.size() == bestSolution.size()) {
+                        if (itYmax < bestY) {
+                            bestArea = itArea; 
+                            bestY = itYmax; 
+                            bestSolution = dr.placed;
+                        }
+                    }
+                }
+                break;
+            }
+
+            long tLocalBudget = Math.max(0, Math.min(MAX_MILLIS_LOCAL, deadline - System.currentTimeMillis()));
+            if (!dr.placed.isEmpty() && tLocalBudget > 0) {
+                localSearch(sheetInset, dr, angleOptions, rng, tLocalBudget);
+            }
+
+            double itArea = totalArea(dr.placed);
+            double itYmax = usedYmax(dr.placed);
+
+            if (itArea > bestArea) {
+                bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+            } else if (Math.abs(itArea - bestArea) < 1e-6) {
+                if (dr.placed.size() > bestSolution.size()) {
+                    bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+                } else if (dr.placed.size() == bestSolution.size()) {
+                    if (itYmax < bestY) {
+                        bestArea = itArea; bestY = itYmax; bestSolution = dr.placed;
+                    }
+                }
+            }
+        }
+
+        int totalPiezas = instances.size();
+        double areaPlancha = sheetInset.getArea();
+        double areaColocada = totalArea(bestSolution);
+        double areaDesperdiciada = Math.max(0.0, areaPlancha - areaColocada);
+        double aprovechamiento = areaPlancha > 0 ? (100.0 * areaColocada / areaPlancha) : 0.0;
+        long durTotalMs = System.currentTimeMillis() - t0;
+
+        RunResult rr = new RunResult();
+        rr.placed = bestSolution; 
+        rr.bestArea = areaColocada; 
+        rr.bestY = bestY;
+        rr.totalPieces = totalPiezas; 
+        rr.millis = durTotalMs;
+        rr.areaSheet = areaPlancha; 
+        rr.wasted = areaDesperdiciada; 
+        rr.utilizationPct = aprovechamiento;
+        rr.seedUsed = seed;
+        return rr;
+    }
+
+    // ======= Estructura para guardar la decodificación =======
+    static class DecodeResult {
+        final List<PlacedPart> placed = new ArrayList<>();
+        final List<Geometry>   placedClear = new ArrayList<>();
+        double globMinX, globMinY, globMaxX, globMaxY;
+    }
+
+    static class RunResult {
+        List<PlacedPart> placed = Collections.emptyList();
+        double bestArea, bestY; int totalPieces; long millis;
+        double areaSheet, wasted, utilizationPct; long seedUsed;
+    }
+
+    // ======= Construcción (con deadline no agresivo) =======
+    static DecodeResult greedyRandomDecode(Polygon sheetInset,
+                                           List<PartInstance> order,
+                                           Map<PartSpec,int[]> angleOptions,
+                                           Random rng,
+                                           long deadlineMillis,
+                                           double alpha) {
+        DecodeResult res = new DecodeResult();
+        Envelope env = sheetInset.getEnvelopeInternal();
+        double minX = env.getMinX(), minY = env.getMinY(), maxX = env.getMaxX(), maxY = env.getMaxY();
+        res.globMinX = maxX; res.globMinY = maxY; res.globMaxX = minX; res.globMaxY = minY;
+
+        // -------- Detectar LATTICE_MODE --------
+        boolean GRID_MODE = false;
+        double cellW = 0, cellH = 0;
+        {
+            double rectArea = (maxX - minX) * (maxY - minY);
+            boolean sheetRectangular = Math.abs(sheetInset.getArea() - rectArea) < 1e-6;
+
+            int limit = Math.min(50, order.size());
+            if (sheetRectangular && limit > 0) {
+                double[] ws = new double[limit], hs = new double[limit];
+                for (int i=0;i<limit;i++){
+                    PartSpec sp = order.get(i).spec;
+                    int[] allowed = angleOptions.getOrDefault(sp, new int[]{0});
+                    int angDeg = allowed.length>0 ? allowed[0] : 0;
+                    Geometry g0  = GeomUtils.orient(sp.poly, angDeg, false);
+                    Geometry gc0 = (sp.clearance > 0) ? g0.buffer(sp.clearance, 8) : g0;
+                    Envelope e   = gc0.getEnvelopeInternal();
+                    ws[i] = e.getWidth(); hs[i] = e.getHeight();
+                }
+                if (cv(ws) <= GRID_CV_MAX && cv(hs) <= GRID_CV_MAX) {
+                    GRID_MODE = true; cellW = median(ws); cellH = median(hs);
+                }
+            }
+        }
+
+        if (GRID_MODE) {
+            gridFillRaster(sheetInset, res.placed, res.placedClear, order, angleOptions,
+                           minX, minY, maxX, maxY, cellW, cellH);
+            globalCompaction(sheetInset, res);
+            return res;
+        }
+
+        // -------- Flujo normal (NO rejilla) ----------
+        ArrayList<Anchor> anchors = initialAnchors(minX, minY, maxX, maxY);
+
+        outerParts:
+        for (PartInstance inst : order) {
+            if (System.currentTimeMillis() >= deadlineMillis) { break outerParts; }
+
+            PartSpec sp = inst.spec;
+            int[] angles = angleOptions.getOrDefault(sp, new int[]{0});
+            List<Candidate> allCandidates = new ArrayList<>();  // Acumular todos primero
+            int checks = 0;
+
+            List<Anchor> sampleAnchors = sampleAnchors(anchors, rng, MAX_ANCHORS_PER_TRY);
+
+            for (int angDeg : angles) {
+                Geometry gBase = GeomUtils.orient(sp.poly, angDeg, false);
+                Geometry gClr  = sp.clearance > 0 ? gBase.buffer(sp.clearance, 8) : gBase;
+
+                Envelope pe = gClr.getEnvelopeInternal();
+                for (Anchor a : sampleAnchors) {
+                    if ((checks % 250) == 0 && System.currentTimeMillis() >= deadlineMillis) {
+                        break;
+                    }
+                    if (++checks > MAX_CHECKS_PER_PART) break;
+
+                    double dxa = a.x - pe.getMinX();
+                    double dya = a.y - pe.getMinY();
+
+                    double txMin = pe.getMinX() + dxa, txMax = pe.getMaxX() + dxa;
+                    double tyMin = pe.getMinY() + dya, tyMax = pe.getMaxY() + dya;
+                    if (txMin < minX-EPS_EDGE || txMax > maxX+EPS_EDGE ||
+                        tyMin < minY-EPS_EDGE || tyMax > maxY+EPS_EDGE) continue;
+
+                    Geometry cc = GeomUtils.translate(gClr, dxa, dya);
+                    if (!sheetInset.covers(cc)) continue;
+
+                    boolean inter = false;
+                    for (Geometry pg : res.placedClear) {
+                        if (collideStrict(pg, cc)) { inter = true; break; }
+                    }
+                    if (inter) continue;
+
+                    double[] nudged = tryNudge(sheetInset, cc, res.placedClear,
+                                               -NUDGE_STEP, -NUDGE_STEP, NUDGE_STEPS_MAX);
+                    cc = GeomUtils.translate(cc, nudged[0], nudged[1]);
+                    Geometry placed = GeomUtils.translate(gBase, dxa+nudged[0], dya+nudged[1]);
+
+                    double val = localScore(res, cc);
+
+                    Candidate cand = new Candidate();
+                    cand.clearGeom  = cc; cand.placedGeom = placed;
+                    cand.dx = dxa + nudged[0]; cand.dy = dya + nudged[1];
+                    cand.angleDeg = angDeg; cand.scoreVal = val;
+
+                    allCandidates.add(cand);
+                }
+            }
+
+            // Construir RCL usando α (filtrado por umbral o truncamiento según el modo)
+            List<Candidate> rcl = buildRCLWithAlpha(allCandidates, alpha, RCL_SIZE);
+            
+            // Selección del candidato de la RCL según el modo configurado
+            if (!rcl.isEmpty()) {
+                Candidate pick;
+                if (alpha < 0) {
+                    // Modo de compatibilidad: estrategia ε-greedy
+                    pick = (rng.nextDouble() < 0.7) ? rcl.get(0) : rcl.get(rng.nextInt(rcl.size()));
+                } else {
+                    // Modo clásico de GRASP: selección aleatoria pura del RCL filtrado por umbral
+                    pick = rcl.get(rng.nextInt(rcl.size()));
+                }
+
+                PlacedPart pp = new PlacedPart();
+                pp.id = sp.id; pp.polyPlaced = pick.placedGeom; pp.angleDeg = pick.angleDeg;
+                pp.mirrored = false; pp.dx = pick.dx; pp.dy = pick.dy;
+
+                res.placed.add(pp);
+                res.placedClear.add(pick.clearGeom);
+
+                Envelope ce = pick.clearGeom.getEnvelopeInternal();
+                res.globMinX = Math.min(res.globMinX, ce.getMinX());
+                res.globMinY = Math.min(res.globMinY, ce.getMinY());
+                res.globMaxX = Math.max(res.globMaxX, ce.getMaxX());
+                res.globMaxY = Math.max(res.globMaxY, ce.getMaxY());
+
+                addLocalAnchors(anchors, ce, minX, minY, maxX, maxY);
+            }
+        }
+
+        globalCompaction(sheetInset, res);
+        return res;
+    }
+
+    // ======= Búsqueda local =======
+    static void localSearch(Polygon sheetInset,
+                            DecodeResult dr,
+                            Map<PartSpec,int[]> angleOptions,
+                            Random rng,
+                            long millisBudget) {
+        long t0 = System.currentTimeMillis();
+        if (dr.placed.size() <= 1) return;
+
+        for (int pass=0; pass<REINSERT_TRIES; pass++) {
+            for (int i = dr.placed.size()-1; i >= 0; i--) {
+                if (System.currentTimeMillis()-t0 > millisBudget) return;
+
+                PlacedPart victim = dr.placed.remove(i);
+                Geometry victimClear = dr.placedClear.remove(i);
+
+                Envelope env = sheetInset.getEnvelopeInternal();
+                ArrayList<Anchor> anchors = initialAnchors(env.getMinX(), env.getMinY(), env.getMaxX(), env.getMaxY());
+                for (Geometry gc : dr.placedClear) {
+                    addLocalAnchors(anchors, gc.getEnvelopeInternal(), env.getMinX(), env.getMinY(), env.getMaxX(), env.getMaxY());
+                }
+
+                PartSpec sp = findSpec(angleOptions, victim.id);
+                int[] baseAngles = angleOptions.getOrDefault(sp, new int[]{0});
+                int[] angles = maybeAugmentAngles(baseAngles, sp);
+
+                Candidate best = null;
+                List<Anchor> sample = sampleAnchors(anchors, rng, MAX_ANCHORS_PER_TRY);
+
+                for (int angDeg : angles) {
+                    Geometry gBase = GeomUtils.orient(sp.poly, angDeg, false);
+                    Geometry gClr  = sp.clearance > 0 ? gBase.buffer(sp.clearance, 8) : gBase;
+                    Envelope pe = gClr.getEnvelopeInternal();
+
+                    int checks = 0;
+                    for (Anchor a : sample) {
+                        if (++checks > MAX_CHECKS_PER_PART) break;
+
+                        double dxa = a.x - pe.getMinX();
+                        double dya = a.y - pe.getMinY();
+
+                        double txMin = pe.getMinX() + dxa, txMax = pe.getMaxX() + dxa;
+                        double tyMin = pe.getMinY() + dya, tyMax = pe.getMaxY() + dya;
+                        if (txMin < env.getMinX()-EPS_EDGE || txMax > env.getMaxX()+EPS_EDGE ||
+                            tyMin < env.getMinY()-EPS_EDGE || tyMax > env.getMaxY()+EPS_EDGE) continue;
+
+                        Geometry cc = GeomUtils.translate(gClr, dxa, dya);
+                        if (!sheetInset.covers(cc)) continue;
+
+                        boolean inter = false;
+                        for (Geometry pg : dr.placedClear) {
+                            if (collideStrict(pg, cc)) { inter = true; break; }
+                        }
+                        if (inter) continue;
+
+                        double[] nudged = tryNudge(sheetInset, cc, dr.placedClear,
+                                                   -NUDGE_STEP, -NUDGE_STEP, NUDGE_STEPS_MAX);
+                        cc = GeomUtils.translate(cc, nudged[0], nudged[1]);
+                        Geometry placed = GeomUtils.translate(gBase, dxa+nudged[0], dya+nudged[1]);
+
+                        double val = localScoreBBoxOnly(sheetInset, dr, cc);
+
+                        if (best == null || val < best.scoreVal) {
+                            best = new Candidate();
+                            best.clearGeom = cc; best.placedGeom = placed;
+                            best.dx = dxa+nudged[0]; best.dy = dya+nudged[1];
+                            best.angleDeg = angDeg; best.scoreVal = val;
+                        }
+                    }
+                }
+
+                if (best != null) {
+                    double oldY = usedYmax(dr.placed);
+                    double oldArea = totalArea(dr.placed);
+                    double newY, newArea;
+                    {
+                        PlacedPart pp = new PlacedPart();
+                        pp.id = sp.id; pp.polyPlaced = best.placedGeom; pp.angleDeg = best.angleDeg;
+                        pp.mirrored = false; pp.dx = best.dx; pp.dy = best.dy;
+
+                        dr.placed.add(pp); dr.placedClear.add(best.clearGeom);
+                        newY = usedYmax(dr.placed); newArea = totalArea(dr.placed);
+                        dr.placed.remove(dr.placed.size()-1); dr.placedClear.remove(dr.placedClear.size()-1);
+                    }
+
+                    if (newY <= oldY + 1e-6 || newArea >= oldArea - 1e-6) {
+                        PlacedPart pp = new PlacedPart();
+                        pp.id = sp.id; pp.polyPlaced = best.placedGeom; pp.angleDeg = best.angleDeg;
+                        pp.mirrored = false; pp.dx = best.dx; pp.dy = best.dy;
+                        dr.placed.add(i, pp); dr.placedClear.add(i, best.clearGeom);
+                    } else {
+                        dr.placed.add(i, victim); dr.placedClear.add(i, victimClear);
+                    }
+                } else {
+                    dr.placed.add(i, victim); dr.placedClear.add(i, victimClear);
+                }
+            }
+        }
+
+        globalCompaction(sheetInset, dr);
+    }
+
+    // ======= Helpers / utilidades =======
+    static List<PartInstance> expandInstances(List<PartSpec> specs) {
+        List<PartInstance> out = new ArrayList<>();
+        for (PartSpec s : specs) {
+            int q = Math.max(1, s.qty);
+            for (int i=0;i<q;i++) out.add(new PartInstance(s, i));
+        }
+        return out;
+    }
+    
+    static Map<PartSpec,int[]> computeAngleOptions(List<PartSpec> specs) {
+        Map<PartSpec,int[]> m = new HashMap<>();
+        for (PartSpec s : specs) {
+            int step = Math.max(1, s.rotationStepDeg);
+            ArrayList<Integer> a = new ArrayList<>();
+            for (int ang = 0; ang < 360; ang += step) a.add(ang);
+            int[] arr = new int[a.size()];
+            for (int i=0;i<a.size();i++) arr[i] = a.get(i);
+            m.put(s, arr);
+        }
+        return m;
+    }
+    
+    static boolean collideStrict(Geometry a, Geometry b) {
+        return a.intersects(b) && !a.touches(b);
+    }
+
+    static double[] tryNudge(Polygon sheetInset, Geometry gClear, List<Geometry> placedClear,
+                             double stepx, double stepy, int steps) {
+        double dx=0, dy=0;
+        for (int i=0;i<steps;i++) {
+            Geometry t = GeomUtils.translate(gClear, stepx, 0);
+            if (!sheetInset.covers(t)) break;
+            boolean inter=false; for (Geometry pg : placedClear){ if (collideStrict(pg, t)){ inter=true; break; } }
+            if (inter) break;
+            gClear = t; dx += stepx;
+        }
+        for (int i=0;i<steps;i++) {
+            Geometry t = GeomUtils.translate(gClear, 0, stepy);
+            if (!sheetInset.covers(t)) break;
+            boolean inter=false; for (Geometry pg : placedClear){ if (collideStrict(pg, t)){ inter=true; break; } }
+            if (inter) break;
+            gClear = t; dy += stepy;
+        }
+        for (int i=0;i<steps;i++) {
+            Geometry t = GeomUtils.translate(gClear, stepx, stepy);
+            if (!sheetInset.covers(t)) break;
+            boolean inter=false; for (Geometry pg : placedClear){ if (collideStrict(pg, t)){ inter=true; break; } }
+            if (inter) break;
+            gClear = t; dx += stepx; dy += stepy;
+        }
+        double tiny = stepx/3.0;
+        for (int k=0;k<2;k++){
+            Geometry tx = GeomUtils.translate(gClear, tiny, 0);
+            if (sheetInset.covers(tx)) {
+                boolean inter=false; for (Geometry pg: placedClear){ if (collideStrict(pg,tx)){ inter=true; break; } }
+                if (!inter){ gClear=tx; dx+=tiny; }
+            }
+            Geometry ty = GeomUtils.translate(gClear, 0, tiny);
+            if (sheetInset.covers(ty)) {
+                boolean inter=false; for (Geometry pg: placedClear){ if (collideStrict(pg,ty)){ inter=true; break; } }
+                if (!inter){ gClear=ty; dy+=tiny; }
+            }
+        }
+        return new double[]{dx, dy};
+    }
+
+    static double minClearDistance(Geometry g, List<Geometry> placedClear){
+        if (placedClear.isEmpty()) return 0.0;
+        double d = Double.POSITIVE_INFINITY;
+        for (Geometry pg : placedClear){ d = Math.min(d, g.distance(pg)); }
+        return d;
+    }
+
+    static double localScore(DecodeResult dr, Geometry cc) {
+        Envelope ce = cc.getEnvelopeInternal();
+        double cy = ce.getMinY(), cx = ce.getMinX();
+
+        double nGlobMinX = Math.min(dr.globMinX, ce.getMinX());
+        double nGlobMinY = Math.min(dr.globMinY, ce.getMinY());
+        double nGlobMaxX = Math.max(dr.globMaxX, ce.getMaxX());
+        double nGlobMaxY = Math.max(dr.globMaxY, ce.getMaxY());
+        double bboxGrow = (nGlobMaxX - nGlobMinX)*(nGlobMaxY - nGlobMinY)
+                        - Math.max(0, (dr.globMaxX - dr.globMinX)*(dr.globMaxY - dr.globMinY));
+
+        double near = minClearDistance(cc, dr.placedClear);
+        return W_BEST_Y*cy + W_BEST_X*cx + W_BBOX_INFLATE*bboxGrow + W_NEARNESS*near;
+    }
+
+    static double localScoreBBoxOnly(Polygon sheet, DecodeResult dr, Geometry cc) {
+        Envelope ce = cc.getEnvelopeInternal();
+        double nGlobMinX = Math.min(dr.globMinX, ce.getMinX());
+        double nGlobMinY = Math.min(dr.globMinY, ce.getMinY());
+        double nGlobMaxX = Math.max(dr.globMaxX, ce.getMaxX());
+        double nGlobMaxY = Math.max(dr.globMaxY, ce.getMaxY());
+        return (nGlobMaxY - nGlobMinY) * (nGlobMaxX - nGlobMinX);
+    }
+    
+    /**
+     * Construye la Lista Restringida de Candidatos (RCL) usando el parámetro α.
+     */
+    static List<Candidate> buildRCLWithAlpha(List<Candidate> allCandidates, double alpha, int maxSize) {
+        if (allCandidates.isEmpty()) return new ArrayList<>();
+        
+        allCandidates.sort(Comparator.comparingDouble(c -> c.scoreVal));
+        
+        if (alpha < 0) {
+            // Modo de compatibilidad: truncamiento simple
+            List<Candidate> rcl = new ArrayList<>(Math.min(maxSize, allCandidates.size()));
+            for (int i = 0; i < Math.min(maxSize, allCandidates.size()); i++) {
+                rcl.add(allCandidates.get(i));
+            }
+            return rcl;
+        }
+        
+        // Modo clásico de GRASP: filtrado por umbral de calidad
+        double bestScore = allCandidates.get(0).scoreVal;
+        double worstScore = allCandidates.get(allCandidates.size() - 1).scoreVal;
+        double threshold = bestScore + alpha * (worstScore - bestScore);
+        
+        List<Candidate> rcl = new ArrayList<>();
+        for (Candidate c : allCandidates) {
+            if (c.scoreVal <= threshold) {
+                rcl.add(c);
+                if (rcl.size() >= maxSize) break;
+            }
+        }
+        
+        return rcl.isEmpty() ? allCandidates.subList(0, Math.min(1, allCandidates.size())) : rcl;
+    }
+
+    static ArrayList<Anchor> initialAnchors(double minX, double minY, double maxX, double maxY){
+        ArrayList<Anchor> a = new ArrayList<>();
+        a.add(new Anchor(minX, minY)); a.add(new Anchor(maxX, minY));
+        a.add(new Anchor(minX, maxY)); a.add(new Anchor(maxX, maxY));
+        for (int i=0; i<GRID_ANCHORS_X; i++) {
+            for (int j=0; j<GRID_ANCHORS_Y; j++) {
+                double x = minX + (i+0.5)*(maxX-minX)/GRID_ANCHORS_X;
+                double y = minY + (j+0.5)*(maxY-minY)/GRID_ANCHORS_Y;
+                a.add(new Anchor(x, y));
+            }
+        }
+        return a;
+    }
+
+    static void addLocalAnchors(List<Anchor> anchors, Envelope ce, double minX, double minY, double maxX, double maxY){
+        double rx = ce.getMaxX(), lx = ce.getMinX(), by = ce.getMinY(), ty = ce.getMaxY();
+        double cx = 0.5*(lx+rx), cy = 0.5*(by+ty);
+        double eps = 1e-6;
+
+        anchors.add(new Anchor(lx, by)); anchors.add(new Anchor(lx, ty));
+        anchors.add(new Anchor(rx, by)); anchors.add(new Anchor(rx, ty));
+        anchors.add(new Anchor(cx, by)); anchors.add(new Anchor(cx, ty));
+        anchors.add(new Anchor(lx, cy)); anchors.add(new Anchor(rx, cy));
+        anchors.add(new Anchor(lx+eps, by+eps)); anchors.add(new Anchor(rx-eps, by+eps));
+        anchors.add(new Anchor(lx+eps, ty-eps)); anchors.add(new Anchor(rx-eps, ty-eps));
+
+        anchors.removeIf(an -> an.x < minX-EPS_EDGE || an.x > maxX+EPS_EDGE ||
+                               an.y < minY-EPS_EDGE || an.y > maxY+EPS_EDGE);
+    }
+
+    static List<Anchor> sampleAnchors(List<Anchor> anchors, Random rng, int max){
+        if (anchors.size() <= max) return new ArrayList<>(anchors);
+        ArrayList<Anchor> out = new ArrayList<>(max);
+        ArrayList<Integer> idx = new ArrayList<>(anchors.size());
+        for (int i=0;i<anchors.size();i++) idx.add(i);
+        Collections.shuffle(idx, rng);
+        for (int i=0;i<max;i++) out.add(anchors.get(idx.get(i)));
+        return out;
+    }
+
+    static PartSpec findSpec(Map<PartSpec,int[]> angleOptions, String id){
+        for (PartSpec s : angleOptions.keySet()) if (s.id.equals(id)) return s;
+        return null;
+    }
+
+    static int[] maybeAugmentAngles(int[] base, PartSpec sp){
+        if (sp.rotationStepDeg <= 5) {
+            HashSet<Integer> set = new HashSet<>();
+            for (int b : base) { set.add(norm(b)); set.add(norm(b + TWEAK_ANGLE_STEP)); set.add(norm(b - TWEAK_ANGLE_STEP)); }
+            int[] arr = new int[set.size()];
+            int i=0; for (int v : set) arr[i++] = v;
+            Arrays.sort(arr); return arr;
+        }
+        return base;
+    }
+
+    static int norm(int ang) { int a = ang % 360; if (a < 0) a += 360; return a; }
+    static double totalArea(List<PlacedPart> placed){ double s=0; for (PlacedPart p : placed) s += p.polyPlaced.getArea(); return s; }
+    static double usedYmax(List<PlacedPart> placed){ double y=0; for (PlacedPart p : placed) y = Math.max(y, p.polyPlaced.getEnvelopeInternal().getMaxY()); return y; }
+    static <T> void blockShuffle(List<T> list, Random rng, int blockSize){
+        for (int i=0; i<list.size(); i+=blockSize) {
+            int end = Math.min(list.size(), i+blockSize);
+            Collections.shuffle(list.subList(i, end), rng);
+        }
+    }
+    static double cv(double[] a){ if (a==null||a.length==0) return 1.0; double s=0; for(double x:a) s+=x; double m=s/a.length; if (m==0) return 1.0; double v=0; for(double x:a) v+=(x-m)*(x-m); v/=a.length; return Math.sqrt(v)/m; }
+    static double median(double[] a){ if (a==null||a.length==0) return 0.0; double[] cp=a.clone(); Arrays.sort(cp); return cp[cp.length/2]; }
+
+    static boolean slideUntilBlocked(Polygon sheetInset, List<Geometry> placedClear, int idx, double step){
+        Geometry g = placedClear.get(idx);
+        boolean moved = false;
+        while (true){
+            Geometry t = GeomUtils.translate(g, -step, 0);
+            if (!sheetInset.covers(t)) break;
+            boolean clash=false; for (int j=0;j<placedClear.size();j++){ if (j==idx) continue; if (collideStrict(placedClear.get(j), t)){ clash=true; break; } }
+            if (clash) break; g = t; moved = true;
+        }
+        while (true){
+            Geometry t = GeomUtils.translate(g, 0, -step);
+            if (!sheetInset.covers(t)) break;
+            boolean clash=false; for (int j=0;j<placedClear.size();j++){ if (j==idx) continue; if (collideStrict(placedClear.get(j), t)){ clash=true; break; } }
+            if (clash) break; g = t; moved = true;
+        }
+        placedClear.set(idx, g);
+        return moved;
+    }
+
+    static void globalCompaction(Polygon sheetInset, DecodeResult dr){
+        List<Integer> order = new ArrayList<>();
+        for (int i=0;i<dr.placedClear.size();i++) order.add(i);
+        order.sort((i,j)->{
+            Envelope ei = dr.placedClear.get(i).getEnvelopeInternal();
+            Envelope ej = dr.placedClear.get(j).getEnvelopeInternal();
+            double si = ei.getMinX()+ei.getMinY(), sj = ej.getMinX()+ej.getMinY();
+            return Double.compare(si, sj);
+        });
+        boolean movedAny; int rounds=0;
+        do{
+            movedAny = false;
+            for (int idx: order){
+                boolean moved = slideUntilBlocked(sheetInset, dr.placedClear, idx, Math.max(NUDGE_STEP/2.0, 0.05));
+                movedAny |= moved;
+            }
+            rounds++;
+        } while (movedAny && rounds < 5);
+
+        for (int i=0;i<dr.placed.size();i++){
+            Geometry clear = dr.placedClear.get(i);
+            Envelope eC = clear.getEnvelopeInternal();
+            Envelope eP = dr.placed.get(i).polyPlaced.getEnvelopeInternal();
+            double dxa = eC.getMinX() - eP.getMinX();
+            double dya = eC.getMinY() - eP.getMinY();
+            dr.placed.get(i).polyPlaced = GeomUtils.translate(dr.placed.get(i).polyPlaced, dxa, dya);
+            dr.placed.get(i).dx += dxa; dr.placed.get(i).dy += dya;
+        }
+
+        double minX=Double.POSITIVE_INFINITY, minY=Double.POSITIVE_INFINITY, maxX=Double.NEGATIVE_INFINITY, maxY=Double.NEGATIVE_INFINITY;
+        for (Geometry cc : dr.placedClear) {
+            Envelope ce = cc.getEnvelopeInternal();
+            minX = Math.min(minX, ce.getMinX());
+            minY = Math.min(minY, ce.getMinY());
+            maxX = Math.max(maxX, ce.getMaxX());
+            maxY = Math.max(maxY, ce.getMaxY());
+        }
+        dr.globMinX = (dr.placedClear.isEmpty()?0:minX);
+        dr.globMinY = (dr.placedClear.isEmpty()?0:minY);
+        dr.globMaxX = (dr.placedClear.isEmpty()?0:maxX);
+        dr.globMaxY = (dr.placedClear.isEmpty()?0:maxY);
+    }
+
+    static void gridFillRaster(Polygon sheetInset,
+                               List<PlacedPart> placed, List<Geometry> placedClear,
+                               List<PartInstance> instances, Map<PartSpec,int[]> angleOptions,
+                               double minX,double minY,double maxX,double maxY,
+                               double cellW,double cellH) {
+        final double EPS = 1e-9;
+        int nx = Math.max(1, (int)Math.floor(((maxX - minX) + EPS) / cellW));
+        int ny = Math.max(1, (int)Math.floor(((maxY - minY) + EPS) / cellH));
+
+        Map<String,Integer> remaining = new HashMap<>();
+        for (PartInstance pi : instances) remaining.merge(pi.spec.id, 1, Integer::sum);
+
+        for (int r=0; r<ny; r++){
+            double anchorY = minY + r*cellH;
+            for (int c=0; c<nx; c++){
+                double anchorX = minX + c*cellW;
+
+                boolean placedHere = false;
+                for (PartInstance pi : instances){
+                    Integer rem = remaining.get(pi.spec.id);
+                    if (rem==null || rem<=0) continue;
+
+                    int[] allowed = angleOptions.getOrDefault(pi.spec, new int[]{0});
+                    for (int angDeg: allowed){
+                        Geometry g0  = GeomUtils.orient(pi.spec.poly, angDeg, false);
+                        Geometry gc0 = (pi.spec.clearance > 0) ? g0.buffer(pi.spec.clearance, 8) : g0;
+
+                        Envelope pe0 = gc0.getEnvelopeInternal();
+                        double dxa = anchorX - pe0.getMinX();
+                        double dya = anchorY - pe0.getMinY();
+
+                        Geometry ccTry = GeomUtils.translate(gc0, dxa, dya);
+                        if (!sheetInset.covers(ccTry)) continue;
+
+                        boolean clash = false;
+                        for (Geometry pg : placedClear) {
+                            if (collideStrict(pg, ccTry)) { clash = true; break; }
+                        }
+                        if (clash) continue;
+
+                        Geometry cand = GeomUtils.translate(g0, dxa, dya);
+
+                        PlacedPart pp = new PlacedPart();
+                        pp.id = pi.spec.id; pp.polyPlaced = cand; pp.angleDeg = angDeg;
+                        pp.mirrored = false; pp.dx = dxa; pp.dy = dya;
+
+                        placed.add(pp);
+                        placedClear.add(ccTry);
+                        remaining.put(pi.spec.id, rem-1);
+                        placedHere = true;
+                        break;
+                    }
+                    if (placedHere) break;
+                }
+            }
+        }
+    }
+}
+

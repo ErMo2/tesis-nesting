@@ -1,0 +1,110 @@
+22:13:47.299 | ------------------------------
+22:13:47.299 | ==== HYB GRASP→MEMETIC | START ====
+22:13:47.299 | CFG | GRASP_SEEDS=3  MEMETIC_TIME_MS=120000  GRASP_ALPHA=0.4
+22:13:47.300 | CFG | seed0=23634316743000  parts=7
+22:13:47.300 | GRASP seed 00 (seed=23634316743000, alpha=0.4) | start
+22:14:47.478 | ------------------------------
+22:14:47.479 | RESUMEN (GRASP seed 00)
+22:14:47.479 | Seed               : 23634316743000
+22:14:47.479 | Piezas a posicionar: 46
+22:14:47.479 | Piezas colocadas   : 17
+22:14:47.479 | % aprovechamiento  : 45.776 %
+22:14:47.479 | Área colocada      : 300,550.000
+22:14:47.481 | Área plancha       : 656,572.095
+22:14:47.481 | Área desperdiciada : 356,022.095
+22:14:47.481 | Ymax               : 554.861
+22:14:47.481 | Tiempo GRASP seed 00     : 60177 ms (60.177 s)
+22:14:47.481 | ------------------------------
+22:14:47.489 | GRASP seed 01 (seed=23634316743001, alpha=0.4) | start
+22:15:47.542 | ------------------------------
+22:15:47.542 | RESUMEN (GRASP seed 01)
+22:15:47.542 | Seed               : 23634316743001
+22:15:47.542 | Piezas a posicionar: 46
+22:15:47.542 | Piezas colocadas   : 18
+22:15:47.542 | % aprovechamiento  : 49.888 %
+22:15:47.542 | Área colocada      : 327,550.000
+22:15:47.542 | Área plancha       : 656,572.095
+22:15:47.542 | Área desperdiciada : 329,022.095
+22:15:47.542 | Ymax               : 554.861
+22:15:47.542 | Tiempo GRASP seed 01     : 60053 ms (60.053 s)
+22:15:47.542 | ------------------------------
+22:15:47.549 | GRASP seed 02 (seed=23634316743002, alpha=0.4) | start
+22:16:47.666 | ------------------------------
+22:16:47.666 | RESUMEN (GRASP seed 02)
+22:16:47.666 | Seed               : 23634316743002
+22:16:47.666 | Piezas a posicionar: 46
+22:16:47.666 | Piezas colocadas   : 17
+22:16:47.667 | % aprovechamiento  : 47.565 %
+22:16:47.667 | Área colocada      : 312,300.000
+22:16:47.667 | Área plancha       : 656,572.095
+22:16:47.667 | Área desperdiciada : 344,272.095
+22:16:47.667 | Ymax               : 557.492
+22:16:47.667 | Tiempo GRASP seed 02     : 60116 ms (60.116 s)
+22:16:47.667 | ------------------------------
+22:16:47.675 | MEMETIC | improveFromPopulation | start
+22:16:47.675 | ------------------------------
+22:16:47.675 | ==== HYBRID-MEMETIC | START ====
+22:16:47.675 | CFG | POP_SIZE=36 ELITE=4 GEN_MAX=200 K=3
+22:16:47.676 | CFG | seed=23634316743777 parts=7 timeLimitMs=120000
+22:16:48.452 | INIT | población=36 (seeds=3)
+22:16:48.901 | GEN 0 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:50.694 | GEN 10 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:51.721 | GEN 20 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:52.711 | GEN 30 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:53.817 | GEN 40 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:54.730 | GEN 50 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:55.618 | GEN 60 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:56.633 | GEN 70 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:57.590 | GEN 80 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:58.528 | GEN 90 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:16:59.573 | GEN 100 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:00.563 | GEN 110 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:01.544 | GEN 120 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:02.564 | GEN 130 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:03.571 | GEN 140 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:04.511 | GEN 150 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:05.545 | GEN 160 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:06.517 | GEN 170 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:07.472 | GEN 180 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:08.435 | GEN 190 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:09.263 | GEN 199 | bestPlaced=18 | area=327,550.000 | yMax=500.057
+22:17:09.263 | ------------------------------
+22:17:09.263 | RESUMEN (HYBRID-MEMETIC)
+22:17:09.263 | Seed               : 23634316743777
+22:17:09.263 | Piezas a posicionar: 7
+22:17:09.263 | Piezas colocadas   : 18
+22:17:09.263 | % aprovechamiento  : 49.888 %
+22:17:09.263 | Área colocada      : 327,550.000
+22:17:09.264 | Área plancha       : 656,572.095
+22:17:09.264 | Área desperdiciada : 329,022.095
+22:17:09.264 | Ymax               : 500.057
+22:17:09.264 | Tiempo total       : 21588 ms (21.588 s)
+22:17:09.264 | ------------------------------
+22:17:09.264 | BEST | HYB-MEM | colocadas=18 | area=327,550.000 | yMax=500.057
+22:17:09.264 | ------------------------------
+22:17:09.264 | ------------------------------
+22:17:09.264 | RESUMEN (HYB-MEM)
+22:17:09.265 | Seed               : 23634316743777
+22:17:09.265 | Piezas a posicionar: 46
+22:17:09.265 | Piezas colocadas   : 18
+22:17:09.265 | % aprovechamiento  : 49.888 %
+22:17:09.265 | Área colocada      : 327,550.000
+22:17:09.265 | Área plancha       : 656,572.095
+22:17:09.265 | Área desperdiciada : 329,022.095
+22:17:09.265 | Ymax               : 500.057
+22:17:09.265 | Tiempo HYB-MEM     : 21589 ms (21.589 s)
+22:17:09.265 | ------------------------------
+22:17:09.265 | ------------------------------
+22:17:09.265 | RESUMEN FINAL (HYBRID)
+22:17:09.265 | Seed               : 23634316743777
+22:17:09.265 | Piezas a posicionar: 46
+22:17:09.265 | Piezas colocadas   : 18
+22:17:09.265 | % aprovechamiento  : 49.888 %
+22:17:09.265 | Área colocada      : 327,550.000
+22:17:09.265 | Área plancha       : 656,572.095
+22:17:09.265 | Área desperdiciada : 329,022.095
+22:17:09.265 | Ymax               : 500.057
+22:17:09.265 | Tiempo total       : 201966 ms (201.966 s)
+22:17:09.265 | ------------------------------
+22:17:09.265 | BEST | HYB-MEM | colocadas=18 | area=327,550.000 | yMax=500.057
+22:17:09.265 | ------------------------------
