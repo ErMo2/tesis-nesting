@@ -1,7 +1,9 @@
 org\tesis\nesting\HybridGrasp$Candidate.class
 org\tesis\nesting\CalibrationRunner$ExperimentConfig.class
 org\tesis\nesting\GraspPlacer$Candidate.class
+org\tesis\nesting\HybridResult.class
 org\tesis\nesting\MemeticPlacer$Individual.class
+org\tesis\nesting\GraspResult.class
 org\tesis\nesting\HybridGrasp$RunResult.class
 org\tesis\nesting\HybridMemetic.class
 org\tesis\nesting\CalibrationRunner$ExperimentStats.class

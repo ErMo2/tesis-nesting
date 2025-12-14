@@ -36,6 +36,156 @@ public class HybridGraspMemeticPlacer {
         return place(sheet, parts, GRASP_SEEDS, MEMETIC_TIME_MS, GRASP_ALPHA, LOG_FILE);
     }
 
+    /**
+     * Método que retorna el resultado completo con estadísticas.
+     * @param sheet Plancha donde colocar las piezas
+     * @param parts Lista de especificaciones de piezas a colocar
+     * @return HybridResult con la solución y estadísticas finales
+     */
+    public static HybridResult placeWithStats(Polygon sheet, List<PartSpec> parts) throws Exception {
+        return placeWithStats(sheet, parts, GRASP_SEEDS, MEMETIC_TIME_MS, GRASP_ALPHA, LOG_FILE);
+    }
+
+    /**
+     * Método que retorna el resultado completo con estadísticas (con parámetros configurables).
+     */
+    public static HybridResult placeWithStats(Polygon sheet,
+                                             List<PartSpec> parts,
+                                             int graspSeeds,
+                                             long memeticTimeMs,
+                                             double graspAlpha,
+                                             String logFile) throws Exception {
+        Objects.requireNonNull(sheet, "sheet no puede ser null");
+        Objects.requireNonNull(parts, "parts no puede ser null");
+        new File(LOG_DIR).mkdirs();
+        final int TOTAL_PARTS = parts.stream()
+        .mapToInt(p -> Math.max(1, p.qty))
+        .sum();
+        long seed0 = System.nanoTime();
+        long t0 = System.currentTimeMillis();
+
+        try (PrintStream log = openLog(logFile)) {
+
+            head(log, "==== HYB GRASP→MEMETIC | START ====");
+            line(log, "CFG | GRASP_SEEDS=" + graspSeeds + "  MEMETIC_TIME_MS=" + memeticTimeMs + "  GRASP_ALPHA=" + graspAlpha);
+            line(log, "CFG | seed0=" + seed0 + "  parts=" + parts.size());
+            
+            
+            
+            // ============= 1) Multi-GRASP: generar población semilla ============
+            List<List<PlacedPart>> seedPopulation = new ArrayList<>();
+            List<Stats> graspStatsList = new ArrayList<>();
+
+            for (int i = 0; i < graspSeeds; i++) {
+                long seed = seed0 + i;
+                long tg0 = System.currentTimeMillis();
+                line(log, "GRASP seed " + String.format("%02d", i) + " (seed=" + seed + ", alpha=" + graspAlpha + ") | start");
+                List<PlacedPart> sol = HybridGrasp.place(sheet, new ArrayList<>(parts), seed, graspAlpha);
+                long tg1 = System.currentTimeMillis();
+
+                Stats s = evalSolution("GRASP seed " + String.format("%02d", i),
+                       sheet, TOTAL_PARTS, sol, tg1 - tg0, seed);
+                graspStatsList.add(s);
+                printStats(log, s);
+
+                if (sol != null && !sol.isEmpty()) {
+                    seedPopulation.add(sanitizeSolution(sheet, sol));
+                }
+            }
+
+            // Si por algún motivo no hubo ninguna sol válida, retornamos la mejor de GRASP (o vacío)
+            if (seedPopulation.isEmpty()) {
+                line(log, "WARN | No hubo soluciones válidas de GRASP para inyectar al memético. Devolviendo la mejor de GRASP (si existe).");
+                Stats bestG = bestOf(graspStatsList);
+                summary(log, "RESUMEN FINAL (HYBRID - solo GRASP)");
+                HybridResult result = new HybridResult();
+                if (bestG != null) {
+                    long totalMs = System.currentTimeMillis() - t0;
+                    renderSummary(log, TOTAL_PARTS, bestG, totalMs);
+                    dash(log);
+                    line(log, "BEST | GRASP-only | colocadas=" + bestG.placedCount +
+                               " | area=" + DF3.format(bestG.areaPlaced) +
+                               " | yMax=" + DF3.format(bestG.yMax));
+                    dash(log);
+                    result.solution = bestG.solution != null ? bestG.solution : Collections.emptyList();
+                    result.seed = bestG.seed;
+                    result.toPlace = TOTAL_PARTS;
+                    result.placedCount = bestG.placedCount;
+                    result.areaPlaced = bestG.areaPlaced;
+                    result.areaSheet = bestG.areaSheet;
+                    result.areaWaste = bestG.areaWaste;
+                    result.yMax = bestG.yMax;
+                    result.utilizationPct = bestG.utilizationPct;
+                    result.elapsedMs = totalMs;
+                    result.algo = bestG.algo;
+                } else {
+                    dash(log);
+                    line(log, "BEST | vacío (no se pudo colocar nada)");
+                    dash(log);
+                    result.solution = Collections.emptyList();
+                    result.seed = seed0;
+                    result.toPlace = TOTAL_PARTS;
+                    result.placedCount = 0;
+                    result.areaPlaced = 0.0;
+                    result.areaSheet = sheet.getArea();
+                    result.areaWaste = sheet.getArea();
+                    result.yMax = 0.0;
+                    result.utilizationPct = 0.0;
+                    result.elapsedMs = System.currentTimeMillis() - t0;
+                    result.algo = "EMPTY";
+                }
+                return result;
+            }
+
+            // ============= 2) Memético: refinar población semilla ===============
+            line(log, "MEMETIC | improveFromPopulation | start");
+            long tm0 = System.currentTimeMillis();
+            List<PlacedPart> improved = HybridMemetic.improveFromPopulation(
+                    sheet,
+                    parts,
+                    seedPopulation,
+                    logFile,
+                    memeticTimeMs,
+                    seed0 + 777
+            );
+            long tm1 = System.currentTimeMillis();
+
+            Stats memStats = evalSolution("HYB-MEM", sheet, TOTAL_PARTS, improved, tm1 - tm0, seed0 + 777);
+            printStats(log, memStats);
+
+            // ============= 3) Seleccionar resultado final =======================
+            Stats bestGrasp = bestOf(graspStatsList);
+            Stats finalStats = (compare(memStats, bestGrasp) < 0) ? memStats : bestGrasp;
+            List<PlacedPart> finalSol = finalStats.solution;
+
+            // ============= 4) Resumen final en el formato solicitado ============
+            long totalMs = System.currentTimeMillis() - t0;
+            summary(log, "RESUMEN FINAL (HYBRID)");
+            renderSummary(log, TOTAL_PARTS, finalStats, totalMs);
+            dash(log);
+            line(log, "BEST | " + finalStats.algo +
+                       " | colocadas=" + finalStats.placedCount +
+                       " | area=" + DF3.format(finalStats.areaPlaced) +
+                       " | yMax=" + DF3.format(finalStats.yMax));
+            dash(log);
+
+            // Crear y retornar HybridResult
+            HybridResult result = new HybridResult();
+            result.solution = (finalSol != null) ? finalSol : Collections.emptyList();
+            result.seed = finalStats.seed;
+            result.toPlace = TOTAL_PARTS;
+            result.placedCount = finalStats.placedCount;
+            result.areaPlaced = finalStats.areaPlaced;
+            result.areaSheet = finalStats.areaSheet;
+            result.areaWaste = finalStats.areaWaste;
+            result.yMax = finalStats.yMax;
+            result.utilizationPct = finalStats.utilizationPct;
+            result.elapsedMs = totalMs;
+            result.algo = finalStats.algo;
+            return result;
+        }
+    }
+
     // Overload con parámetros (por si quieres tunear desde tu main)
     public static List<PlacedPart> place(Polygon sheet,
                                          List<PartSpec> parts,

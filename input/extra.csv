@@ -1,0 +1,5 @@
+entity_type,entity_id,ring,point_idx,x,y,qty,rotation_step_deg,mirror_allowed,clearance,grain_angle_deg
+SHEET,sheet-S-01,0,0,0,0,,,,,
+SHEET,sheet-S-01,0,1,260,0,,,,,
+SHEET,sheet-S-01,0,2,260,180,,,,,
+SHEET,sheet-S-01,0,3,0,180,,,,,

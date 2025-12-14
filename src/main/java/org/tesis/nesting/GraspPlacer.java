@@ -11,10 +11,11 @@ import java.util.*;
 public class GraspPlacer {
 
     // ===================== Parámetros GRASP =====================
-    static final int    ITER_MAX            = 120;      // iteraciones por seed
+    // Calibrado igual que HybridGrasp para consistencia
+    static final int    ITER_MAX            = 10;       // iteraciones por seed (calibrado igual que HybridGrasp)
     static final int    RCL_SIZE            = 20;       // diversidad suficiente
-    static final long   MAX_MILLIS_TOTAL    = 400_000;   //seg por corrida
-    static final long   MAX_MILLIS_LOCAL    = 50_000;   // seg para LS
+    static final long   MAX_MILLIS_TOTAL    = 60_000;   // 1 minuto por corrida (calibrado igual que HybridGrasp)
+    static final long   MAX_MILLIS_LOCAL    = 10_000;   // 10 seg para LS (calibrado igual que HybridGrasp)
     static final long   DEFAULT_SEED        = 42L;
     /**
      * Parámetro α de aleatoriedad de GRASP.
@@ -23,7 +24,7 @@ public class GraspPlacer {
      *   - α = 0: Completamente greedy (solo mejores candidatos)
      *   - α = 1: Completamente aleatorio (todos los candidatos válidos)
      */
-    static final double DEFAULT_ALPHA        = -1.0;
+    public static final double DEFAULT_ALPHA = -1.0;
 
     // anclas / chequeos
     static final int    GRID_ANCHORS_X      = 20;
@@ -106,6 +107,38 @@ public class GraspPlacer {
     public static List<PlacedPart> place(Polygon sheetInset, List<PartSpec> specs, long seed, double alpha) {
         RunResult rr = runOnce(sheetInset, specs, seed, true, alpha);
         return rr.placed;
+    }
+    
+    /**
+     * Método que retorna el resultado completo con estadísticas.
+     * @param sheetInset Plancha donde colocar las piezas
+     * @param specs Especificaciones de las piezas
+     * @return GraspResult con la solución y estadísticas finales
+     */
+    public static GraspResult placeWithStats(Polygon sheetInset, List<PartSpec> specs) {
+        return placeWithStats(sheetInset, specs, DEFAULT_SEED, DEFAULT_ALPHA);
+    }
+    
+    /**
+     * Método que retorna el resultado completo con estadísticas (con semilla y alpha).
+     */
+    public static GraspResult placeWithStats(Polygon sheetInset, List<PartSpec> specs, long seed, double alpha) {
+        RunResult rr = runOnce(sheetInset, specs, seed, true, alpha);
+        
+        GraspResult result = new GraspResult();
+        result.solution = rr.placed != null ? rr.placed : Collections.emptyList();
+        result.seed = rr.seedUsed;
+        result.toPlace = rr.totalPieces;
+        result.placedCount = rr.placed != null ? rr.placed.size() : 0;
+        result.areaPlaced = rr.bestArea;
+        result.areaSheet = rr.areaSheet;
+        result.areaWaste = rr.wasted;
+        result.yMax = rr.bestY;
+        result.utilizationPct = rr.utilizationPct;
+        result.elapsedMs = rr.millis;
+        result.algo = "GRASP";
+        
+        return result;
     }
     public static List<PlacedPart> placeMulti(Polygon sheetInset, List<PartSpec> specs, int numRuns) {
         return placeMulti(sheetInset, specs, numRuns, System.nanoTime());

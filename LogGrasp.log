@@ -1,67 +1,28 @@
-16:08:30.498 | [16:08:30.492] Logger abierto
-16:08:30.527 | ==== GraspPlacer RUN (single) Wed Oct 22 16:08:30 PET 2025 ====
-16:08:30.536 | INI | PartSpec: 7 | seed=21630271061500
-16:08:38.191 |   · placed=10 / 46 | anchors=364
-16:08:39.820 |   · placed=19 / 46 | anchors=472
-16:08:40.650 |   · placed=19 / 46 | anchors=472
-16:08:41.450 |   · placed=20 / 46 | anchors=484
-16:09:22.353 | IT 0 | colocadas=20 | area=359,400 | yMax=559.39 | dur=51815 ms
-16:09:27.448 |   · placed=10 / 46 | anchors=364
-16:09:28.774 |   · placed=17 / 46 | anchors=448
-16:09:29.400 |   · placed=17 / 46 | anchors=448
-16:09:30.025 |   · placed=19 / 46 | anchors=472
-16:10:04.161 | IT 1 | colocadas=19 | area=343,550 | yMax=554.532 | dur=41808 ms
-16:10:09.449 |   · placed=10 / 46 | anchors=364
-16:10:10.554 |   · placed=16 / 46 | anchors=436
-16:10:11.174 |   · placed=17 / 46 | anchors=448
-16:10:11.778 |   · placed=18 / 46 | anchors=460
-16:10:44.156 | IT 2 | colocadas=18 | area=331,300 | yMax=547.311 | dur=39995 ms
-16:10:49.551 |   · placed=10 / 46 | anchors=364
-16:10:50.854 |   · placed=18 / 46 | anchors=460
-16:10:51.494 |   · placed=18 / 46 | anchors=460
-16:10:52.115 |   · placed=19 / 46 | anchors=472
-16:11:26.139 | IT 3 | colocadas=19 | area=347,300 | yMax=549.861 | dur=41983 ms
-16:11:31.708 |   · placed=10 / 46 | anchors=364
-16:11:33.075 |   · placed=17 / 46 | anchors=448
-16:11:33.769 |   · placed=17 / 46 | anchors=448
-16:11:34.447 |   · placed=17 / 46 | anchors=448
-16:12:06.697 | IT 4 | colocadas=17 | area=318,650 | yMax=507.17 | dur=40558 ms
-16:12:12.278 |   · placed=10 / 46 | anchors=364
-16:12:13.795 |   · placed=17 / 46 | anchors=448
-16:12:14.446 |   · placed=17 / 46 | anchors=448
-16:12:15.086 |   · placed=18 / 46 | anchors=460
-16:12:47.989 | IT 5 | colocadas=18 | area=332,300 | yMax=514.632 | dur=41292 ms
-16:12:53.415 |   · placed=10 / 46 | anchors=364
-16:12:55.156 |   · placed=16 / 46 | anchors=436
-16:12:55.862 |   · placed=16 / 46 | anchors=436
-16:12:56.528 |   · placed=17 / 46 | anchors=448
-16:13:32.751 | IT 6 | colocadas=19 | area=337,300 | yMax=521.463 | dur=44761 ms
-16:13:38.326 |   · placed=10 / 46 | anchors=364
-16:13:39.783 |   · placed=19 / 46 | anchors=472
-16:13:40.414 |   · placed=19 / 46 | anchors=472
-16:13:41.048 |   · placed=19 / 46 | anchors=472
-16:14:15.183 | IT 7 | colocadas=19 | area=348,900 | yMax=507.133 | dur=42432 ms
-16:14:20.501 |   · placed=10 / 46 | anchors=364
-16:14:22.040 |   · placed=19 / 46 | anchors=472
-16:14:22.673 |   · placed=19 / 46 | anchors=472
-16:14:23.306 |   · placed=20 / 46 | anchors=484
-16:14:59.672 | IT 8 | colocadas=20 | area=362,550 | yMax=537.602 | dur=44489 ms
-16:15:04.881 |   · placed=10 / 46 | anchors=364
-16:15:06.339 |   · placed=18 / 46 | anchors=460
-16:15:07.063 |   · placed=18 / 46 | anchors=460
-16:15:07.722 |   · placed=18 / 46 | anchors=460
-16:15:10.629 | IT 9 | colocadas=18 | area=332,900 | yMax=568.029 | dur=10957 ms
-16:15:10.630 | Tiempo agotado en iter=10
-16:15:10.631 | ------------------------------
-16:15:10.631 | RESUMEN FINAL (GRASP - single run)
-16:15:10.632 | Seed               : 21630271061500
-16:15:10.633 | Piezas a posicionar: 46
-16:15:10.633 | Piezas colocadas   : 20
-16:15:10.633 | % aprovechamiento  : 55.219 %
-16:15:10.634 | Área colocada      : 362,550
-16:15:10.634 | Área plancha       : 656,572.095
-16:15:10.634 | Área desperdiciada : 294,022.095
-16:15:10.634 | Ymax               : 537.602
-16:15:10.637 | Tiempo total       : 400127 ms (400.127 s)
-16:15:10.637 | ------------------------------
-16:15:10.642 | BEST | colocadas=20 | area=362,550 | yMax=537.602
+00:44:20.144 | [00:44:20.140] Logger abierto
+00:44:20.176 | ==== GraspPlacer RUN (single) Sat Dec 13 00:44:20 PET 2025 ====
+00:44:20.182 | INI | PartSpec: 5 | seed=520923346681333
+00:44:25.791 |   · placed=10 / 20 | anchors=364
+00:44:26.531 |   · placed=10 / 20 | anchors=364
+00:44:36.181 | IT 0 | colocadas=10 | area=108,200 | yMax=383.418 | dur=15995 ms
+00:44:40.330 |   · placed=10 / 20 | anchors=364
+00:44:41.004 |   · placed=12 / 20 | anchors=388
+00:44:51.064 | IT 1 | colocadas=12 | area=123,400 | yMax=388.449 | dur=14883 ms
+00:44:55.123 |   · placed=10 / 20 | anchors=364
+00:44:55.733 |   · placed=11 / 20 | anchors=376
+00:45:05.840 | IT 2 | colocadas=11 | area=113,500 | yMax=403.022 | dur=14775 ms
+00:45:08.128 |   · placed=9 / 20 | anchors=352
+00:45:08.689 |   · placed=9 / 20 | anchors=352
+00:45:17.304 | IT 3 | colocadas=9 | area=97,600 | yMax=377.197 | dur=11464 ms
+00:45:20.182 | ------------------------------
+00:45:20.182 | RESUMEN FINAL (GRASP - single run)
+00:45:20.183 | Seed               : 520923346681333
+00:45:20.184 | Piezas a posicionar: 20
+00:45:20.184 | Piezas colocadas   : 12
+00:45:20.184 | % aprovechamiento  : 52.22 %
+00:45:20.184 | Área colocada      : 123,400
+00:45:20.184 | Área plancha       : 236,308.365
+00:45:20.184 | Área desperdiciada : 112,908.365
+00:45:20.184 | Ymax               : 388.449
+00:45:20.188 | Tiempo total       : 60032 ms (60.032 s)
+00:45:20.188 | ------------------------------
+00:45:20.194 | BEST | colocadas=12 | area=123,400 | yMax=388.449

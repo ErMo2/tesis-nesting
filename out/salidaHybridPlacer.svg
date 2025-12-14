@@ -1,43 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="700.0" height="440.0" viewBox="0.0 0.0 700.0 440.0">
-  <rect x="0.0" y="0.0" width="700.0" height="440.0" fill="white"/>
-  <g transform="translate(0,440.0) scale(1,-1)">
-    <path d="M 0.000 0.000 L 700.000 0.000 L 700.000 60.000 L 620.000 110.000 L 650.000 180.000 L 580.000 250.000 L 640.000 320.000 L 600.000 380.000 L 520.000 420.000 L 380.000 440.000 L 240.000 420.000 L 140.000 430.000 L 80.000 380.000 L 60.000 320.000 L 30.000 260.000 L 70.000 200.000 L 30.000 140.000 L 60.000 80.000 L 0.000 40.000 L 0.000 0.000 Z " fill="#f0f0f0" stroke="#333" stroke-width="1"/>
-    <path d="M 65.100 5.015 L 155.100 5.015 L 155.100 115.015 L 65.100 115.015 L 65.100 5.015 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>rect_M1 | θ=0.0° | mirror=false</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400.0" height="600.0" viewBox="0.0 0.0 1400.0 600.0">
+  <rect x="0.0" y="0.0" width="1400.0" height="600.0" fill="white"/>
+  <g transform="translate(0,600.0) scale(1,-1)">
+    <path d="M 0.000 0.000 L 1400.000 0.000 L 1400.000 120.000 L 1300.000 160.000 L 1350.000 240.000 L 1220.000 320.000 L 1300.000 420.000 L 1180.000 520.000 L 1000.000 580.000 L 800.000 600.000 L 620.000 580.000 L 440.000 600.000 L 280.000 560.000 L 180.000 500.000 L 140.000 440.000 L 180.000 360.000 L 120.000 280.000 L 160.000 200.000 L 80.000 120.000 L 0.000 80.000 L 0.000 0.000 Z " fill="#f0f0f0" stroke="#333" stroke-width="1"/>
+    <path d="M 132.750 5.082 L 312.750 5.082 L 312.750 95.082 L 242.750 95.082 L 242.750 165.082 L 132.750 165.082 L 132.750 5.082 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>L_L1 | θ=0.0° | mirror=false</title>
     </path>
-    <path d="M 448.077 9.758 L 588.005 5.266 L 589.930 65.235 L 529.961 67.160 L 531.886 127.130 L 451.927 129.696 L 448.077 9.758 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>L_M1 | θ=-1.838668928435808° | mirror=false</title>
+    <path d="M 1056.350 5.082 L 1236.350 5.082 L 1236.350 95.082 L 1166.350 95.082 L 1166.350 165.082 L 1056.350 165.082 L 1056.350 5.082 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>L_L1 | θ=0.0° | mirror=false</title>
     </path>
-    <path d="M 275.404 5.298 L 275.754 145.297 L 215.755 145.448 L 215.604 85.448 L 155.605 85.598 L 155.404 5.598 L 275.404 5.298 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>L_M1 | θ=89.85657238149832° | mirror=false</title>
+    <path d="M 859.196 5.082 L 859.196 185.082 L 769.196 185.082 L 769.196 115.082 L 699.196 115.082 L 699.196 5.082 L 859.196 5.082 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>L_L1 | θ=90.0° | mirror=false</title>
     </path>
-    <path d="M 425.005 33.608 L 402.055 120.632 L 295.692 92.583 L 318.641 5.558 L 425.005 33.608 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>rect_M1 | θ=104.7734724302696° | mirror=false</title>
+    <path d="M 1046.586 5.681 L 1047.541 185.678 L 957.543 186.156 L 957.171 116.157 L 887.172 116.528 L 886.588 6.530 L 1046.586 5.681 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>L_L1 | θ=89.6959045144785° | mirror=false</title>
     </path>
-    <path d="M 405.823 121.806 L 370.736 257.338 L 312.651 242.301 L 327.688 184.216 L 269.603 169.179 L 289.652 91.732 L 405.823 121.806 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>L_M1 | θ=104.5140352245035° | mirror=false</title>
+    <path d="M 685.647 5.306 L 686.320 185.304 L 596.321 185.641 L 596.059 115.642 L 526.059 115.903 L 525.648 5.904 L 685.647 5.306 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>L_L1 | θ=89.78570189073135° | mirror=false</title>
     </path>
-    <path d="M 78.356 115.875 L 168.317 118.523 L 165.081 228.475 L 75.120 225.828 L 78.356 115.875 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>rect_M1 | θ=1.6857634484241215° | mirror=false</title>
+    <path d="M 312.885 7.190 L 492.879 5.743 L 493.603 95.741 L 423.605 96.303 L 424.168 166.301 L 314.171 167.185 L 312.885 7.190 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>L_L1 | θ=-0.4605873750991907° | mirror=false</title>
     </path>
-    <path d="M 407.007 120.653 L 494.667 141.041 L 469.749 248.181 L 382.089 227.794 L 407.007 120.653 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>rect_M1 | θ=13.09278302865841° | mirror=false</title>
+    <path d="M 544.617 148.840 L 578.446 242.944 L 427.880 297.071 L 394.050 202.967 L 544.617 148.840 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=70.22698037006747° | mirror=false</title>
     </path>
-    <path d="M 167.042 177.018 L 307.024 179.284 L 275.733 258.788 L 185.745 257.332 L 167.042 177.018 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>trap_M1 | θ=0.9270788403762058° | mirror=false</title>
+    <path d="M 1221.215 146.572 L 1253.649 241.166 L 1102.299 293.060 L 1069.865 198.466 L 1221.215 146.572 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=71.0744706731551° | mirror=false</title>
     </path>
-    <path d="M 119.017 227.445 L 164.109 359.984 L 78.710 357.350 L 49.722 272.146 L 119.017 227.445 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>trap_M1 | θ=71.21072461218694° | mirror=false</title>
+    <path d="M 925.946 172.042 L 962.262 265.214 L 813.186 323.321 L 776.870 230.148 L 925.946 172.042 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=68.70515033407933° | mirror=false</title>
     </path>
-    <path d="M 373.464 250.538 L 463.444 248.643 L 465.760 358.619 L 375.780 360.514 L 373.464 250.538 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>rect_M1 | θ=-1.2064412005702505° | mirror=false</title>
+    <path d="M 730.406 180.750 L 746.652 279.421 L 588.778 305.415 L 572.532 206.743 L 730.406 180.750 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=80.65041760559731° | mirror=false</title>
     </path>
-    <path d="M 278.551 257.172 L 368.551 257.092 L 368.648 367.092 L 278.648 367.172 L 278.551 257.172 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>rect_M1 | θ=-0.05068964334580839° | mirror=false</title>
+    <path d="M 303.795 234.848 L 403.786 233.538 L 405.881 393.524 L 305.890 394.834 L 303.795 234.848 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=-0.7503686980108784° | mirror=false</title>
     </path>
-    <path d="M 137.382 259.306 L 277.381 259.734 L 247.137 339.642 L 157.137 339.367 L 137.382 259.306 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
-      <title>trap_M1 | θ=0.17513317116367544° | mirror=false</title>
+    <path d="M 203.873 246.671 L 302.624 262.425 L 277.418 420.427 L 178.667 404.673 L 203.873 246.671 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=9.06415795798021° | mirror=false</title>
+    </path>
+    <path d="M 520.966 263.925 L 597.916 327.791 L 495.731 450.910 L 418.781 387.044 L 520.966 263.925 Z " fill="#fdd0a2" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=39.6915597590342° | mirror=false</title>
+    </path>
+    <path d="M 752.743 277.516 L 784.476 372.348 L 632.745 423.120 L 601.012 328.288 L 752.743 277.516 Z " fill="#a1d99b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=71.49879326752878° | mirror=false</title>
+    </path>
+    <path d="M 956.396 268.150 L 1056.325 264.368 L 1062.376 424.253 L 962.448 428.035 L 956.396 268.150 Z " fill="#9ecae1" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=-2.167560524892219° | mirror=false</title>
+    </path>
+    <path d="M 1212.203 379.052 L 1149.069 448.443 L 1062.865 409.585 L 1073.350 316.172 L 1166.023 297.391 L 1212.203 379.052 Z " fill="#fdae6b" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_L1 | θ=6.404144560281946° | mirror=false</title>
+    </path>
+    <path d="M 941.417 316.060 L 947.971 415.845 L 788.315 426.331 L 781.761 326.546 L 941.417 316.060 Z " fill="#6baed6" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>rect_L1 | θ=86.24223335954474° | mirror=false</title>
+    </path>
+    <path d="M 572.002 359.913 L 664.627 477.898 L 498.932 493.557 L 572.002 359.913 Z " fill="#74c476" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>tri_L1 | θ=51.865888186718564° | mirror=false</title>
+    </path>
+    <path d="M 420.330 471.860 L 363.127 546.216 L 274.015 514.590 L 276.770 420.631 L 367.582 394.281 L 420.330 471.860 Z " fill="#fd8d3c" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>pent_L1 | θ=1.6795655882611178° | mirror=false</title>
+    </path>
+    <path d="M 691.669 426.943 L 871.666 427.931 L 841.118 527.765 L 721.120 527.106 L 691.669 426.943 Z " fill="#9e9ac8" fill-opacity="0.85" stroke="#111" stroke-width="0.8">
+      <title>trap_L1 | θ=0.31434491876661097° | mirror=false</title>
     </path>
   </g>
 </svg>
